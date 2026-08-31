@@ -1,0 +1,21 @@
+{
+  // Fallback deployment config.
+  //
+  // The site is normally published with Cloudflare Pages, which needs no
+  // config at all — it just serves `out/`. This file exists so the newer
+  // "Workers with static assets" path works too, since Cloudflare now steers
+  // new projects there and the Pages flow is not always offered.
+  //
+  // There is no Worker script: `assets` alone makes this a pure static site,
+  // served from the edge exactly as Pages would.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "debtrunway",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./out",
+    // Directories with trailing slashes, matching `trailingSlash: true`.
+    "html_handling": "auto-trailing-slash",
+    // Unknown paths get the exported 404 page rather than a bare edge error.
+    "not_found_handling": "404-page"
+  }
+}
