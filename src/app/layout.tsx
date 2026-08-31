@@ -53,6 +53,11 @@ export const metadata: Metadata = {
       "Compare the snowball and avalanche methods and get a month-by-month schedule to your debt-free date.",
   },
   robots: { index: true, follow: true },
+  // Search Console ownership. Google requires this to stay in place after
+  // verification, not just during it.
+  verification: {
+    google: "D95HQ1iGzGtb2ZwgYvytmI-EClU1xbqjNJYQkbju18w",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
