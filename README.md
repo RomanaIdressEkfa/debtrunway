@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DebtRunway
 
-## Getting Started
+Ten debt payoff calculators for a US audience, built on one verified
+arithmetic engine. Live at [debtrunway.com](https://debtrunway.com).
 
-First, run the development server:
+Every figure is worked out in the visitor's browser. Nothing they type reaches
+a server.
+
+## What makes it different
+
+Two things most calculators get wrong, and this one does not:
+
+- **Minimum payments shrink.** Real credit card minimums are a percentage of
+  the current balance, so as the balance falls the required payment falls with
+  it and progress decelerates every month. Competitors model a flat payment,
+  which understates the payoff time by decades. On a $5,000 balance at 22.9%
+  with a 2% minimum, the honest answer is that it does not clear within 50
+  years.
+- **Consolidation is compared fairly.** A loan is usually shown against making
+  minimum payments forever, which flatters almost any offer. This site also
+  runs the scenario lender-funded calculators leave out: paying that same
+  monthly amount against the debts you already have.
+
+## The engine
+
+[`src/lib/debt.ts`](src/lib/debt.ts) is the single source of truth behind all
+ten pages. Each month interest accrues, then payments apply — minimums first,
+then everything left over to the target debt, with a cleared debt's payment
+rolling onto the next. All money is rounded to cents at every step so the
+published schedule reconciles exactly.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run verify   # 47 checks against the engine
+npm run dev      # local site on :3000
+npm run build    # static export to out/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The verification suite covers hand-computed schedules, per-row arithmetic
+(`start + interest − payment = end`), the invariant that avalanche never costs
+more than snowball, percentage-based minimums, and the payment instructions
+shown to readers.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Next.js 16 with `output: "export"` — 122 static files, no server, no database.
+Tailwind CSS 4, DM Sans, hand-drawn SVG charts with HTML axis labels so type
+stays legible from 320px up.
 
-## Learn More
+Deployed on Cloudflare Pages; a push to `main` publishes.
 
-To learn more about Next.js, take a look at the following resources:
+## Layout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/lib/debt.ts          payoff engine
+src/lib/calculators.ts   page registry — nav, sitemap and related links read from here
+src/components/          calculators and shared UI
+src/app/<slug>/page.tsx  one page per calculator
+scripts/verify-engine.ts the test suite
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Adding a calculator means adding a page and one entry in the registry.
 
-## Deploy on Vercel
+## Licence
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All rights reserved.
