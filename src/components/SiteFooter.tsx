@@ -23,7 +23,7 @@ const siteLinks = [
 export default function SiteFooter() {
   return (
     <footer className="no-print mt-24 border-t border-line bg-surface">
-      <div className="mx-auto max-w-5xl px-4 py-12 sm:py-14">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           {/* Identity */}
           <div>

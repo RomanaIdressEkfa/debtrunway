@@ -81,7 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           hydrates. Suppressing here silences that false mismatch only. */}
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <header className="no-print sticky top-0 z-30 border-b border-line bg-surface/85 backdrop-blur-md">
-          <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
             <Link
               href="/"
               aria-label="DebtRunway home"

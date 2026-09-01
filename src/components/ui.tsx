@@ -10,7 +10,7 @@ export function Card({
 }) {
   return (
     <section
-      className={`card-shadow rounded-2xl border border-line bg-surface p-3.5 sm:p-6 ${className}`}
+      className={`card-shadow rounded-2xl border border-line bg-surface p-4 sm:p-6 ${className}`}
     >
       {children}
     </section>
@@ -100,7 +100,7 @@ export function ResultHero({
 }) {
   return (
     <section
-      className={`shimmer card-shadow rounded-2xl p-5 text-white sm:p-8 ${
+      className={`shimmer card-shadow rounded-2xl p-5 text-white sm:p-7 ${
         tone === "danger" ? "bg-danger-panel" : "bg-brand-panel"
       }`}
     >

@@ -60,7 +60,7 @@ export default function DtiCalculator() {
   const reduceBy = Math.max(0, debts - targetPayment);
 
   return (
-    <div className="stagger space-y-5">
+    <div className="stagger space-y-4">
       <Card className="no-print">
         <h2 className="text-lg font-semibold">Your monthly figures</h2>
         <p className="mt-1 text-sm text-muted">

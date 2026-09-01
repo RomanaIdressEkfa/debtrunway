@@ -5,7 +5,7 @@ export default function RelatedCalculators({ slug }: { slug: string }) {
   const links = others(slug, 100).filter((c) => c.slug !== "/");
 
   return (
-    <section className="no-print mt-16">
+    <section className="no-print mt-12">
       <h2 className="text-xl font-bold tracking-tight">Other calculators</h2>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {links.map((c) => (

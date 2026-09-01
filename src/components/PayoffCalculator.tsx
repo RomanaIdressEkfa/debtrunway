@@ -176,19 +176,28 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
     : 0;
 
   return (
-    <div className="stagger space-y-5">
+    <div className="stagger space-y-4">
       {/* ---------- Step 1: what you owe ---------- */}
       <Card className="no-print">
-        <div className="flex items-baseline justify-between gap-4">
-          <h2 className="font-semibold">What you owe</h2>
-          <span className="text-sm text-muted tabular-nums">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-soft text-sm font-bold text-brand">
+              1
+            </span>
+            <div>
+              <h2 className="text-lg font-bold tracking-tight sm:text-xl">
+                What you owe
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                Replace the example rows with your own debts. All three figures
+                are on your statement.
+              </p>
+            </div>
+          </div>
+          <span className="rounded-lg bg-background px-3 py-1.5 text-sm font-semibold tabular-nums">
             {usd(totalBalance)} total
           </span>
         </div>
-        <p className="mt-1 text-sm text-muted">
-          Replace the example rows below with your own debts. All three figures
-          are printed on your statement.
-        </p>
 
         {/* Everyone knows their balance; far fewer are sure which number on a
             statement is the APR. Saying so here prevents the commonest way to

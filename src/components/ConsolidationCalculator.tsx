@@ -89,7 +89,7 @@ export default function ConsolidationCalculator() {
     sameMoney.feasible && loanCost < sameMoney.totalInterest;
 
   return (
-    <div className="stagger space-y-5">
+    <div className="stagger space-y-4">
       <Card className="no-print">
         <h2 className="text-lg font-semibold">What you owe now</h2>
         <div className="mt-4 space-y-3">

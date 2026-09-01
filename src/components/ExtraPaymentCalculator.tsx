@@ -63,7 +63,7 @@ export default function ExtraPaymentCalculator() {
       : 0;
 
   return (
-    <div className="stagger space-y-5">
+    <div className="stagger space-y-4">
       <Card className="no-print">
         <div className="grid gap-4 sm:grid-cols-3">
           <Field

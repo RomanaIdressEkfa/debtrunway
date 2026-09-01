@@ -53,12 +53,16 @@ export default function CalculatorPage({
         }}
       />
 
-      <div className="mx-auto max-w-5xl px-3 py-10 sm:px-4 sm:py-16">
-        <header className="animate-rise mb-9 max-w-3xl sm:mb-12">
-          <h1 className="text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-6xl">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        {/* Centred, and narrower than the tool below it. A headline set across
+            a wide container loses the reader between lines; centred and held
+            to a measure, it reads as a statement. Spacing stays tight — the
+            tool is what the visitor came for, and it should be in view. */}
+        <header className="animate-rise mx-auto mb-8 max-w-3xl text-center sm:mb-10">
+          <h1 className="text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
             {heading}
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-muted sm:text-xl">
+          <p className="mx-auto mt-3.5 max-w-xl text-base leading-relaxed text-balance text-muted sm:text-lg">
             {intro}
           </p>
         </header>
@@ -69,9 +73,9 @@ export default function CalculatorPage({
             full width of the page is genuinely harder to read, which is why
             newspapers set text in columns. The cards below run the full width
             so the section still lines up with the tool and the footer. */}
-        <article className="mt-20 max-w-3xl">{content}</article>
+        <article className="mt-16 max-w-3xl">{content}</article>
 
-        <section className="mt-14">
+        <section className="mt-12">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Common questions
           </h2>
