@@ -69,28 +69,32 @@ export default function CalculatorPage({
 
         {children}
 
-        {/* Prose keeps a reading measure of roughly 80 characters — a line the
-            full width of the page is genuinely harder to read, which is why
-            newspapers set text in columns. The cards below run the full width
-            so the section still lines up with the tool and the footer. */}
-        <article className="mx-auto mt-16 max-w-3xl">{content}</article>
+        {/* Prose and questions side by side, the way a magazine sets a column
+            against a sidebar. Text stays at a readable measure without leaving
+            an empty gutter beside it, and the questions are seen rather than
+            buried below the fold. They stack on narrow screens. */}
+        <div className="mt-16 grid gap-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-14">
+          <article>{content}</article>
 
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Common questions
-          </h2>
-          <dl className="mt-5 grid items-start gap-4 lg:grid-cols-2">
-            {faqs.map((f) => (
-              <div
-                key={f.q}
-                className="rounded-xl border border-line bg-surface p-4 sm:p-5"
-              >
-                <dt className="font-semibold">{f.q}</dt>
-                <dd className="mt-2 leading-relaxed text-muted">{f.a}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+          <aside>
+            <h2 className="text-xl font-bold tracking-tight">
+              Common questions
+            </h2>
+            <dl className="mt-4 space-y-3">
+              {faqs.map((f) => (
+                <div
+                  key={f.q}
+                  className="rounded-xl border border-line bg-surface p-4"
+                >
+                  <dt className="font-semibold">{f.q}</dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-muted">
+                    {f.a}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </div>
 
         <RelatedCalculators slug={slug} />
       </div>
