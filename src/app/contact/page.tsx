@@ -51,11 +51,31 @@ export default function Contact() {
           {EMAIL}
         </a>
         <p className="mt-4 leading-relaxed text-muted">
-          Written by <strong className="text-foreground">Romana Idress Ekfa</strong>,
-          an independent web developer. Expect a reply within a few days — this
-          is not a company with a support desk, and honesty about that seems
-          better than promising an hour.
+          Written by{" "}
+          <a
+            href="https://www.linkedin.com/in/romanaidressekfa/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-foreground underline decoration-line underline-offset-2 transition hover:text-brand hover:decoration-brand"
+          >
+            Romana Idress Ekfa
+          </a>
+          , an independent web developer. Expect a reply within a few days —
+          this is not a company with a support desk, and honesty about that
+          seems better than promising an hour.
         </p>
+
+        <a
+          href="https://www.linkedin.com/in/romanaidressekfa/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="press mt-5 inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm font-medium hover:border-brand hover:text-brand"
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
+            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM2.4 21V9.5h5.16V21H2.4Zm7.9 0V9.5h4.95v1.57h.07c.69-1.24 2.37-2.05 4.06-2.05 4.34 0 5.14 2.65 5.14 6.1V21h-5.16v-4.98c0-1.19-.02-2.72-1.7-2.72-1.71 0-1.97 1.29-1.97 2.63V21H10.3Z" />
+          </svg>
+          Connect on LinkedIn
+        </a>
       </div>
 
       <h2 className="mt-12 text-2xl font-bold tracking-tight">

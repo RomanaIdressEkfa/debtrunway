@@ -20,6 +20,10 @@ export default function About() {
               name: "Romana Idress Ekfa",
               jobTitle: "Web developer",
               url: "https://debtrunway.com/about",
+              // sameAs is how you tell Google that the author of this site and
+              // the person behind that profile are the same human. On a money
+              // topic, that corroboration is worth more than any wording.
+              sameAs: ["https://www.linkedin.com/in/romanaidressekfa/"],
             },
             publisher: {
               "@type": "Organization",
@@ -34,10 +38,17 @@ export default function About() {
 
       <p className="mt-5 leading-relaxed">
         DebtRunway is built and maintained by{" "}
-        <strong>Romana Idress Ekfa</strong>, an independent web developer. It
-        exists because most debt calculators hand you a single number and stop.
-        A payoff date is far more useful when you can see the whole schedule
-        behind it.
+        <a
+          href="https://www.linkedin.com/in/romanaidressekfa/"
+          target="_blank"
+          rel="noopener noreferrer author"
+          className="font-semibold text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
+        >
+          Romana Idress Ekfa
+        </a>
+        , an independent web developer. It exists because most debt calculators
+        hand you a single number and stop. A payoff date is far more useful when
+        you can see the whole schedule behind it.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">How the numbers work</h2>
