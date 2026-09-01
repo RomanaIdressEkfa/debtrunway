@@ -33,7 +33,7 @@ export function LogoMark({ size = 24, className, mono }: MarkProps) {
       {/* The balance falling away to nothing. */}
       <path
         d="M6 5C6 15 11 22 27 22"
-        stroke={mono ?? "var(--brand)"}
+        stroke={mono ?? "var(--accent)"}
         strokeWidth="4"
         strokeLinecap="round"
       />
@@ -116,15 +116,15 @@ export default function Logo({
   className?: string;
 }) {
   return (
-    <span className={`inline-flex items-center gap-1.5 sm:gap-2 ${className}`}>
+    <span className={`inline-flex items-center gap-2 sm:gap-2.5 ${className}`}>
       {/* Sized in CSS rather than by the attribute, so the lockup can step
           down on a narrow header without a second component. */}
-      <LogoMark size={size} className="h-5 w-5 sm:h-6 sm:w-6" />
+      <LogoMark size={size} className="h-7 w-7 sm:h-9 sm:w-9" />
       <span
-        className="text-base font-bold tracking-tight whitespace-nowrap sm:text-lg"
+        className="text-xl font-bold tracking-tight whitespace-nowrap sm:text-2xl"
         style={{ letterSpacing: "-0.02em" }}
       >
-        Debt<span className="text-brand">Runway</span>
+        Debt<span className="accent-text">Runway</span>
       </span>
     </span>
   );

@@ -15,6 +15,7 @@ import PerDebtTable from "./PerDebtTable";
 import RunwayTimeline from "./RunwayTimeline";
 import ScheduleTable from "./ScheduleTable";
 import ShareButton from "./ShareButton";
+import StrategyChoice from "./StrategyChoice";
 import TwoFutures from "./TwoFutures";
 import { Card, Disclosure, Notice } from "./ui";
 
@@ -403,33 +404,12 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
         </div>
 
         {!lockedStrategy && (
-          <fieldset className="mt-6 border-t border-line pt-5">
-            <legend className="text-sm font-medium">
-              Which debt goes first?
-            </legend>
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              {(["snowball", "avalanche"] as const).map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setPicked(option)}
-                  aria-pressed={strategy === option}
-                  className={`press rounded-xl border px-3 py-3 text-sm font-semibold capitalize transition ${
-                    strategy === option
-                      ? "border-brand bg-brand-soft text-brand"
-                      : "border-line text-muted hover:border-brand hover:text-brand"
-                  }`}
-                >
-                  {option}
-                  <span className="mt-0.5 block text-xs font-normal opacity-80">
-                    {option === "snowball"
-                      ? "smallest balance"
-                      : "highest rate"}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </fieldset>
+          <StrategyChoice
+            snowball={result.snowball}
+            avalanche={result.avalanche}
+            selected={strategy}
+            onSelect={setPicked}
+          />
         )}
       </Card>
 

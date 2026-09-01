@@ -73,7 +73,7 @@ export default function CalculatorPage({
             full width of the page is genuinely harder to read, which is why
             newspapers set text in columns. The cards below run the full width
             so the section still lines up with the tool and the footer. */}
-        <article className="mt-16 max-w-3xl">{content}</article>
+        <article className="mx-auto mt-16 max-w-3xl">{content}</article>
 
         <section className="mt-12">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">

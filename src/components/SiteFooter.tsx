@@ -27,7 +27,7 @@ export default function SiteFooter() {
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           {/* Identity */}
           <div>
-            <Logo size={24} />
+            <Logo size={28} />
             <p className="mt-4 max-w-xs leading-relaxed text-muted">
               Free calculators that show you the real cost of debt — and the
               exact month it ends.

@@ -87,7 +87,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               aria-label="DebtRunway home"
               className="transition-opacity hover:opacity-70"
             >
-              <Logo size={24} />
+              <Logo size={28} />
             </Link>
             <div className="flex items-center gap-2">
               <SiteNav />
