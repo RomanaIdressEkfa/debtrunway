@@ -12,6 +12,7 @@ import { decodePlan, encodePlan } from "@/lib/shareState";
 import AnimatedNumber from "./AnimatedNumber";
 import BalanceChart from "./BalanceChart";
 import PerDebtTable from "./PerDebtTable";
+import RunwayTimeline from "./RunwayTimeline";
 import ScheduleTable from "./ScheduleTable";
 import ShareButton from "./ShareButton";
 import TwoFutures from "./TwoFutures";
@@ -442,7 +443,28 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
             }
           />
 
-          <Card>
+          {/* The runway leads, because it answers "what happens to each of my
+              debts" — the thing a table of numbers makes you work out. The
+              balance curve is the same story in a conventional form, so it
+              waits behind a disclosure. */}
+          <RunwayTimeline plan={chosen} baseline={baseline} />
+
+          <Disclosure
+            title="Debt by debt, and what to pay"
+            hint={`${chosen.perDebt.length} debts, in the order you clear them`}
+          >
+            <PerDebtTable perDebt={chosen.perDebt} />
+            <p className="mt-4 text-sm text-muted">
+              Month 1 is this month. Each time a debt clears, its payment moves
+              to the next one — which is why the amounts in the last column go
+              up while your monthly total stays the same.
+            </p>
+          </Disclosure>
+
+          <Disclosure
+            title="Balance over time"
+            hint="Your plan against minimum payments only"
+          >
             <BalanceChart
               startingBalance={totalBalance}
               series={[
@@ -463,19 +485,6 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
                   : []),
               ]}
             />
-          </Card>
-
-          <Disclosure
-            title="Debt by debt, and what to pay"
-            hint={`${chosen.perDebt.length} debts, in the order you clear them`}
-            defaultOpen
-          >
-            <PerDebtTable perDebt={chosen.perDebt} />
-            <p className="mt-4 text-sm text-muted">
-              Month 1 is this month. Each time a debt clears, its payment moves
-              to the next one — which is why the amounts in the last column go
-              up while your monthly total stays the same.
-            </p>
           </Disclosure>
 
           {result.snowball.feasible && result.avalanche.feasible && (
