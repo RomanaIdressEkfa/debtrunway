@@ -57,6 +57,7 @@ export default function CalculatorPage({
           explanation the right, so neither has to run the full width and the
           two are read as one line of thought rather than a stacked block. */}
       <div className="relative isolate overflow-hidden border-b border-line">
+        <div className="band-grid" aria-hidden />
         <div className="hero-wash" aria-hidden />
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
