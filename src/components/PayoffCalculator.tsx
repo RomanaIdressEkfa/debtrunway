@@ -203,8 +203,8 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
         {/* Everyone knows their balance; far fewer are sure which number on a
             statement is the APR. Saying so here prevents the commonest way to
             get a wrong answer out of this page. */}
-        <details className="group mt-3 rounded-xl border border-line bg-background">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3.5 py-2.5 text-sm font-medium">
+        <details className="group mt-3">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 text-sm font-medium text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand">
             Where do I find these numbers?
             <span
               aria-hidden
@@ -222,7 +222,7 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
               </svg>
             </span>
           </summary>
-          <dl className="space-y-3 px-3.5 pb-3.5 text-sm">
+          <dl className="mt-3 space-y-3 rounded-xl border border-line bg-background p-4 text-sm">
             <div>
               <dt className="font-semibold">Debt</dt>
               <dd className="text-muted">
@@ -257,23 +257,37 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
           </dl>
         </details>
 
-        <div className="mt-4 space-y-2.5">
-          <div className="hidden gap-2 px-1 text-xs font-medium tracking-wide text-muted uppercase sm:grid sm:grid-cols-[1.5fr_1fr_0.7fr_1fr_auto]">
-            <span>Debt</span>
-            <span>Balance</span>
-            <span>APR %</span>
-            <span>Minimum</span>
+        {/* One bordered table rather than sixteen separate boxes. Four outlined
+            inputs per row read as clutter; cells divided by hairlines read as
+            a statement, which is where these figures come from anyway. */}
+        <div className="mt-5 overflow-hidden rounded-xl border border-line">
+          <div className="hidden gap-3 bg-background px-4 py-2.5 sm:grid sm:grid-cols-[1.4fr_1fr_0.9fr_1fr_auto]">
+            {[
+              ["Debt", "Card or loan name"],
+              ["Current balance", "What you owe today"],
+              ["Interest rate", "Yearly, from your statement"],
+              ["Minimum payment", "Least your lender accepts"],
+            ].map(([label, hint]) => (
+              <span key={label}>
+                <span className="block text-xs font-semibold">{label}</span>
+                <span className="mt-0.5 block text-[11px] leading-tight text-muted">
+                  {hint}
+                </span>
+              </span>
+            ))}
             <span className="w-8" />
           </div>
 
-          {debts.map((debt) => (
+          {debts.map((debt, i) => (
             /* On a phone the name gets its own line and the three figures sit
                side by side — stacking all four made the form absurdly tall.
                `sm:contents` dissolves that wrapper on wider screens so the
                fields rejoin the parent grid as one row. */
             <div
               key={debt.id}
-              className="relative rounded-xl border border-line p-2.5 sm:static sm:grid sm:grid-cols-[1.5fr_1fr_0.7fr_1fr_auto] sm:items-center sm:gap-2 sm:rounded-none sm:border-0 sm:p-0"
+              className={`group/row relative p-3 sm:static sm:grid sm:grid-cols-[1.4fr_1fr_0.9fr_1fr_auto] sm:items-center sm:gap-3 sm:p-0 sm:pr-3 ${
+                i > 0 ? "border-t border-line" : "sm:border-t sm:border-line"
+              }`}
             >
               <div className="pr-9 sm:pr-0">
                 <RowField
@@ -287,20 +301,21 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
 
               <div className="mt-2.5 grid grid-cols-3 gap-1.5 sm:contents">
                 <RowField
-                  label="Balance"
+                  label="Current balance"
                   value={debt.balance}
                   placeholder="5000"
                   prefix="$"
                   onChange={(v) => update(debt.id, "balance", v)}
                 />
                 <RowField
-                  label="APR %"
+                  label="Interest rate"
                   value={debt.apr}
                   placeholder="19.9"
+                  suffix="%"
                   onChange={(v) => update(debt.id, "apr", v)}
                 />
                 <RowField
-                  label="Minimum"
+                  label="Minimum payment"
                   value={debt.minPayment}
                   placeholder="120"
                   prefix="$"
@@ -317,9 +332,17 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
                 }
                 disabled={debts.length === 1}
                 aria-label={`Remove ${debt.name || "debt"}`}
-                className="press absolute top-2.5 right-2.5 rounded-lg border border-line px-2.5 py-2 text-sm text-muted hover:border-danger hover:text-danger disabled:cursor-not-allowed disabled:opacity-30 sm:static sm:justify-self-center sm:py-2.5"
+                title="Remove this debt"
+                className="press absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-lg text-muted hover:bg-danger/10 hover:text-danger disabled:cursor-not-allowed disabled:opacity-25 sm:static sm:opacity-0 sm:group-hover/row:opacity-100 sm:focus-visible:opacity-100"
               >
-                ✕
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
+                  <path
+                    d="M4 4l8 8M12 4l-8 8"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </button>
             </div>
           ))}
@@ -556,6 +579,7 @@ function RowField({
   placeholder,
   onChange,
   prefix,
+  suffix,
   text,
 }: {
   label: string;
@@ -563,6 +587,7 @@ function RowField({
   placeholder: string;
   onChange: (value: string) => void;
   prefix?: string;
+  suffix?: string;
   text?: boolean;
 }) {
   return (
@@ -570,9 +595,11 @@ function RowField({
       <span className="mb-1 block text-xs font-medium text-muted sm:hidden">
         {label}
       </span>
-      {/* Padding and type step down on narrow screens: at 320px a five-figure
-          balance has to fit a third of the row without being clipped. */}
-      <span className="flex items-center rounded-xl border border-line bg-surface px-2 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15 sm:px-3">
+      {/* Bordered on a phone, where each row is its own card; borderless inside
+          the table on wider screens, where the row divider already separates
+          the cells. Padding and type step down at 320px so a five-figure
+          balance still fits a third of the row. */}
+      <span className="flex items-center rounded-xl border border-line bg-surface px-2 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15 sm:rounded-lg sm:border-transparent sm:bg-transparent sm:px-1.5 sm:focus-within:border-brand sm:focus-within:bg-surface">
         {prefix && <span className="text-sm text-muted">{prefix}</span>}
         <input
           value={value}
@@ -580,8 +607,9 @@ function RowField({
           inputMode={text ? "text" : "decimal"}
           aria-label={label}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full min-w-0 bg-transparent px-1 py-2.5 text-sm outline-none sm:px-1.5 sm:text-base"
+          className="w-full min-w-0 bg-transparent px-1 py-2.5 text-sm outline-none sm:px-1.5 sm:py-3 sm:text-base"
         />
+        {suffix && <span className="text-sm text-muted">{suffix}</span>}
       </span>
     </label>
   );
