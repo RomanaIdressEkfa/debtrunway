@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import {
   describeDuration,
   monthlyPaymentForTerm,
@@ -62,10 +62,15 @@ export default function ConsolidationCalculator() {
   const loanTotalPaid = loanPayment * months;
   const loanCost = Math.max(0, loanTotalPaid - totalBalance);
 
+  // Both routes are simulated at a lower priority than typing, so editing a
+  // balance never waits on two full payoff runs.
+  const slowDebts = useDeferredValue(debts);
+  const slowLoanPayment = useDeferredValue(loanPayment);
+
   // Path A: leave things as they are and pay the minimums.
   const minimums = useMemo(
-    () => simulatePayoff(debts, 0, "avalanche", { rollover: false }),
-    [debts],
+    () => simulatePayoff(slowDebts, 0, "avalanche", { rollover: false }),
+    [slowDebts],
   );
 
   // Path B: keep your current debts but pay the SAME monthly amount the
@@ -73,11 +78,11 @@ export default function ConsolidationCalculator() {
   const sameMoney = useMemo(
     () =>
       simulatePayoff(
-        debts,
-        Math.max(0, loanPayment - totalMinimums),
+        slowDebts,
+        Math.max(0, slowLoanPayment - totalMinimums),
         "avalanche",
       ),
-    [debts, loanPayment, totalMinimums],
+    [slowDebts, slowLoanPayment, totalMinimums],
   );
 
   const consolidationWins =

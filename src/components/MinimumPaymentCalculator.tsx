@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import {
   describeDuration,
   effectiveMinimum,
@@ -43,20 +43,26 @@ export default function MinimumPaymentCalculator() {
     [card, todaysMinimum],
   );
 
+  // A shrinking minimum can run the full 600-month cap, so this page has the
+  // longest single simulation on the site. Deferring keeps that off the
+  // keystroke's critical path.
+  const slowCard = useDeferredValue(card);
+  const slowFrozen = useDeferredValue(frozenCard);
+
   /** The lender's way: the required payment shrinks along with the balance. */
   const shrinking = useMemo(
-    () => simulatePayoff([card], 0, "avalanche", { rollover: false }),
-    [card],
+    () => simulatePayoff([slowCard], 0, "avalanche", { rollover: false }),
+    [slowCard],
   );
   /** Same money today, but you never let the payment drop. */
   const frozen = useMemo(
-    () => simulatePayoff([frozenCard], 0, "avalanche"),
-    [frozenCard],
+    () => simulatePayoff([slowFrozen], 0, "avalanche"),
+    [slowFrozen],
   );
   /** Frozen, plus whatever extra you can find. */
   const boosted = useMemo(
-    () => simulatePayoff([frozenCard], extra, "avalanche"),
-    [frozenCard, extra],
+    () => simulatePayoff([slowFrozen], extra, "avalanche"),
+    [slowFrozen, extra],
   );
 
   const multiple =

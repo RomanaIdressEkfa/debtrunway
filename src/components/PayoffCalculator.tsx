@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import {
   compareStrategies,
   describeDuration,
@@ -139,9 +139,21 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
   );
 
   const extraAmount = num(extra);
+
+  /**
+   * The simulation runs at a lower priority than typing.
+   *
+   * Every keystroke would otherwise trigger three full payoff simulations of
+   * up to 600 months each, on the same thread that has to paint the character
+   * you just typed. On a mid-range phone that is felt as lag in the input.
+   * Deferring lets React paint the keystroke first and recompute after, and
+   * intermediate values are skipped when someone types quickly.
+   */
+  const deferredDebts = useDeferredValue(parsed);
+  const deferredExtra = useDeferredValue(extraAmount);
   const result = useMemo(
-    () => compareStrategies(parsed, extraAmount),
-    [parsed, extraAmount],
+    () => compareStrategies(deferredDebts, deferredExtra),
+    [deferredDebts, deferredExtra],
   );
 
   const chosen = result[strategy];

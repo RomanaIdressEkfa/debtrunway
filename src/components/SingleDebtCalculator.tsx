@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { describeDuration, simulatePayoff, type Debt } from "@/lib/debt";
 import { usd } from "@/lib/format";
 import AnimatedNumber from "./AnimatedNumber";
@@ -44,18 +44,26 @@ export default function SingleDebtCalculator({
     [balance, apr, payment],
   );
 
-  const asIs = useMemo(() => simulatePayoff([debt], 0, "avalanche"), [debt]);
+  // Typing is painted first; the simulations follow at a lower priority.
+  // Without this, one keystroke schedules six payoff runs before the browser
+  // gets to draw the character, which a mid-range phone shows as input lag.
+  const slowDebt = useDeferredValue(debt);
+
+  const asIs = useMemo(
+    () => simulatePayoff([slowDebt], 0, "avalanche"),
+    [slowDebt],
+  );
   const withExtra = useMemo(
-    () => simulatePayoff([debt], extra, "avalanche"),
-    [debt, extra],
+    () => simulatePayoff([slowDebt], extra, "avalanche"),
+    [slowDebt, extra],
   );
   const scenarios = useMemo(
     () =>
       extraSteps.map((step) => ({
         step,
-        result: simulatePayoff([debt], step, "avalanche"),
+        result: simulatePayoff([slowDebt], step, "avalanche"),
       })),
-    [debt, extraSteps],
+    [slowDebt, extraSteps],
   );
 
   const active = extra > 0 ? withExtra : asIs;

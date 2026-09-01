@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { describeDuration, simulatePayoff, type Debt } from "@/lib/debt";
 import { usd } from "@/lib/format";
 import AnimatedNumber from "./AnimatedNumber";
@@ -31,18 +31,26 @@ export default function ExtraPaymentCalculator() {
     [balance, apr, payment],
   );
 
-  const base = useMemo(() => simulatePayoff([debt], 0, "avalanche"), [debt]);
+  // The heaviest page on the site: the comparison table alone is one full
+  // payoff run per row. Deferring keeps all nine off the keystroke's critical
+  // path, so the input stays responsive while the table catches up.
+  const slowDebt = useDeferredValue(debt);
+
+  const base = useMemo(
+    () => simulatePayoff([slowDebt], 0, "avalanche"),
+    [slowDebt],
+  );
   const picked = useMemo(
-    () => simulatePayoff([debt], chosen, "avalanche"),
-    [debt, chosen],
+    () => simulatePayoff([slowDebt], chosen, "avalanche"),
+    [slowDebt, chosen],
   );
   const rows = useMemo(
     () =>
       STEPS.map((step) => ({
         step,
-        result: simulatePayoff([debt], step, "avalanche"),
+        result: simulatePayoff([slowDebt], step, "avalanche"),
       })),
-    [debt],
+    [slowDebt],
   );
 
   const saved =
