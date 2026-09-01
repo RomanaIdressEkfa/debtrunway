@@ -54,7 +54,7 @@ export default function CalculatorPage({
       />
 
       <div className="mx-auto max-w-5xl px-3 py-10 sm:px-4 sm:py-16">
-        <header className="animate-rise mb-9 max-w-2xl sm:mb-12">
+        <header className="animate-rise mb-9 max-w-3xl sm:mb-12">
           <h1 className="text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-6xl">
             {heading}
           </h1>
@@ -65,13 +65,17 @@ export default function CalculatorPage({
 
         {children}
 
-        <article className="mt-20 max-w-2xl">
-          {content}
+        {/* Prose keeps a reading measure of roughly 80 characters — a line the
+            full width of the page is genuinely harder to read, which is why
+            newspapers set text in columns. The cards below run the full width
+            so the section still lines up with the tool and the footer. */}
+        <article className="mt-20 max-w-3xl">{content}</article>
 
-          <h2 className="mt-12 text-2xl font-bold tracking-tight sm:text-3xl">
+        <section className="mt-14">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Common questions
           </h2>
-          <dl className="mt-5 space-y-5">
+          <dl className="mt-5 grid items-start gap-4 lg:grid-cols-2">
             {faqs.map((f) => (
               <div
                 key={f.q}
@@ -82,7 +86,7 @@ export default function CalculatorPage({
               </div>
             ))}
           </dl>
-        </article>
+        </section>
 
         <RelatedCalculators slug={slug} />
       </div>
