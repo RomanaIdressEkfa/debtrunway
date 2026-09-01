@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContentPage from "@/components/ContentPage";
 
 export const metadata: Metadata = {
   title: "About",
@@ -8,7 +9,10 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <ContentPage
+      heading="About DebtRunway"
+      intro="Built by one developer, because most debt calculators hand you a single number and stop."
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -34,7 +38,6 @@ export default function About() {
         }}
       />
 
-      <h1 className="text-4xl font-bold tracking-tight">About DebtRunway</h1>
 
       <p className="mt-5 leading-relaxed">
         DebtRunway is built and maintained by{" "}
@@ -89,6 +92,6 @@ export default function About() {
           hello@debtrunway.com
         </a>
       </p>
-    </div>
+    </ContentPage>
   );
 }

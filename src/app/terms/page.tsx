@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContentPage from "@/components/ContentPage";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -10,15 +11,10 @@ export const metadata: Metadata = {
 
 export default function Terms() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-        Terms and disclaimer
-      </h1>
-      <p className="mt-4 text-lg text-muted">
-        The short version: this is a free calculator for planning. It is not
-        financial advice, and the figures are estimates.
-      </p>
-
+    <ContentPage
+      heading="Terms and disclaimer"
+      intro="The short version: this is a free calculator for planning. It is not financial advice, and the figures are estimates."
+    >
       {/* The single most important paragraph on the page, so it is not left to
           compete with the rest of the text. */}
       <div className="mt-8 rounded-2xl border border-accent/30 bg-accent/5 p-5 sm:p-6">
@@ -143,6 +139,6 @@ export default function Terms() {
         </Link>
         .
       </p>
-    </div>
+    </ContentPage>
   );
 }

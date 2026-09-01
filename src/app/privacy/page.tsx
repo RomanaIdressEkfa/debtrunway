@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContentPage from "@/components/ContentPage";
 
 export const metadata: Metadata = {
   title: "Privacy",
@@ -8,8 +9,10 @@ export const metadata: Metadata = {
 
 export default function Privacy() {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-4xl font-bold tracking-tight">Privacy</h1>
+    <ContentPage
+      heading="Privacy"
+      intro="Your figures never reach us. Here is exactly what is stored, where, and how to erase it."
+    >
 
       <h2 className="mt-8 text-xl font-bold">What we collect about your debts</h2>
       <p className="mt-3 leading-relaxed">
@@ -54,6 +57,6 @@ export default function Privacy() {
           hello@debtrunway.com
         </a>
       </p>
-    </div>
+    </ContentPage>
   );
 }

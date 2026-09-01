@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContentPage from "@/components/ContentPage";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -31,13 +32,10 @@ const reasons = [
 
 export default function Contact() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Contact</h1>
-      <p className="mt-4 text-lg text-muted">
-        DebtRunway is run by one person. Messages reach a real inbox and get a
-        real reply.
-      </p>
-
+    <ContentPage
+      heading="Contact"
+      intro="DebtRunway is run by one person. Messages reach a real inbox and get a real reply."
+    >
       {/* No contact form: a form needs a server, and this site deliberately
           has none. A plain address is also easier to trust. */}
       <div className="mt-8 rounded-2xl border border-line bg-surface p-6 card-shadow sm:p-8">
@@ -117,6 +115,6 @@ export default function Contact() {
           will have to include them in your email yourself.
         </p>
       </div>
-    </div>
+    </ContentPage>
   );
 }
