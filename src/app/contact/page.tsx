@@ -60,9 +60,9 @@ export default function Contact() {
           >
             Romana Idress Ekfa
           </a>
-          , an independent web developer. Expect a reply within a few days —
-          this is not a company with a support desk, and honesty about that
-          seems better than promising an hour.
+          , an independent full-stack web developer. Expect a reply within a few
+          days — this is not a company with a support desk, and honesty about
+          that seems better than promising an hour.
         </p>
 
         <a

@@ -18,7 +18,7 @@ export default function About() {
             mainEntity: {
               "@type": "Person",
               name: "Romana Idress Ekfa",
-              jobTitle: "Web developer",
+              jobTitle: ["Software engineer", "Full-stack web developer"],
               url: "https://debtrunway.com/about",
               // sameAs is how you tell Google that the author of this site and
               // the person behind that profile are the same human. On a money
@@ -46,9 +46,10 @@ export default function About() {
         >
           Romana Idress Ekfa
         </a>
-        , an independent web developer. It exists because most debt calculators
-        hand you a single number and stop. A payoff date is far more useful when
-        you can see the whole schedule behind it.
+        , an independent full-stack web developer and software engineer. It
+        exists because most debt calculators hand you a single number and stop.
+        A payoff date is far more useful when you can see the whole schedule
+        behind it.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">How the numbers work</h2>
