@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
@@ -8,12 +8,14 @@ import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 /**
- * DM Sans across the whole site. It carries more warmth than a neutral grotesk
- * at headline weight, and its figures stay even enough that a table of
- * payments still lines up column by column.
+ * Inter, the closest freely licensed match to the typeface Webflow uses.
+ *
+ * Its heavy weights hold together at display sizes without the letterforms
+ * softening, and its tabular figures keep a column of payments aligned — both
+ * of which this site leans on.
  */
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -64,7 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
