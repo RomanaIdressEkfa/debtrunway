@@ -117,6 +117,37 @@ h1 {
   color: transparent;
 }
 
+/**
+ * A soft wash behind the hero band.
+ *
+ * Built from the accent rather than a fixed colour, so it follows the theme
+ * and stays in the same family as the logo and the highlighted words. It
+ * fades out downward, which lets the page settle into its normal ground
+ * without a hard edge.
+ */
+.hero-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      70% 130% at 88% 0%,
+      color-mix(in oklab, var(--accent) 18%, transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      55% 110% at 8% 10%,
+      color-mix(in oklab, var(--brand) 10%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--accent) 5%, transparent),
+      transparent 80%
+    );
+}
+
 .card-shadow {
   box-shadow: var(--card-shadow);
 }

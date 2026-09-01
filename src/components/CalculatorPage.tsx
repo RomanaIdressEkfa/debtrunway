@@ -53,20 +53,24 @@ export default function CalculatorPage({
         }}
       />
 
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        {/* Centred, and narrower than the tool below it. A headline set across
-            a wide container loses the reader between lines; centred and held
-            to a measure, it reads as a statement. Spacing stays tight — the
-            tool is what the visitor came for, and it should be in view. */}
-        <header className="animate-rise mx-auto mb-8 max-w-3xl text-center sm:mb-10">
-          <h1 className="text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            {heading}
-          </h1>
-          <p className="mx-auto mt-3.5 max-w-xl text-base leading-relaxed text-balance text-muted sm:text-lg">
-            {intro}
-          </p>
-        </header>
+      {/* A hero band with its own ground. The title carries the left, the
+          explanation the right, so neither has to run the full width and the
+          two are read as one line of thought rather than a stacked block. */}
+      <div className="relative isolate overflow-hidden border-b border-line">
+        <div className="hero-wash" aria-hidden />
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
+            <h1 className="text-4xl leading-[1.03] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+              {heading}
+            </h1>
+            <p className="text-base leading-relaxed text-muted sm:text-lg lg:pb-1.5">
+              {intro}
+            </p>
+          </header>
+        </div>
+      </div>
 
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
         {children}
 
         {/* Prose and questions side by side, the way a magazine sets a column
