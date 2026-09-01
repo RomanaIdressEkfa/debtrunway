@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // The homepage is the entry point; the rest carry equal weight.
       priority: c.slug === "/" ? 1 : 0.8,
     })),
-    ...["/about", "/privacy"].map((path) => ({
+    ...["/about", "/contact", "/privacy", "/terms"].map((path) => ({
       url: `${SITE}${path}`,
       lastModified: now,
       changeFrequency: "yearly" as const,

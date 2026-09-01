@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DM_Sans, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import SiteFooter from "@/components/SiteFooter";
 import SiteNav from "@/components/SiteNav";
 import ThemeToggle from "@/components/ThemeToggle";
-import { calculators } from "@/lib/calculators";
 import "./globals.css";
 
 /**
@@ -98,51 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
         <main className="flex-1">{children}</main>
 
-        <footer className="no-print mt-24 border-t border-line bg-surface">
-          <div className="mx-auto max-w-5xl px-4 py-12">
-            <Logo size={22} className="mb-8" />
-
-            <nav aria-label="All calculators">
-              <h2 className="text-xs font-semibold tracking-wider text-muted uppercase">
-                Calculators
-              </h2>
-              <ul className="mt-3 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
-                {calculators.map((c) => (
-                  <li key={c.slug}>
-                    <Link
-                      href={c.slug}
-                      className="text-muted transition-colors hover:text-brand"
-                    >
-                      {c.nav}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            <div className="mt-10 border-t border-line pt-6 text-sm text-muted">
-              <p>
-                Every figure is worked out in your own browser, and your plan is
-                saved on this device so it is waiting for you next month.
-                Nothing you type is ever sent to a server.
-              </p>
-              <p className="mt-3">
-                These results are estimates for planning, not financial advice.
-                Your lender&rsquo;s exact interest calculation may differ
-                slightly.
-              </p>
-              <p className="mt-5 flex flex-wrap gap-4">
-                <Link href="/about" className="transition-colors hover:text-brand">
-                  About
-                </Link>
-                <Link href="/privacy" className="transition-colors hover:text-brand">
-                  Privacy
-                </Link>
-                <span>&copy; {new Date().getFullYear()} DebtRunway</span>
-              </p>
-            </div>
-          </div>
-        </footer>
+        <SiteFooter />
       </body>
     </html>
   );
