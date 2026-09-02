@@ -19,10 +19,16 @@ const siteLinks = [
  * headings carry weight, the links sit at full text colour, and the two
  * standing promises — nothing leaves your browser, this is not advice — are
  * given a row of their own instead of being buried in small print.
+ *
+ * It sits flush against the content above it, the way the hero band sits flush
+ * under the nav. A top margin here would show as a bare stripe of page
+ * background between the last card and the band — which is what a fixed 96px
+ * one did, at every width, on phones worst of all. The border and the band's
+ * own padding are what separate it; that is the whole job of a band.
  */
 export default function SiteFooter() {
   return (
-    <footer className="no-print relative isolate mt-24 overflow-hidden border-t border-line bg-surface">
+    <footer className="no-print relative isolate overflow-hidden border-t border-line bg-surface">
       <div className="band-grid footer-grid" aria-hidden />
       <div className="footer-wash" aria-hidden />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">

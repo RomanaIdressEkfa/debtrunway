@@ -71,7 +71,7 @@ export default function CalculatorPage({
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-9">
+      <div className="mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
         {children}
 
         {/* Prose and questions side by side, the way a magazine sets a column
