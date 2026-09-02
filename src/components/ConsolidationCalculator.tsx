@@ -113,7 +113,7 @@ export default function ConsolidationCalculator() {
               </div>
 
               {/* Three short figures read better in a row than in a stack. */}
-              <div className="mt-3 grid grid-cols-3 gap-1.5 sm:contents">
+              <div className="mt-3 grid grid-cols-3 items-end gap-1.5 sm:contents">
               <Field
                 label="Balance"
                 value={row.balance}

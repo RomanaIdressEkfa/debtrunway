@@ -299,9 +299,13 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
                 />
               </div>
 
-              <div className="mt-2.5 grid grid-cols-3 gap-1.5 sm:contents">
+              {/* Short labels on a phone keep each one to a single line, so the
+                  three boxes land on the same baseline; `items-end` holds that
+                  line even if a label ever does wrap. */}
+              <div className="mt-2.5 grid grid-cols-3 items-end gap-1.5 sm:contents">
                 <RowField
                   label="Current balance"
+                  short="Balance"
                   value={debt.balance}
                   placeholder="5000"
                   prefix="$"
@@ -309,6 +313,7 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
                 />
                 <RowField
                   label="Interest rate"
+                  short="Rate"
                   value={debt.apr}
                   placeholder="19.9"
                   suffix="%"
@@ -316,6 +321,7 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
                 />
                 <RowField
                   label="Minimum payment"
+                  short="Minimum"
                   value={debt.minPayment}
                   placeholder="120"
                   prefix="$"
@@ -575,6 +581,7 @@ export default function PayoffCalculator({ lockedStrategy }: Props) {
  */
 function RowField({
   label,
+  short,
   value,
   placeholder,
   onChange,
@@ -583,6 +590,9 @@ function RowField({
   text,
 }: {
   label: string;
+  /** Phone-width label. The full names wrap to two lines inside a third of a
+      row, which knocked the boxes out of line with one another. */
+  short?: string;
   value: string;
   placeholder: string;
   onChange: (value: string) => void;
@@ -592,24 +602,26 @@ function RowField({
 }) {
   return (
     <label className="block min-w-0">
-      <span className="mb-1 block text-xs font-medium text-muted sm:hidden">
-        {label}
+      <span className="mb-1 block truncate text-xs font-medium whitespace-nowrap text-muted sm:hidden">
+        {short ?? label}
       </span>
       {/* Bordered on a phone, where each row is its own card; borderless inside
           the table on wider screens, where the row divider already separates
           the cells. Padding and type step down at 320px so a five-figure
           balance still fits a third of the row. */}
-      <span className="flex items-center rounded-xl border border-line bg-surface px-2 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15 sm:rounded-lg sm:border-transparent sm:bg-transparent sm:px-1.5 sm:focus-within:border-brand sm:focus-within:bg-surface">
-        {prefix && <span className="text-sm text-muted">{prefix}</span>}
+      <span className="flex items-center rounded-xl border border-line bg-surface px-1.5 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15 sm:rounded-lg sm:border-transparent sm:bg-transparent sm:px-1.5 sm:focus-within:border-brand sm:focus-within:bg-surface">
+        {prefix && <span className="shrink-0 text-sm text-muted">{prefix}</span>}
         <input
           value={value}
           placeholder={placeholder}
           inputMode={text ? "text" : "decimal"}
           aria-label={label}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full min-w-0 bg-transparent px-1 py-2.5 text-sm outline-none sm:px-1.5 sm:py-3 sm:text-base"
+          className={`w-full min-w-0 bg-transparent px-0.5 py-2.5 text-sm outline-none sm:px-1.5 sm:py-3 sm:text-base ${
+            text ? "" : "tabular-nums"
+          }`}
         />
-        {suffix && <span className="text-sm text-muted">{suffix}</span>}
+        {suffix && <span className="shrink-0 text-sm text-muted">{suffix}</span>}
       </span>
     </label>
   );
