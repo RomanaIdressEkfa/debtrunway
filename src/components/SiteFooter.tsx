@@ -2,7 +2,7 @@ import Link from "next/link";
 import { calculators, groupLabels } from "@/lib/calculators";
 import Logo from "./Logo";
 
-const groups = ["plan", "cards", "loans"] as const;
+const groups = ["plan", "cards", "loans", "islamic"] as const;
 
 const siteLinks = [
   { href: "/about", label: "About" },
@@ -29,7 +29,7 @@ const siteLinks = [
 export default function SiteFooter() {
   return (
     <footer className="no-print relative isolate overflow-hidden border-t border-line bg-surface">
-      <div className="band-grid footer-grid" aria-hidden />
+      <div className="band-grid footer-grid islamic-grid" aria-hidden />
       <div className="footer-wash" aria-hidden />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">

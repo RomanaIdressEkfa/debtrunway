@@ -17,7 +17,7 @@ export default function ContentPage({ heading, intro, children }: Props) {
   return (
     <>
       <div className="relative isolate overflow-hidden border-b border-line">
-        <div className="band-grid" aria-hidden />
+        <div className="band-grid islamic-grid" aria-hidden />
         <div className="hero-wash" aria-hidden />
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">

@@ -11,7 +11,7 @@ export interface CalculatorMeta {
   title: string;
   /** Meta description and card body. Keep it under ~155 characters. */
   description: string;
-  group: "plan" | "cards" | "loans";
+  group: "plan" | "cards" | "loans" | "islamic";
 }
 
 export const calculators: CalculatorMeta[] = [
@@ -103,12 +103,21 @@ export const calculators: CalculatorMeta[] = [
       "Work out the DTI ratio lenders check before approving a mortgage or loan, and see which band you fall into.",
     group: "loans",
   },
+  {
+    slug: "/islamic-inheritance-calculator",
+    nav: "Islamic inheritance",
+    title: "Islamic Inheritance Calculator (Faraid)",
+    description:
+      "Divide an estate by the Qur'anic shares. Enter who survived and see each heir's fraction, the amount, and the rule it comes from.",
+    group: "islamic",
+  },
 ];
 
 export const groupLabels: Record<CalculatorMeta["group"], string> = {
   plan: "Build a payoff plan",
   cards: "Credit cards",
   loans: "Loans and ratios",
+  islamic: "Islamic finance",
 };
 
 export const bySlug = (slug: string) =>

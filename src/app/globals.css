@@ -355,3 +355,19 @@ input[type="number"] {
     background: #fff;
   }
 }
+
+/* ---------- Islamic geometric ground ----------
+   An eight-point star lattice — the khatam figure that runs through Islamic
+   ornament from Cordoba to Isfahan — laid over the same band the hero already
+   uses. It is drawn with four sets of hairlines rather than an image file, so
+   it inherits --grid and turns with the theme like everything else, costs no
+   request, and stays crisp at any zoom. The diagonals sit at the orthogonal
+   spacing divided by root two, which is what closes the octagons. */
+.islamic-grid {
+  background-image:
+    repeating-linear-gradient(45deg, var(--grid) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(-45deg, var(--grid) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(0deg, var(--grid) 0 1px, transparent 1px 65px),
+    repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px 65px);
+  background-size: auto;
+}

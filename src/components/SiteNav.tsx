@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { calculators, groupLabels } from "@/lib/calculators";
 
-const groups = ["plan", "cards", "loans"] as const;
+const groups = ["plan", "cards", "loans", "islamic"] as const;
 
 /**
  * A <details> element for the accessibility and keyboard behaviour the browser
