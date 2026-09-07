@@ -30,14 +30,13 @@ export default function QuickNisab() {
 
   const grams = metal === "silver" ? SILVER_NISAB_GRAMS : GOLD_NISAB_GRAMS;
 
-  const { nisab, net, due, zakat, gap, ready } = useMemo(() => {
+  const { nisab, due, zakat, gap, ready } = useMemo(() => {
     const unit = num(price);
     const net = num(wealth);
     const nisab = grams * unit;
     const ready = unit > 0 && net > 0;
     return {
       nisab,
-      net,
       ready,
       due: ready && net >= nisab,
       zakat: net * RATE,
