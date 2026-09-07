@@ -22,12 +22,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   return [
+    {
+      url: loc("/"),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 1,
+    },
     ...calculators.map((c) => ({
       url: loc(c.slug),
       lastModified: now,
       changeFrequency: "monthly" as const,
-      // The homepage is the entry point; the rest carry equal weight.
-      priority: c.slug === "/" ? 1 : 0.8,
+      priority: 0.8,
     })),
     ...["/about", "/contact", "/privacy", "/terms"].map((path) => ({
       url: loc(path),

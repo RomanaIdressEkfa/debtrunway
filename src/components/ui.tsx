@@ -36,7 +36,7 @@ export function Field({
   prefix?: string;
   suffix?: string;
   large?: boolean;
-  /** Free text rather than a number — used for debt names. */
+  /** Free text rather than a number. */
   text?: boolean;
 }) {
   return (
@@ -92,7 +92,7 @@ export function ResultHero({
   eyebrow: string;
   value: string;
   sub: string;
-  /** Values may be an <AnimatedNumber>, so anything renderable is allowed. */
+  /** Values may carry their own markup, so anything renderable is allowed. */
   stats: { label: string; value: ReactNode }[];
   tone?: "brand" | "danger";
   /** Optional control in the corner — the share button lives here. */

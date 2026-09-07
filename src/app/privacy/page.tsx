@@ -15,11 +15,18 @@ export default function Privacy() {
       intro="Your figures never reach us. Here is exactly what is stored, where, and how to erase it."
     >
 
-      <h2 className="mt-8 text-xl font-bold">What we collect about your debts</h2>
+      <h2 className="mt-8 text-xl font-bold">What we collect about you</h2>
       <p className="mt-3 leading-relaxed">
-        Nothing reaches us. The calculator runs entirely in your browser, and
-        your balances, rates and payments are never transmitted to a server or
+        Nothing reaches us. Every calculation runs in your browser, and what you
+        enter — the value of an estate, who in your family has died, what you
+        hold in gold or in the bank — is never transmitted to a server or
         visible to anyone but you.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        The inheritance calculator goes further and keeps nothing at all, not
+        even in your own browser. Who has died in a family is not a thing to
+        leave sitting on a shared computer, so those entries are gone the moment
+        you close the tab.
       </p>
       <p className="mt-3 leading-relaxed">
         So that you do not have to type everything again next month, your plan

@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { calculators, groupLabels } from "@/lib/calculators";
-
-const groups = ["plan", "cards", "loans", "islamic"] as const;
+import { calculators, groupLabels, groups } from "@/lib/calculators";
 
 /**
  * A <details> element for the accessibility and keyboard behaviour the browser

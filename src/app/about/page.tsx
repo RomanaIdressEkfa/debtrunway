@@ -4,7 +4,7 @@ import ContentPage from "@/components/ContentPage";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "DebtRunway is built by Romana Idress Ekfa. How the payoff calculations work, and why the tool is free.",
+    "DebtRunway is built by Romana Idress Ekfa. How the inheritance and zakat calculations work, and why the tools are free.",
   alternates: { canonical: "/about" },
 };
 
@@ -12,7 +12,7 @@ export default function About() {
   return (
     <ContentPage
       heading="About DebtRunway"
-      intro="Built by one developer, because most debt calculators hand you a single number and stop."
+      intro="Built by one developer, because the Islamic finance calculators already out there hand you a number and never show the rule behind it."
     >
       <script
         type="application/ld+json"
@@ -51,24 +51,31 @@ export default function About() {
           Romana Idress Ekfa
         </a>
         , an independent full-stack web developer and software engineer. It
-        exists because most debt calculators hand you a single number and stop.
-        A payoff date is far more useful when you can see the whole schedule
-        behind it.
+        exists because the Islamic finance calculators already out there hand
+        you a number and stop. A share of an estate means very little until you
+        can see which ruling produced it, and who it excluded.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">How the numbers work</h2>
       <p className="mt-3 leading-relaxed">
-        Each month, every balance is charged one twelfth of its annual rate.
-        Your minimum payments are applied first, and whatever is left over goes
-        to the target debt — the smallest balance under the snowball method, or
-        the highest rate under the avalanche. When a debt clears, its payment
-        rolls onto the next one, so your total monthly outlay stays the same
-        while the payoff accelerates.
+        The inheritance calculator applies the majority Sunni rules: the fixed
+        shares named in Surah an-Nisa, the residuary heirs who take what is
+        left, the blocking that removes an heir when a nearer one stands in the
+        way, and the awl and radd corrections for when the fractions do not
+        total one. Shares are held as exact fractions rather than decimals, so
+        a sixth plus a sixth plus two thirds is one and not 0.9999.
       </p>
       <p className="mt-3 leading-relaxed">
-        Lenders often use the average daily balance instead of a flat monthly
-        charge, so your statement may differ by a small amount. The overall
-        shape of the plan will not.
+        It is checked against worked examples with settled answers in the
+        classical texts — the awl cases of twelve to fifteen, six to eight and
+        twenty-four to twenty-seven, both Umariyyatan rulings, and every
+        blocking rule. Those checks run as a script in the repository, not as a
+        claim on a page.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        The zakat calculator derives the nisab from a metal price you supply,
+        rather than storing a figure that would be wrong within a week, and
+        applies the rate of a fortieth to what remains after debts due now.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Why it is free</h2>
@@ -78,12 +85,13 @@ export default function About() {
         and nothing you type ever leaves your device.
       </p>
 
-      <h2 className="mt-8 text-xl font-bold">Not financial advice</h2>
+      <h2 className="mt-8 text-xl font-bold">Not a fatwa</h2>
       <p className="mt-3 leading-relaxed">
-        These results are estimates to help you plan. They are not financial
-        advice, and they cannot account for fees, penalty rates, promotional
-        periods, or changes to your circumstances. For decisions with real
-        consequences, talk to a qualified adviser.
+        These calculators apply rules to the facts you type. They are not a
+        fatwa and not financial advice, and they cannot see a disputed heir, an
+        unborn child, a pension you cannot yet draw, or a question your own
+        school of law answers differently. Take anything that matters to a
+        qualified scholar before acting on it.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Contact</h2>

@@ -8,7 +8,7 @@ import { ImageResponse } from "next/og";
  * Reddit, or a social post. A shared link that previews as a blank rectangle
  * gets far fewer clicks than one that looks like a real product.
  */
-export const alt = "DebtRunway — debt payoff calculator";
+export const alt = "DebtRunway — Islamic inheritance and zakat calculators";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,9 +58,9 @@ export default function Image() {
               letterSpacing: -2.5,
             }}
           >
-            Find out exactly when
+            The shares, and the
             <br />
-            you will be debt-free.
+            ruling behind each one.
           </span>
           <span
             style={{
@@ -69,7 +69,7 @@ export default function Image() {
               color: "rgba(255,255,255,0.8)",
             }}
           >
-            Free calculator · No sign-up · Nothing leaves your browser
+            Inheritance · Zakat · Nothing leaves your browser
           </span>
         </div>
       </div>

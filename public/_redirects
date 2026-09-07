@@ -1,0 +1,15 @@
+# The interest-based calculators were removed when the site moved to Islamic
+# finance. They were indexed, so send anyone who still holds a link — a
+# reader, a bookmark, or Googlebot — to the homepage rather than a dead end.
+# Cloudflare serves this file from the deployed output; Next copies public/
+# into out/ verbatim.
+/debt-snowball-calculator/*        / 301
+/debt-avalanche-calculator/*       / 301
+/snowball-vs-avalanche/*           / 301
+/credit-card-payoff-calculator/*   / 301
+/minimum-payment-calculator/*      / 301
+/extra-payment-calculator/*        / 301
+/debt-consolidation-calculator/*   / 301
+/loan-payoff-calculator/*          / 301
+/student-loan-payoff-calculator/*  / 301
+/debt-to-income-calculator/*       / 301

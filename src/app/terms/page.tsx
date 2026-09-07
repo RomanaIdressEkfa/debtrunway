@@ -22,15 +22,17 @@ export default function Terms() {
           This is not financial advice
         </h2>
         <p className="mt-2 leading-relaxed">
-          DebtRunway is an educational tool. It does not know your income, your
-          job security, your savings, your credit file, or anything else about
-          your circumstances, and it cannot weigh them. Nothing on this site is
-          a recommendation to take, avoid, refinance, consolidate, or pay off
-          any particular debt.
+          DebtRunway is an educational tool. It applies published rules to the
+          facts you type, and it knows nothing else about you. It cannot see a
+          disputed or missing heir, an unborn child, property held jointly, a
+          debt nobody agrees on, or the school of law your family follows.
+          Nothing on this site is a ruling, and nothing here should be used to
+          settle an estate or discharge an obligation on its own.
         </p>
         <p className="mt-3 leading-relaxed">
-          For decisions that matter, speak to a qualified financial adviser, a
-          licensed credit counsellor, or your lender.
+          For anything that matters, speak to a qualified scholar or mufti, and
+          where property or the law of your country is involved, to a lawyer as
+          well.
         </p>
       </div>
 

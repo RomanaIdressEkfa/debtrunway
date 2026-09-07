@@ -104,8 +104,9 @@ export default function Contact() {
         set out why.
       </p>
       <p className="mt-3 leading-relaxed">
-        If you need real help with debt, a licensed credit counsellor in your
-        country is the right place to start. Many offer free consultations.
+        If you need a ruling rather than a calculation, your local imam or a
+        recognised fatwa service is the right place to start, and where
+        property or probate is involved, a lawyer in your country.
       </p>
 
       <div className="mt-12 rounded-2xl border border-brand/25 bg-brand-soft px-5 py-4">

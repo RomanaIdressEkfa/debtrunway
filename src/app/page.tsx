@@ -1,85 +1,146 @@
-import CalculatorPage from "@/components/CalculatorPage";
-import PayoffCalculator from "@/components/PayoffCalculator";
+import Link from "next/link";
+import { calculators, groupLabels, groups } from "@/lib/calculators";
 
-const faqs = [
-  {
-    q: "What is the debt snowball method?",
-    a: "You pay the minimum on every debt, then throw every spare dollar at the smallest balance. When it clears, its payment rolls onto the next-smallest debt, so the amount attacking your debt grows like a snowball. It costs slightly more in interest than the avalanche, but the early wins are why most people stick with it.",
-  },
-  {
-    q: "What is the debt avalanche method?",
-    a: "Same idea, different order: your spare money goes to the debt with the highest interest rate first, regardless of size. This always costs the least in total interest. The catch is that a large high-rate debt can take many months to clear, and some people lose momentum before the first win arrives.",
-  },
-  {
-    q: "Which method should I choose?",
-    a: "Run both above and look at the gap. If the avalanche saves you only a few hundred dollars, take the snowball and the motivation that comes with it. If the gap is large, the avalanche is worth the patience.",
-  },
-  {
-    q: "How is the interest calculated?",
-    a: "Each month your balance is charged one twelfth of its annual rate, then your payment is applied. Your card issuer may use average daily balance instead, so real statements can differ by a small amount.",
-  },
-  {
-    q: "Does this calculator store my information?",
-    a: "No. Every calculation runs in your browser. Nothing you type is sent to a server, saved, or shared.",
-  },
-];
-
+/**
+ * The hub, not a tool.
+ *
+ * Every calculator here answers a question someone arrives with already
+ * formed — how does this estate divide, what do I owe this year — so the
+ * homepage's job is to route, not to sell. It carries the ground the tools
+ * stand on instead: what the site is for, and what it refuses to do.
+ */
 export default function Home() {
   return (
-    <CalculatorPage
-      slug="/"
-      heading={
-        <>
-          Debt <em className="accent-text not-italic">payoff</em> calculator
-        </>
-      }
-      intro="Enter what you owe and what you can pay. You will see your exact debt-free date, what the interest really costs you, and the month-by-month schedule to get there."
-      faqs={faqs}
-      content={
-        <>
-          <h2 className="text-2xl font-bold tracking-tight">
-            How to use this calculator
-          </h2>
-          <p className="mt-3 leading-relaxed">
-            Start by listing every debt you carry a balance on — credit cards,
-            store cards, car loans, personal loans, student loans. For each one
-            you need three numbers, and all three are printed on your statement:
-            the current balance, the interest rate (APR), and the minimum
-            payment your lender requires.
-          </p>
-          <p className="mt-3 leading-relaxed">
-            Then enter the extra amount you can put toward debt each month above
-            those minimums. This single number does most of the work. Minimum
-            payments are set so that clearing the balance takes as long as
-            possible — on a typical credit card they can stretch a few thousand
-            dollars into decades of payments. Almost any extra amount, paid
-            consistently, collapses that timeline.
-          </p>
+    <>
+      <div className="relative isolate overflow-hidden border-b border-line">
+        <div className="band-grid islamic-grid" aria-hidden />
+        <div className="hero-wash" aria-hidden />
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
+            <h1 className="text-4xl leading-[1.03] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+              Money questions with{" "}
+              <em className="accent-text not-italic">settled answers</em>
+            </h1>
+            <p className="text-base leading-relaxed text-muted sm:text-lg lg:pb-1.5">
+              Free calculators for the parts of Islamic finance that have a
+              fixed, checkable answer — how an estate divides, what zakat is
+              due. Every figure comes with the rule behind it.
+            </p>
+          </header>
+        </div>
+      </div>
 
-          <h2 className="mt-10 text-2xl font-bold tracking-tight">
-            Snowball or avalanche?
-          </h2>
-          <p className="mt-3 leading-relaxed">
-            Both methods pay the minimum on everything and put the extra toward
-            one target debt. They differ only in which debt goes first.
-          </p>
-          <p className="mt-3 leading-relaxed">
-            The <strong>snowball</strong> attacks the smallest balance first.
-            You clear a whole debt quickly, that debt&rsquo;s payment joins your
-            extra money, and the next one falls faster. The{" "}
-            <strong>avalanche</strong> attacks the highest interest rate first,
-            which is always the mathematically cheapest route.
-          </p>
-          <p className="mt-3 leading-relaxed">
-            The calculator above shows both, so you can see the real trade-off
-            rather than argue about it in the abstract. For most people the
-            difference is smaller than they expect — and a plan you finish beats
-            an optimal plan you abandon.
-          </p>
-        </>
-      }
-    >
-      <PayoffCalculator />
-    </CalculatorPage>
+      <div className="mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
+        {groups.map((group) => {
+          const inGroup = calculators.filter((c) => c.group === group);
+          if (inGroup.length === 0) return null;
+          return (
+            <section key={group} className="mb-10 last:mb-0">
+              <h2 className="text-xl font-bold tracking-tight">
+                {groupLabels[group]}
+              </h2>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {inGroup.map((c) => (
+                  <li key={c.slug}>
+                    <Link
+                      href={c.slug}
+                      className="card-shadow block h-full rounded-2xl border border-line bg-surface p-5 transition hover:border-brand"
+                    >
+                      <span className="text-lg font-bold tracking-tight">
+                        {c.nav}
+                      </span>
+                      <span className="mt-1.5 block text-sm leading-relaxed text-muted">
+                        {c.description}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
+
+        <section className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-14">
+          <article>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Why these calculators exist
+            </h2>
+            <p className="mt-3 leading-relaxed">
+              Most Islamic finance questions need a scholar. A few need
+              arithmetic — and those few are done badly almost everywhere.
+              Inheritance shares get rounded until they no longer add to one.
+              Zakat calculators hardcode a nisab that was accurate the month
+              they were written. Neither shows you the rule it applied, so
+              neither can be checked.
+            </p>
+            <p className="mt-3 leading-relaxed">
+              These pages take the opposite approach. Shares are kept as exact
+              fractions, so two thirds plus a sixth plus a sixth is one and not
+              0.9999. The nisab is derived from a price you supply today. Every
+              result names the rule it came from, every excluded heir names the
+              relative who excluded them, and the working is on the page rather
+              than hidden behind it.
+            </p>
+
+            <h2 className="mt-10 text-2xl font-bold tracking-tight">
+              What these calculators will not do
+            </h2>
+            <p className="mt-3 leading-relaxed">
+              They will not give you a ruling. A calculator applies rules to the
+              facts you type; it cannot see a disputed heir, an unborn child, a
+              pension you cannot yet draw, or the question your own school
+              answers differently. Every result here says so plainly rather than
+              in small print, because an inheritance divided wrongly is not a
+              mistake you get to take back.
+            </p>
+            <p className="mt-3 leading-relaxed">
+              They also will not take your data. Everything runs in your
+              browser. Nothing you enter is sent anywhere, stored on a server,
+              or logged — and the inheritance calculator does not even keep your
+              entries in the browser, because who has died in a family is not a
+              thing to leave sitting on a shared computer.
+            </p>
+          </article>
+
+          <aside>
+            <h2 className="text-xl font-bold tracking-tight">In short</h2>
+            <dl className="mt-4 space-y-3">
+              {[
+                [
+                  "Free, and no account",
+                  "Nothing to sign up for, nothing to unsubscribe from.",
+                ],
+                [
+                  "Nothing leaves your browser",
+                  "Every calculation runs on your own device.",
+                ],
+                [
+                  "The rule, not just the number",
+                  "Each figure names the ruling it comes from, so you can check it.",
+                ],
+                [
+                  "Any currency",
+                  "Shares are fractions and nisab is a weight, so both work in taka, rupees, pounds or riyals.",
+                ],
+                [
+                  "Not a fatwa",
+                  "Take any result that matters to someone qualified before acting on it.",
+                ],
+              ].map(([term, def]) => (
+                <div
+                  key={term}
+                  className="rounded-xl border border-line bg-surface p-4"
+                >
+                  <dt className="font-semibold">{term}</dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-muted">
+                    {def}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </section>
+      </div>
+    </>
   );
 }

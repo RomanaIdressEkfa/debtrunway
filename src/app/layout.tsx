@@ -25,17 +25,17 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   metadataBase: new URL("https://debtrunway.com"),
   title: {
-    default: "Debt Payoff Calculator — See Your Debt-Free Date | DebtRunway",
+    default: "Islamic Finance Calculators — Inheritance and Zakat | DebtRunway",
     template: "%s | DebtRunway",
   },
   description:
-    "Free debt payoff calculator. Compare the snowball and avalanche methods, see your exact debt-free date, and get a month-by-month payment schedule you can print.",
+    "Free Islamic finance calculators. Divide an estate by the Qur'anic shares of faraid, and work out the zakat you owe from today's nisab.",
   keywords: [
-    "debt payoff calculator",
-    "debt snowball calculator",
-    "debt avalanche calculator",
-    "credit card payoff calculator",
-    "debt free date",
+    "islamic inheritance calculator",
+    "faraid calculator",
+    "zakat calculator",
+    "nisab calculator",
+    "mirath calculator",
   ],
   // A named, identifiable author counts on money topics — Google looks for it.
   authors: [{ name: "Romana Idress Ekfa", url: "https://debtrunway.com/about" }],
@@ -44,15 +44,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "DebtRunway",
-    title: "Debt Payoff Calculator — See Your Debt-Free Date",
+    title: "Islamic Finance Calculators — Inheritance and Zakat",
     description:
-      "Compare the snowball and avalanche methods and get a month-by-month schedule to your debt-free date.",
+      "Divide an estate by the Qur’anic shares of faraid, and work out the zakat you owe from today’s nisab.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Debt Payoff Calculator — See Your Debt-Free Date",
+    title: "Islamic Finance Calculators — Inheritance and Zakat",
     description:
-      "Compare the snowball and avalanche methods and get a month-by-month schedule to your debt-free date.",
+      "Divide an estate by the Qur’anic shares of faraid, and work out the zakat you owe from today’s nisab.",
   },
   robots: { index: true, follow: true },
   // Search Console ownership. Google requires this to stay in place after

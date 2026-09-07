@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { calculators, groupLabels } from "@/lib/calculators";
+import { calculators, groupLabels, groups } from "@/lib/calculators";
 import Logo from "./Logo";
-
-const groups = ["plan", "cards", "loans", "islamic"] as const;
 
 const siteLinks = [
   { href: "/about", label: "About" },
