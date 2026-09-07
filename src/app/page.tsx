@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CornerMotif } from "@/components/Ornament";
+import QuickNisab from "@/components/QuickNisab";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
 
 /**
@@ -33,6 +34,10 @@ export default function Home() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
+        <div className="mb-12">
+          <QuickNisab />
+        </div>
+
         {groups.map((group) => {
           const inGroup = calculators.filter((c) => c.group === group);
           if (inGroup.length === 0) return null;

@@ -34,6 +34,14 @@ export const calculators: CalculatorMeta[] = [
       "Work out the nisab from today's gold or silver price, total your zakatable wealth, and see the 2.5% you owe.",
     group: "zakat",
   },
+  {
+    slug: "/zakat-al-fitr-calculator",
+    nav: "Zakat al-Fitr",
+    title: "Zakat al-Fitr Calculator",
+    description:
+      "Work out what your household owes at the end of Ramadan, in kilograms of your staple and in money, before the Eid prayer.",
+    group: "zakat",
+  },
 ];
 
 export const groupLabels: Record<CalculatorMeta["group"], string> = {
