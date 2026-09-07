@@ -6,19 +6,31 @@ import { calculators } from "@/lib/calculators";
 
 const SITE = "https://debtrunway.com";
 
+/**
+ * The address a page actually lives at.
+ *
+ * `trailingSlash: true` means every page is served at a path ending in "/",
+ * and the bare form 308-redirects to it. Listing the bare form here pointed
+ * Google at a redirect on every entry but the root: it still reached the page
+ * and indexed it, but each hop was logged as "Page with redirect — not
+ * indexed" and spent a crawl arriving. A sitemap should name the destination,
+ * not the doormat.
+ */
+const loc = (path: string) => `${SITE}${path === "/" ? "/" : `${path}/`}`;
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   return [
     ...calculators.map((c) => ({
-      url: `${SITE}${c.slug === "/" ? "" : c.slug}`,
+      url: loc(c.slug),
       lastModified: now,
       changeFrequency: "monthly" as const,
       // The homepage is the entry point; the rest carry equal weight.
       priority: c.slug === "/" ? 1 : 0.8,
     })),
     ...["/about", "/contact", "/privacy", "/terms"].map((path) => ({
-      url: `${SITE}${path}`,
+      url: loc(path),
       lastModified: now,
       changeFrequency: "yearly" as const,
       priority: 0.3,
