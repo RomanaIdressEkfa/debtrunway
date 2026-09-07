@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import QurbaniCalculator from "@/components/QurbaniCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -78,7 +79,8 @@ export default function Page() {
           <p className="mt-3 leading-relaxed">
             On the <strong>Hanafi</strong> view qurbani is wajib on anyone
             holding the nisab during the days of Eid. That is the same
-            threshold zakat uses — but with a crucial difference: there is no
+            threshold{" "}
+            <Link href="/zakat-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">zakat</Link> uses — but with a crucial difference: there is no
             lunar year to wait out. Someone whose wealth crossed the line last
             month owes no zakat this year and may still owe a qurbani.
           </p>

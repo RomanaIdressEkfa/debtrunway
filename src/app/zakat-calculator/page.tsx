@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import ZakatCalculator from "@/components/ZakatCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -70,9 +71,11 @@ export default function Page() {
           </p>
           <p className="mt-3 leading-relaxed">
             Against that threshold you set everything you hold that grows: cash,
-            bank balances, gold and silver by weight, shares and accessible
-            pensions, stock held for resale, and money lent out that you expect
-            to be repaid. What you use is left out entirely — your home, your
+            bank balances,{" "}
+            <Link href="/zakat-on-gold-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">gold and silver by weight</Link>,{" "}
+            <Link href="/zakat-on-investments-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">shares and accessible pensions</Link>,{" "}
+            <Link href="/zakat-on-business-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">stock held for resale</Link>, and
+            money lent out that you expect to be repaid. What you use is left out entirely — your home, your
             car, your furniture, the tools you work with. Subtract the debts
             falling due now, and if what remains reaches the nisab, a fortieth
             of it is owed.

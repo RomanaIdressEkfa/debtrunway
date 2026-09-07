@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import BusinessZakatCalculator from "@/components/BusinessZakatCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -61,9 +62,9 @@ export default function Page() {
             are not, however much the lease is worth.
           </p>
           <p className="mt-3 leading-relaxed">
-            This is the same rule that leaves a family home outside zakat
-            however valuable, and a carpenter&rsquo;s tools outside it however
-            good. A thing you use to produce wealth is not itself the wealth.
+            This is the same rule that leaves a family home outside{" "}
+            <Link href="/zakat-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">zakat</Link> however valuable, and a
+            carpenter&rsquo;s tools outside it however good. A thing you use to produce wealth is not itself the wealth.
             Almost every question a shopkeeper has about zakat is answered by
             deciding which side of that line something falls on.
           </p>

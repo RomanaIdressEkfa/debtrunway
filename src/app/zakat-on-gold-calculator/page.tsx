@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import GoldZakatCalculator from "@/components/GoldZakatCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -102,7 +103,7 @@ export default function Page() {
             The nisab — 87.48 grams of gold or 612.36 grams of silver — is not
             measured against the jewellery on its own. It is measured against
             everything zakatable that you hold: the metal, your cash, your bank
-            balances, your investments, your business stock. A jewellery box
+            balances, your <Link href="/zakat-on-investments-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">investments</Link>, your <Link href="/zakat-on-business-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">business stock</Link>. A jewellery box
             below the threshold on its own can still be zakatable once your
             savings sit beside it.
           </p>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import HajjCalculator from "@/components/HajjCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -62,7 +63,8 @@ export default function Page() {
           </p>
           <p className="mt-3 leading-relaxed">
             Once the pot stands above the nisab and a lunar year has passed
-            over it, zakat falls due on the whole balance. Not on the growth —
+            over it,{" "}
+            <Link href="/zakat-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">zakat</Link> falls due on the whole balance. Not on the growth —
             on the balance. And again the next year, and the year after, for as
             long as it sits there. Intending to spend it on a pilgrimage does
             not exempt it; intention is not one of the conditions.

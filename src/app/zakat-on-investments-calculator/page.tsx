@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import InvestmentZakatCalculator from "@/components/InvestmentZakatCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -116,7 +117,7 @@ export default function Page() {
           </p>
           <p className="mt-3 leading-relaxed">
             One thing is not a matter of opinion: the nisab is measured against
-            your wealth as a whole. A portfolio below the threshold on its own
+            your wealth as a whole, <Link href="/zakat-on-gold-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">gold included</Link>. A portfolio below the threshold on its own
             may still be zakatable once your savings sit beside it, which is why
             this page ends by pointing at the full calculator rather than
             claiming to be one.

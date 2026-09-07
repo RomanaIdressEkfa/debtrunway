@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import FitrCalculator from "@/components/FitrCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -56,7 +57,8 @@ export default function Page() {
           </h2>
           <p className="mt-3 leading-relaxed">
             Zakat al-Fitr is the charity that closes Ramadan, and it works
-            nothing like zakat on wealth. There is no threshold to reach, no
+            nothing like{" "}
+            <Link href="/zakat-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">zakat on wealth</Link>. There is no threshold to reach, no
             lunar year to wait out and no percentage to apply. It is one{" "}
             <strong>sa&rsquo;</strong> of staple food per person, owed by the
             head of a household for everyone under their care, and it is owed by
@@ -64,8 +66,12 @@ export default function Page() {
             long as they have food for the day of Eid with something over.
           </p>
           <p className="mt-3 leading-relaxed">
-            The purpose is stated plainly in the hadith: to purify the fasting
-            person of idle talk and lapses, and to feed the poor. The second
+            Where fasts were missed altogether rather than merely closed out,
+            the{" "}
+            <Link href="/fidya-and-kaffarah-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">fidya and kaffarah calculator</Link>{" "}
+            deals with what is owed for those, which is a separate matter again.
+            The purpose of this one is stated plainly in the hadith: to purify
+            the fasting person of idle talk and lapses, and to feed the poor. The second
             half of that is why the timing is strict. It has to arrive before
             the Eid prayer, because the point is that a poor family has what it
             needs <em>on</em> the day rather than after it.

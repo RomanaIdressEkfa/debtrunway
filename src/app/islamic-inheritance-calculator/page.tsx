@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import FaraidCalculator from "@/components/FaraidCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -59,7 +60,15 @@ export default function Page() {
             Islamic inheritance runs in a fixed order, and the order is the
             whole of it. What the deceased owned is gathered, the funeral is
             paid for, the debts are settled in full, and any bequest is honoured
-            up to a third. Only then is there an estate to divide.
+            up to a third — the{" "}
+            <Link
+              href="/islamic-will-calculator"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
+            >
+              Islamic will calculator
+            </Link>{" "}
+            works through what that third may and may not be used for. Only then
+            is there an estate to divide.
           </p>
           <p className="mt-3 leading-relaxed">
             What remains goes first to the heirs who hold a{" "}

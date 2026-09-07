@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import FidyaCalculator from "@/components/FidyaCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -89,7 +90,9 @@ export default function Page() {
           <p className="mt-3 leading-relaxed">
             The classical measure is half a sa&rsquo; of wheat, about 1.75
             kilograms, or a full sa&rsquo; of another staple, or two meals. As
-            with zakat al-Fitr, the sa&rsquo; is a volume rather than a weight,
+            with{" "}
+            <Link href="/zakat-al-fitr-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">zakat al-Fitr</Link>, the
+            sa&rsquo; is a volume rather than a weight,
             so the kilogram figure is a conversion and authorities publish
             slightly different ones.
           </p>

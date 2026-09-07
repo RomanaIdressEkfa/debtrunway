@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import WillCalculator from "@/components/WillCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -86,7 +87,7 @@ export default function Page() {
             The order is fixed: burial, then debts in full, then the bequest up
             to a third, then the heirs. What people most often miss is how wide
             the second step is. It covers ordinary debts, but also{" "}
-            <strong>unpaid zakat</strong> from earlier years, an{" "}
+            <Link href="/zakat-calculator" className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand">unpaid zakat</Link> from earlier years, an{" "}
             <strong>unpaid mahr</strong>, and expiation owed for obligations
             missed. These are debts owed by the estate, not gifts from it, and
             they are not limited to a third.
