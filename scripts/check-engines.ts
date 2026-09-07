@@ -12,6 +12,7 @@
 
 import { calculateInvestmentZakat } from "../src/lib/investment-zakat";
 import { calculateGoldZakat, purityOf, type Item } from "../src/lib/gold-zakat";
+import { calculateFidya } from "../src/lib/fidya";
 
 let failures = 0;
 let checks = 0;
@@ -131,6 +132,56 @@ const gz = (
 {
   const r = gz([piece({ grams: 40, metal: "silver", purity: 0.925 })]);
   ok("sterling silver is weighed at 92.5%", Math.abs(r.countedSilverGrams - 37) < 1e-9, r.countedSilverGrams);
+}
+
+/* ---------------- fidya and kaffarah ---------------- */
+
+console.log("\n--- Fidya and kaffarah ---\n");
+
+const fid = {
+  makeUpDays: 0, fidyaDays: 0, kaffarahDays: 0, delayedDays: 0,
+  delayView: "majority" as const, rateMethod: "published" as const,
+  publishedRate: 5, wheatPricePerKg: 0, canFastSixty: true,
+};
+
+{
+  const r = calculateFidya({ ...fid, makeUpDays: 10 });
+  ok("days that can still be fasted are owed as fasts, not money", r.totalFasts === 10 && r.totalMoney === 0, r.totalFasts);
+}
+{
+  const r = calculateFidya({ ...fid, fidyaDays: 30 });
+  ok("30 days of fidya at 5 comes to 150", r.totalMoney === 150, r.totalMoney);
+  ok("...and owes no fasts", r.totalFasts === 0, r.totalFasts);
+}
+{
+  const r = calculateFidya({ ...fid, kaffarahDays: 1, canFastSixty: true });
+  ok("kaffarah, able to fast, is 60 fasts and no money", r.totalFasts === 60 && r.totalMoney === 0, r.totalFasts);
+}
+{
+  const r = calculateFidya({ ...fid, kaffarahDays: 1, canFastSixty: false });
+  ok("kaffarah, unable to fast, feeds 60 so costs 300", r.totalMoney === 300, r.totalMoney);
+}
+{
+  const r = calculateFidya({ ...fid, makeUpDays: 5, delayedDays: 5 });
+  ok("a delayed make-up adds feeding on the majority view", r.totalMoney === 25, r.totalMoney);
+  ok("...and still owes every fast", r.totalFasts === 5, r.totalFasts);
+}
+{
+  const r = calculateFidya({ ...fid, makeUpDays: 5, delayedDays: 5, delayView: "hanafi" });
+  ok("the Hanafi view adds no money for the delay", r.totalMoney === 0, r.totalMoney);
+  ok("...and still owes every fast", r.totalFasts === 5, r.totalFasts);
+}
+{
+  const r = calculateFidya({ ...fid, makeUpDays: 3, delayedDays: 99 });
+  ok("delayed days cannot exceed the days being made up", r.totalMoney === 15, r.totalMoney);
+}
+{
+  const r = calculateFidya({ ...fid, fidyaDays: 10, rateMethod: "weight", wheatPricePerKg: 2, publishedRate: 0 });
+  ok("the weight method reckons 1.75kg a day", Math.abs(r.perDay - 3.5) < 1e-9, r.perDay);
+}
+{
+  const r = calculateFidya({ ...fid, fidyaDays: 10, publishedRate: 0 });
+  ok("a missing rate is reported, not silently zero", r.needsRate === true, r.needsRate);
 }
 
 console.log(

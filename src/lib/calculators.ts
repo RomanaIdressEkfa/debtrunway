@@ -14,7 +14,7 @@ export interface CalculatorMeta {
   title: string;
   /** Meta description and card body. Keep it under ~155 characters. */
   description: string;
-  group: "estate" | "zakat";
+  group: "estate" | "zakat" | "worship";
 }
 
 export const calculators: CalculatorMeta[] = [
@@ -66,11 +66,20 @@ export const calculators: CalculatorMeta[] = [
       "Work out what your household owes at the end of Ramadan, in kilograms of your staple and in money, before the Eid prayer.",
     group: "zakat",
   },
+  {
+    slug: "/fidya-and-kaffarah-calculator",
+    nav: "Fidya and kaffarah",
+    title: "Fidya and Kaffarah Calculator",
+    description:
+      "Work out what is owed for fasts of Ramadan not kept — which days are repaid by fasting, which by feeding, and which carry both.",
+    group: "worship",
+  },
 ];
 
 export const groupLabels: Record<CalculatorMeta["group"], string> = {
   estate: "Inheritance and estate",
   zakat: "Zakat",
+  worship: "Fasting and worship",
 };
 
 export const bySlug = (slug: string) =>
