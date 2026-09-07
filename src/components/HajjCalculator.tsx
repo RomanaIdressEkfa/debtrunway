@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { RATE, monthlyForTarget, planHajj } from "@/lib/hajj";
+import { monthlyForTarget, planHajj } from "@/lib/hajj";
 import { SILVER_NISAB_GRAMS, GOLD_NISAB_GRAMS } from "@/lib/zakat";
 import { plain } from "@/lib/format";
 import { pricesIn, priceNote } from "@/lib/metals";
