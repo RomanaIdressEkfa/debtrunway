@@ -272,8 +272,21 @@ h1 {
 }
 
 /* Staggers a group so panels arrive in reading order rather than all at once. */
+/* The fill mode is "backwards" rather than "both", and the difference is not
+   cosmetic. "both" holds the final keyframe on the element after the
+   animation ends, and since that keyframe sets opacity and transform, every
+   card kept a stacking context for the whole life of the page. A dropdown
+   inside one could then never paint above the card that follows it, whatever
+   z-index it asked for — the menu opened behind the next card and looked as
+   though it had fallen underneath.
+
+   The last keyframe here is opacity 1 and transform none, which is just the
+   element's natural state, so there is nothing worth holding. "backwards"
+   still applies the first keyframe through the stagger delay, which is the
+   part that does the work, and lets the styles go when the animation ends.
+   The cards stop being stacking contexts and z-index means something again. */
 .stagger > * {
-  animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 .stagger > *:nth-child(1) { animation-delay: 0.02s; }
 .stagger > *:nth-child(2) { animation-delay: 0.08s; }
@@ -848,4 +861,15 @@ header p.slab-prose {
       align-self: end;
     }
   }
+}
+
+/* Belt and braces for the menu.
+   Even with the cards no longer holding stacking contexts, the card that
+   contains an open menu is lifted above its siblings. Some later rule, or a
+   browser that treats a finished animation differently, should not be able to
+   put a dropdown back underneath the card after it. */
+.stagger > *:has([data-menu-open="true"]),
+.field-row:has([data-menu-open="true"]) {
+  position: relative;
+  z-index: 60;
 }

@@ -126,7 +126,7 @@ export default function CurrencyPicker({
   ].join(" ");
 
   return (
-    <div className="min-w-0">
+    <div className="min-w-0" data-menu-open={open ? "true" : undefined}>
       {!compact && (
         <>
           <span className="block text-base font-medium" id="currency-label">
