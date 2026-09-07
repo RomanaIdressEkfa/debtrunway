@@ -43,6 +43,14 @@ export const calculators: CalculatorMeta[] = [
     group: "zakat",
   },
   {
+    slug: "/zakat-on-investments-calculator",
+    nav: "Zakat on investments",
+    title: "Zakat on Shares, Pensions and Crypto",
+    description:
+      "Work out zakat on a share portfolio, a pension or a 401(k). Choose the scholarly position you follow and see what the alternative gives.",
+    group: "zakat",
+  },
+  {
     slug: "/zakat-al-fitr-calculator",
     nav: "Zakat al-Fitr",
     title: "Zakat al-Fitr Calculator",
