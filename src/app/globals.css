@@ -24,6 +24,8 @@
   --line: #e5e0d8;
   --grid: rgba(20, 22, 26, 0.045);
   --pattern-ink: rgba(11, 107, 91, 0.16);
+  --page-ink: rgba(11, 107, 91, 0.055);
+  --mosque-ink: rgba(11, 107, 91, 0.075);
   --gold: #d9a441;
 
   --brand: #0b6b5b;
@@ -51,6 +53,8 @@
   --line: #282b30;
   --grid: rgba(255, 255, 255, 0.045);
   --pattern-ink: rgba(63, 188, 159, 0.14);
+  --page-ink: rgba(63, 188, 159, 0.05);
+  --mosque-ink: rgba(63, 188, 159, 0.07);
   --gold: #eccd97;
 
   --brand: #3fbc9f;
@@ -81,11 +85,15 @@
   --color-danger: var(--danger);
 
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cinzel);
+}
+
+html {
+  background: var(--background);
 }
 
 body {
-  background: var(--background);
+  background: transparent;
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   transition:
@@ -549,11 +557,26 @@ input[type="number"] {
    be tiring at fourteen pixels, which is why it is on the headings only and
    nowhere near a form label or a table of figures. Figures stay in Inter,
    where they are tabular and line up down a column. */
+/* Cinzel sets as capitals whatever case it is given, and inscriptional
+   capitals need air between them — they were cut with a chisel, not joined
+   with a pen. Hence the positive tracking, where the body face takes
+   negative. Caps also read taller than lower case at the same point size, so
+   the line height comes down to stop two lines drifting apart. */
 .display {
-  font-family: var(--font-amiri), Georgia, serif;
+  font-family: var(--font-cinzel), Georgia, serif;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.12;
+  letter-spacing: 0.012em;
+  line-height: 1.1;
+}
+
+/* The long headings inside an article stay in Amiri. Four words in Cinzel is
+   a monument; a full sentence in it is a wall, and these run to eight or nine
+   words because they are written to be found in a search result. Amiri keeps
+   the serif voice at a length that can actually be read. */
+article h2,
+article h3 {
+  font-family: var(--font-amiri), Georgia, serif;
+  letter-spacing: -0.005em;
 }
 
 /* A gold hairline under a heading, the way a manuscript rules a page before
@@ -575,4 +598,80 @@ input[type="number"] {
 /* The scalloped rule, closing a card the way a niche closes a wall. */
 .scallop-brand {
   color: var(--brand-soft);
+}
+
+/* ---------- The star field on the page itself ----------
+   The bands had the khatam and the page between them did not, which left the
+   margins either side of the content column as bare cream — the emptiest part
+   of every page.
+
+   It sits at a fraction of the ink the bands use. Body text runs directly on
+   this ground in the prose sections, with no card under it, so the pattern has
+   to be faint enough that a paragraph never has to compete with it. Cards are
+   opaque and cover it entirely, which is why it reads mostly as texture in the
+   margins — which is where it was missing.
+
+   Fixed rather than scrolled: the field stays put while the page moves over
+   it, the way a floor stays put under someone walking. It also means the
+   browser paints it once instead of on every scroll frame. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--page-ink);
+  -webkit-mask-image: url("/khatam.svg");
+  mask-image: url("/khatam.svg");
+  -webkit-mask-size: 104px 104px;
+  mask-size: 104px 104px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+/* Print gets none of it: a patterned ground costs ink and buys nothing on
+   paper, and the schedule pages are meant to be printable. */
+@media print {
+  body::before {
+    display: none;
+  }
+}
+
+/* ---------- The mosque at the foot of the page ----------
+   A silhouette held at the bottom of the viewport, painted through
+   public/mosque.svg as a mask so its colour comes from the theme.
+
+   It is set fainter than the star field, and deliberately so: it is a larger,
+   more recognisable shape, and a recognisable shape behind a paragraph pulls
+   the eye far harder than a repeating texture does. At this weight it reads
+   as a mist on the horizon, which is the intent — a watermark, not an
+   illustration.
+
+   Fixed at the foot rather than placed in the flow, so it sits under the page
+   wherever the reader has scrolled to instead of appearing once and scrolling
+   away. */
+body::after {
+  content: "";
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  height: min(34vh, 300px);
+  pointer-events: none;
+  background-color: var(--mosque-ink);
+  -webkit-mask-image: url("/mosque.svg");
+  mask-image: url("/mosque.svg");
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-position: bottom center;
+  mask-position: bottom center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+@media print {
+  body::after {
+    display: none;
+  }
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Amiri, Geist_Mono, Inter } from "next/font/google";
+import { Amiri, Cinzel_Decorative, Inter } from "next/font/google";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
@@ -20,7 +20,25 @@ const inter = Inter({
   display: "swap",
 });
 
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+/**
+ * Cinzel Decorative, for the page titles.
+ *
+ * It is a Roman inscriptional face — the lettering cut into Trajan's column,
+ * by way of a digital revival — so it sets as capitals whichever case you
+ * type. That makes it excellent for four words and unreadable for forty,
+ * which is why it is on titles and short section heads and nothing else.
+ *
+ * It replaces Geist Mono in the bundle rather than joining it. That face was
+ * declared as a Tailwind token and then never used by a single component, so
+ * every visitor was downloading a monospace they would never see. The page
+ * weight is unchanged.
+ */
+const cinzel = Cinzel_Decorative({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["700"],
+  display: "swap",
+});
 
 /**
  * Amiri, for the Arabic.
@@ -85,7 +103,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistMono.variable} ${amiri.variable} h-full antialiased`}
+      className={`${inter.variable} ${cinzel.variable} ${amiri.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

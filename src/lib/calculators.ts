@@ -27,6 +27,14 @@ export const calculators: CalculatorMeta[] = [
     group: "estate",
   },
   {
+    slug: "/islamic-will-calculator",
+    nav: "Islamic will",
+    title: "Islamic Will Calculator (Wasiyyah)",
+    description:
+      "See how much of your estate you may direct by will, what each bequest is worth once the third and the heir rule apply, and what passes by faraid.",
+    group: "estate",
+  },
+  {
     slug: "/zakat-calculator",
     nav: "Zakat",
     title: "Zakat Calculator",

@@ -1,0 +1,60 @@
+<!--
+  A mosque in silhouette, for the foot of the page.
+
+  Drawn as one filled shape rather than an outline, because it is used as a
+  CSS mask: the page paints a colour through it, so only the silhouette
+  matters and the colour is decided by the theme rather than baked in here.
+
+  A central bulbous dome on its drum, two lower domes flanking it, and a
+  minaret at each end with a balcony and a finial. The proportions are Ottoman
+  rather than Mughal — a wider, lower dome and slimmer minarets — because the
+  shape has to read at a glance behind body text, and a tall Mughal dome and
+  its finial would draw far more attention than a watermark should.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" fill="none">
+  <g fill="#000">
+    <!-- Left minaret: shaft, balcony, upper shaft, cap, finial -->
+    <path d="M120 300 L120 96 L134 96 L134 300 Z" />
+    <path d="M112 96 L142 96 L138 84 L116 84 Z" />
+    <path d="M121 84 L133 84 L133 58 L121 58 Z" />
+    <path d="M127 34 C136 46 138 52 138 58 L116 58 C116 52 118 46 127 34 Z" />
+    <rect x="125" y="24" width="4" height="12" />
+
+    <!-- Right minaret, mirrored -->
+    <path d="M626 300 L626 96 L640 96 L640 300 Z" />
+    <path d="M618 96 L648 96 L644 84 L622 84 Z" />
+    <path d="M627 84 L639 84 L639 58 L627 58 Z" />
+    <path d="M633 34 C642 46 644 52 644 58 L622 58 C622 52 624 46 633 34 Z" />
+    <rect x="631" y="24" width="4" height="12" />
+
+    <!-- Left half-dome on its wall -->
+    <path d="M212 300 L212 196 L308 196 L308 300 Z" />
+    <path d="M260 140 C284 162 302 178 302 196 L218 196 C218 178 236 162 260 140 Z" />
+
+    <!-- Right half-dome -->
+    <path d="M452 300 L452 196 L548 196 L548 300 Z" />
+    <path d="M500 140 C524 162 542 178 542 196 L458 196 C458 178 476 162 500 140 Z" />
+
+    <!-- The prayer hall the central dome sits on -->
+    <path d="M292 300 L292 190 L468 190 L468 300 Z" />
+
+    <!-- Central bulbous dome. The waist pulls in above the drum before the
+         shoulder swells, which is what makes a dome read as a dome rather
+         than as a semicircle. -->
+    <path
+      d="M300 190
+         C300 168 288 156 302 132
+         C314 110 344 96 356 66
+         C368 96 398 110 410 132
+         C424 156 412 168 412 190 Z"
+    />
+    <rect x="352" y="40" width="8" height="30" />
+    <circle cx="356" cy="32" r="9" />
+
+    <!-- A low arcade along the front, which stops the base reading as a slab -->
+    <g>
+      <path d="M150 300 L150 246 L610 246 L610 300 Z" />
+      <path d="M96 300 L96 262 L664 262 L664 300 Z" opacity="0.85" />
+    </g>
+  </g>
+</svg>
