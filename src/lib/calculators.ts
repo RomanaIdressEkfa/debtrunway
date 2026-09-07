@@ -75,6 +75,14 @@ export const calculators: CalculatorMeta[] = [
     group: "zakat",
   },
   {
+    slug: "/qurbani-calculator",
+    nav: "Qurbani",
+    title: "Qurbani Calculator — Shares, Cost and Ruling",
+    description:
+      "How many animals or shares your household needs, what it costs, and whether qurbani is wajib on you or a confirmed sunnah.",
+    group: "worship",
+  },
+  {
     slug: "/fidya-and-kaffarah-calculator",
     nav: "Fidya and kaffarah",
     title: "Fidya and Kaffarah Calculator",

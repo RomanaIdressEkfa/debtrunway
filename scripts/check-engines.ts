@@ -15,6 +15,7 @@ import { calculateGoldZakat, purityOf, type Item } from "../src/lib/gold-zakat";
 import { calculateFidya } from "../src/lib/fidya";
 import { planHajj, monthlyForTarget } from "../src/lib/hajj";
 import { calculateBusinessZakat } from "../src/lib/business-zakat";
+import { planQurbani } from "../src/lib/qurbani";
 
 let failures = 0;
 let checks = 0;
@@ -278,6 +279,58 @@ const biz = {
 {
   const r = calculateBusinessZakat({ ...biz, cash: 30000, ownershipPct: 0 });
   ok("an unset share is treated as the whole", r.ownerShare === 30000, r.ownerShare);
+}
+
+/* ---------------- qurbani ---------------- */
+
+console.log("\n--- Qurbani ---\n");
+
+const q = {
+  people: 1, animal: "cow" as const, animalPrice: 700, sharePrice: 100,
+  buyingShares: false, ruling: "hanafi" as const, wealth: 0, nisab: 1000,
+};
+
+{
+  const r = planQurbani({ ...q, people: 7 });
+  ok("seven people fit in one cow", r.animals === 1 && r.sparePlaces === 0, r.animals);
+}
+{
+  const r = planQurbani({ ...q, people: 8 });
+  ok("eight people need two cows", r.animals === 2, r.animals);
+  ok("...leaving six places unused", r.sparePlaces === 6, r.sparePlaces);
+}
+{
+  const r = planQurbani({ ...q, people: 4, animal: "goat" });
+  ok("a goat cannot be shared, so four need four", r.animals === 4, r.animals);
+  ok("...and it is marked indivisible", r.divisible === false, r.divisible);
+}
+{
+  const r = planQurbani({ ...q, people: 3, animal: "sheep", buyingShares: true });
+  ok("share-buying is ignored for a sheep", r.animals === 3 && r.shares === 0, r.animals);
+}
+{
+  const r = planQurbani({ ...q, people: 3, buyingShares: true, sharePrice: 120 });
+  ok("three shares at 120 costs 360", r.cost === 360, r.cost);
+  ok("...and no whole animal is counted", r.animals === 0, r.animals);
+}
+{
+  const r = planQurbani({ ...q, people: 2, animalPrice: 700 });
+  ok("a whole cow for two costs the whole cow", r.cost === 700, r.cost);
+  ok("...and is 350 a person", r.costPerPerson === 350, r.costPerPerson);
+}
+{
+  const below = planQurbani({ ...q, wealth: 500, nisab: 1000 });
+  ok("below the nisab it is not wajib on the Hanafi view", below.obliged === false, below.obliged);
+  const above = planQurbani({ ...q, wealth: 5000, nisab: 1000 });
+  ok("above it, it is", above.obliged === true, above.obliged);
+}
+{
+  const r = planQurbani({ ...q, wealth: 0, nisab: 1000, ruling: "majority" });
+  ok("the other schools do not gate it on wealth", r.obliged === true, r.obliged);
+}
+{
+  const r = planQurbani({ ...q, people: 0 });
+  ok("zero people is treated as one", r.animals === 1, r.animals);
 }
 
 console.log(
