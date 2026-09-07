@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CornerMotif } from "@/components/Ornament";
+import { BandCurve, CornerMotif } from "@/components/Ornament";
 import QuickNisab from "@/components/QuickNisab";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
 
@@ -18,7 +18,8 @@ export default function Home() {
         <div className="band-grid islamic-grid" aria-hidden />
         <div className="hero-wash" aria-hidden />
         <CornerMotif className="top-0 right-0 h-40 w-40 text-white/45 sm:h-56 sm:w-56" />
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <BandCurve />
+        <div className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
             <h1 className="display text-4xl text-balance sm:text-5xl lg:text-6xl">
               Money questions with{" "}

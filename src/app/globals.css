@@ -675,3 +675,85 @@ body::after {
     display: none;
   }
 }
+
+/* ---------- Printing, and the PDF that comes out of it ----------
+   Every browser can save a page as PDF at the reader's own paper size, with
+   selectable text and live links. What was missing was not a library but a
+   sheet that turns a working calculator into a document worth keeping.
+
+   So the form goes, the ornament goes, the green bands print as plain rules
+   rather than as a wall of ink, and what is left is the answer, the working
+   under it, and the line that says it is not a fatwa. */
+@media print {
+  /* Nothing in the page ground earns its ink. */
+  body::before,
+  body::after,
+  .band-grid,
+  .islamic-grid,
+  .hero-wash,
+  .footer-wash,
+  .shimmer::after {
+    display: none !important;
+  }
+
+  /* Filled panels invert: an answer set in white on green is legible on a
+     screen and close to unreadable off a laser printer that renders the green
+     as a flat grey. */
+  .band-emerald,
+  .answer-panel,
+  .bg-brand-panel,
+  .bg-danger-panel {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+
+  .band-emerald *,
+  .answer-panel * {
+    color: #000 !important;
+  }
+
+  .answer-panel {
+    border: 1.5pt solid #000 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Cards become ruled blocks rather than floating tiles. */
+  .card-shadow {
+    box-shadow: none !important;
+    border: 0.5pt solid #999 !important;
+  }
+
+  /* A table split across a page break is worse than a short page. */
+  table,
+  .answer-panel {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+  }
+
+  /* Links inside the page are followed by nobody holding paper. */
+  a[href^="/"]::after,
+  a[href^="#"]::after {
+    content: "";
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+  }
+
+  @page {
+    margin: 16mm;
+  }
+}

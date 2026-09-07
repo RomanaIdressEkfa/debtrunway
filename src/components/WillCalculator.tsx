@@ -5,6 +5,7 @@ import Link from "next/link";
 import { planWill, type Bequest } from "@/lib/wasiyyah";
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
+import PrintButton from "./PrintButton";
 import { Card, Notice } from "./ui";
 
 /**
@@ -286,6 +287,13 @@ export default function WillCalculator() {
             </Link>
           </Card>
         </>
+      )}
+
+      {!result.insolvent && (
+        <PrintButton
+          label="Save this plan as a PDF"
+          hint="Take it to a solicitor or estate attorney. Nothing is uploaded to make the file."
+        />
       )}
 
       <Notice tone="danger">

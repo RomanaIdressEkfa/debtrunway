@@ -12,6 +12,7 @@ import { plain } from "@/lib/format";
 import { pricesIn, priceNote } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
+import PrintButton from "./PrintButton";
 import { Card, Notice } from "./ui";
 
 /**
@@ -379,6 +380,13 @@ export default function ZakatCalculator() {
             </Card>
           )}
         </>
+      )}
+
+      {!result.needsPrice && (
+        <PrintButton
+          label="Save this calculation as a PDF"
+          hint="Opens your browser’s print dialogue. Choose “Save as PDF” as the destination. Nothing is uploaded to make the file."
+        />
       )}
 
       <Notice tone="danger">

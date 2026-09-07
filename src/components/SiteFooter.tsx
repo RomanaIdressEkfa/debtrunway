@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CornerMotif } from "./Ornament";
+import { BandCurve, CornerMotif } from "./Ornament";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
 import Logo from "./Logo";
 
@@ -31,7 +31,8 @@ export default function SiteFooter() {
       <div className="band-grid footer-grid islamic-grid" aria-hidden />
       <div className="footer-wash" aria-hidden />
       <CornerMotif className="top-0 left-0 h-40 w-40 -scale-x-100 text-white/35 sm:h-52 sm:w-52" />
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
+      <BandCurve flip />
+      <div className="mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-14">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           {/* Identity */}
           <div>

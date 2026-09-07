@@ -114,3 +114,38 @@ export function MihrabWatermark({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/**
+ * The wave that closes a band.
+ *
+ * A straight edge between the green and the page is the one place the site
+ * still looked like a stack of rectangles. This cuts the boundary as a shallow
+ * S — the same move a dome makes against a sky, which is where the vocabulary
+ * on the rest of the page comes from.
+ *
+ * It is drawn as a filled shape in the page colour rather than as a clip on
+ * the band, because a clip-path in bounding-box units would stretch the wave
+ * taller on a tall hero and flatter on a short one. This keeps one wave at one
+ * height whatever the band above it is doing, and `preserveAspectRatio="none"`
+ * lets it span any width without the curve going lumpy at the ends.
+ *
+ * `flip` puts it at the top instead, for the footer, where the band arrives
+ * from below.
+ */
+export function BandCurve({ flip = false }: { flip?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 1440 80"
+      preserveAspectRatio="none"
+      aria-hidden
+      className={`pointer-events-none absolute inset-x-0 z-10 h-9 w-full sm:h-16 ${
+        flip ? "top-0 -scale-y-100" : "bottom-0"
+      }`}
+    >
+      <path
+        d="M0 40 C 300 2, 600 0, 900 30 C 1120 52, 1285 66, 1440 46 L1440 80 L0 80 Z"
+        fill="var(--background)"
+      />
+    </svg>
+  );
+}

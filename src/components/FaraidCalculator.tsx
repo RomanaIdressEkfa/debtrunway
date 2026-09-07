@@ -9,6 +9,7 @@ import {
 } from "@/lib/faraid";
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
+import PrintButton from "./PrintButton";
 import { Card, Notice } from "./ui";
 
 /**
@@ -397,6 +398,13 @@ export default function FaraidCalculator() {
             </Card>
           )}
         </>
+      )}
+
+      {!result.empty && !result.insolvent && (
+        <PrintButton
+          label="Save this division as a PDF"
+          hint="Opens your browser’s print dialogue. Choose “Save as PDF” as the destination. Nothing is uploaded to make the file."
+        />
       )}
 
       {/* Standing on every result, not tucked behind a disclosure. */}
