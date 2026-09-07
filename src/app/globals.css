@@ -813,3 +813,39 @@ header p.slab-prose {
 .band-emerald {
   --muted: rgba(255, 255, 255, 0.88);
 }
+
+/* ---------- Fields that line up whatever their labels do ----------
+   Three controls in a row have three labels and three hints, and those are
+   different lengths. In a narrow column the longest hint wraps to two lines
+   while the others stay on one, and the row goes out of true — align the
+   tops and the inputs step down, align the bottoms and the labels step down.
+   Adding `items-end` fixed one half and broke the other, which is how this
+   came back twice.
+
+   Subgrid takes the guess out of it. Each field spans the same three rows of
+   the parent, so every label sits in the label row, every hint in the hint
+   row, and every input in the input row — at whatever height the tallest of
+   each happens to need. Text length stops mattering.
+
+   Where subgrid is missing the fields fall back to ordinary blocks, which is
+   the behaviour that was there before and no worse. */
+@media (min-width: 640px) {
+  @supports (grid-template-rows: subgrid) {
+    .field-row {
+      grid-template-rows: auto auto auto;
+      align-items: stretch;
+    }
+
+    .field-row > * {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+    }
+
+    /* The control sits at the foot of its own cell, so a field with a short
+       hint does not float its input up away from the others. */
+    .field-row > * > *:last-child {
+      align-self: end;
+    }
+  }
+}

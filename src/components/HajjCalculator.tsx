@@ -85,22 +85,22 @@ export default function HajjCalculator() {
           title="The journey and what you have"
           sub="Package costs vary enormously by country and by season. Use a quote from an operator you would actually travel with rather than a global average."
         />
-        <div className="mt-5 grid items-end gap-4 sm:grid-cols-3">
+        <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
           <CurrencyPicker
             value={currency}
             onChange={changeCurrency}
-            hint="Everything below is in this currency"
+            hint="Amounts are in it"
           />
           <Money
             label="What Hajj will cost"
-            hint="A quote from an operator you would travel with"
+            hint="A real quote, not an average"
             value={target}
             onChange={setTarget}
             large
           />
           <Money
             label="Saved so far"
-            hint="What is already put by for it"
+            hint="What is already put by"
             value={saved}
             onChange={setSaved}
           />

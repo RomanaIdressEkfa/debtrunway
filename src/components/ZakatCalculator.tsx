@@ -130,18 +130,24 @@ export default function ZakatCalculator() {
           sub="Nisab is a weight of gold or silver, not a fixed sum, so it moves with the market. Look up today's price per gram in your own currency and enter it here."
         />
 
-        <div className="mt-5 grid items-end gap-4 sm:grid-cols-2">
-          <CurrencyPicker value={currency} onChange={changeCurrency} />
-          <div className="hidden sm:block" />
+        {/* One row of three rather than two rows and an empty spacer: the
+            spacer only existed to push the prices onto their own line, and it
+            made the subgrid straddle two bands of rows for no gain. */}
+        <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
+          <CurrencyPicker
+            value={currency}
+            onChange={changeCurrency}
+            hint="Prices are shown in it"
+          />
           <Money
             label="Gold price per gram"
-            hint="Needed if you hold gold, or use the gold standard"
+            hint="For gold you hold, or the gold nisab"
             value={goldPrice}
             onChange={setGoldPrice}
           />
           <Money
             label="Silver price per gram"
-            hint="Needed if you hold silver, or use the silver standard"
+            hint="For silver you hold, or the silver nisab"
             value={silverPrice}
             onChange={setSilverPrice}
           />
