@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { RATE, SILVER_NISAB_GRAMS, GOLD_NISAB_GRAMS } from "@/lib/zakat";
 import { plain } from "@/lib/format";
-import { CURRENCIES, pricesIn } from "@/lib/metals";
+import { pricesIn } from "@/lib/metals";
+import CurrencyPicker from "./CurrencyPicker";
 
 /**
  * The homepage tool: one question, three fields, an answer before you scroll.
@@ -130,18 +131,13 @@ export default function QuickNisab() {
           </button>
         ))}
         <span className="text-sm text-muted">({grams}g)</span>
-        <select
-          value={currency}
-          onChange={(e) => refill(metal, e.target.value)}
-          aria-label="Currency"
-          className="ml-auto cursor-pointer rounded-lg border border-line bg-surface px-2.5 py-1.5 text-sm font-medium outline-none transition focus:border-brand"
-        >
-          {CURRENCIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        <span className="ml-auto">
+          <CurrencyPicker
+            value={currency}
+            onChange={(c) => refill(metal, c)}
+            compact
+          />
+        </span>
       </div>
 
       {/* The answer replaces a placeholder rather than appearing below it, so

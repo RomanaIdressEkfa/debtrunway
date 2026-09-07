@@ -129,12 +129,8 @@ export default function ZakatCalculator() {
           sub="Nisab is a weight of gold or silver, not a fixed sum, so it moves with the market. Look up today's price per gram in your own currency and enter it here."
         />
 
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <CurrencyPicker
-            value={currency}
-            onChange={changeCurrency}
-            note={priceNote(pricesIn(currency))}
-          />
+        <div className="mt-5 grid items-end gap-4 sm:grid-cols-2">
+          <CurrencyPicker value={currency} onChange={changeCurrency} />
           <div className="hidden sm:block" />
           <Money
             label="Gold price per gram"
@@ -149,6 +145,9 @@ export default function ZakatCalculator() {
             onChange={setSilverPrice}
           />
         </div>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {priceNote(pricesIn(currency))}
+        </p>
 
         <fieldset className="mt-5">
           <legend className="text-base font-semibold">Measure against</legend>

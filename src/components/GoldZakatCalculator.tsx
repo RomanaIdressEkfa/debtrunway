@@ -102,12 +102,11 @@ export default function GoldZakatCalculator() {
           title="Today's price"
           sub="Filled in from the market, in the currency you pick. Change either figure if your local rate differs."
         />
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
-          <CurrencyPicker
-            value={currency}
-            onChange={changeCurrency}
-            note={priceNote(pricesIn(currency))}
-          />
+        {/* items-end keeps the three controls on one baseline. Without it a
+            longer label on any one of them pushes its input below the other
+            two, which is what the note under the currency used to do. */}
+        <div className="mt-5 grid items-end gap-4 sm:grid-cols-3">
+          <CurrencyPicker value={currency} onChange={changeCurrency} />
           <Field
             label="Gold, per gram"
             hint="Pure, 24 carat"
@@ -121,6 +120,9 @@ export default function GoldZakatCalculator() {
             onChange={setSilverPrice}
           />
         </div>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {priceNote(pricesIn(currency))}
+        </p>
       </Card>
 
       {/* ---------- Step 2 ---------- */}
