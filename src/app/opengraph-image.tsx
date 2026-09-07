@@ -22,7 +22,7 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0F766E",
+          background: "#0B5A4D",
           padding: 72,
           fontFamily: "sans-serif",
           color: "#FFFFFF",
@@ -30,19 +30,11 @@ export default function Image() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <svg width="56" height="56" viewBox="0 0 32 32" fill="none">
-            <path
-              d="M6 5C6 15 11 22 27 22"
-              stroke="#FFFFFF"
-              strokeWidth="4"
-              strokeLinecap="round"
+            <polygon
+              points="16,6 18.93,8.93 23.07,8.93 23.07,13.07 26,16 23.07,18.93 23.07,23.07 18.93,23.07 16,26 13.07,23.07 8.93,23.07 8.93,18.93 6,16 8.93,13.07 8.93,8.93 13.07,8.93"
+              fill="#E8C489"
             />
-            <path
-              d="M5 28H27"
-              stroke="#FFFFFF"
-              strokeOpacity="0.45"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
+            <circle cx="16" cy="16" r="3.1" fill="#0F766E" />
           </svg>
           <span style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1 }}>
             DebtRunway

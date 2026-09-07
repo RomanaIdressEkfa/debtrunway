@@ -1,14 +1,20 @@
 /**
  * The DebtRunway logo system.
  *
- * Drawn on a 32×32 grid — the size it actually has to survive — rather than
- * scaled down from something large. Stroke weights and padding are chosen so
- * the mark still reads in a browser tab.
+ * The mark used to be a balance curve settling onto a runway, which said what
+ * the site did when the site computed interest. It computes shares of an
+ * estate and thresholds of zakat now, and a falling-debt line would be telling
+ * a visitor something untrue about the page they are on.
+ *
+ * So the mark is the khatam — the same eight-point star as the ground the
+ * pages stand on and the tab icon. One shape carries the identity across the
+ * favicon, the header and the social card instead of three drawings that have
+ * to be kept in step.
  *
  * Two forms, because one shape cannot do both jobs:
- *   LogoMark      thin strokes, for the header and footer at 20–24px
- *   LogoContainer solid teal tile, for favicons and social images at 16–64px,
- *                 where thin strokes disappear entirely
+ *   LogoMark      open star, for the header and footer at 20–36px
+ *   LogoContainer solid tile, for favicons and social images at 16–64px,
+ *                 where an open shape loses its ground
  */
 
 interface MarkProps {
@@ -18,7 +24,16 @@ interface MarkProps {
   mono?: string;
 }
 
-/** The descending balance settling onto its runway. */
+/**
+ * The sixteen vertices of a khatam, alternating between an outer radius of 10
+ * and an inner one of 10 × cos45 / cos22.5 — the radius at which two squares
+ * set at forty-five degrees actually cross. Written out rather than computed
+ * so the mark is one string in the markup and not a loop the browser runs.
+ */
+const STAR =
+  "16,6 18.93,8.93 23.07,8.93 23.07,13.07 26,16 23.07,18.93 23.07,23.07 18.93,23.07 16,26 13.07,23.07 8.93,23.07 8.93,18.93 6,16 8.93,13.07 8.93,8.93 13.07,8.93";
+
+/** The eight-point star, open, with the centre cut out of it. */
 export function LogoMark({ size = 24, className, mono }: MarkProps) {
   return (
     <svg
@@ -30,21 +45,17 @@ export function LogoMark({ size = 24, className, mono }: MarkProps) {
       role="img"
       aria-label="DebtRunway"
     >
-      {/* The balance falling away to nothing. */}
-      <path
-        d="M6 5C6 15 11 22 27 22"
-        stroke={mono ?? "var(--accent)"}
-        strokeWidth="4"
-        strokeLinecap="round"
+      <polygon points={STAR} fill={mono ?? "var(--brand)"} />
+      {/* The rosette at the centre. It reads as a hole rather than a dot,
+          which is what stops the star looking like a sticker. */}
+      <circle
+        cx="16"
+        cy="16"
+        r="4.2"
+        fill={mono ?? "var(--gold, #d9a441)"}
+        opacity={mono ? 0.4 : 1}
       />
-      {/* The runway it lands on. */}
-      <path
-        d="M5 28H27"
-        stroke={mono ?? "var(--foreground)"}
-        strokeWidth="4"
-        strokeLinecap="round"
-        opacity={mono ? 0.45 : 1}
-      />
+      <circle cx="16" cy="16" r="1.7" fill={mono ?? "var(--brand)"} />
     </svg>
   );
 }
@@ -61,45 +72,9 @@ export function LogoContainer({ size = 32, className }: MarkProps) {
       role="img"
       aria-label="DebtRunway"
     >
-      <rect width="32" height="32" rx="8" fill="#0F766E" />
-      <path
-        d="M9.5 8.5C9.5 16 13 21 23 21"
-        stroke="#FFFFFF"
-        strokeWidth="3.4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M9 25.5H23"
-        stroke="#FFFFFF"
-        strokeWidth="3.4"
-        strokeLinecap="round"
-        opacity="0.45"
-      />
-    </svg>
-  );
-}
-
-/** Descending steps — the alternate concept, kept for comparison. */
-export function LogoSteps({ size = 24, className }: MarkProps) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 32 32"
-      fill="none"
-      className={className}
-      role="img"
-      aria-label="DebtRunway"
-    >
-      <path d="M9 6V24" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round" />
-      <path d="M17 13V24" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round" />
-      <path d="M25 19V24" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round" />
-      <path
-        d="M5 28H27"
-        stroke="var(--foreground)"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
+      <rect width="32" height="32" rx="8" fill="#0B5A4D" />
+      <polygon points={STAR} fill="#E8C489" />
+      <circle cx="16" cy="16" r="3.1" fill="#0B5A4D" />
     </svg>
   );
 }

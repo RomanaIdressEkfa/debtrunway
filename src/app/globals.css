@@ -539,3 +539,40 @@ input[type="number"] {
     inset 0 0 0 1px rgba(226, 184, 114, 0.28),
     0 18px 44px -18px rgba(8, 59, 49, 0.45);
 }
+
+/* ---------- Display type ----------
+   Headings in Amiri's Latin, body in Inter.
+
+   Amiri's Latin was cut to sit beside its Arabic, so the page title and the
+   du'a in the footer are one voice rather than two typefaces sharing a page.
+   It is a Naskh-influenced serif: it carries weight at display size and would
+   be tiring at fourteen pixels, which is why it is on the headings only and
+   nowhere near a form label or a table of figures. Figures stay in Inter,
+   where they are tabular and line up down a column. */
+.display {
+  font-family: var(--font-amiri), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+}
+
+/* A gold hairline under a heading, the way a manuscript rules a page before
+   it is written on. Sized in em so it tracks whatever heading it sits under. */
+.rule-gold::after {
+  content: "";
+  display: block;
+  width: 2.4em;
+  height: 2px;
+  margin-top: 0.55em;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--gold),
+    color-mix(in oklab, var(--gold) 25%, transparent)
+  );
+}
+
+/* The scalloped rule, closing a card the way a niche closes a wall. */
+.scallop-brand {
+  color: var(--brand-soft);
+}

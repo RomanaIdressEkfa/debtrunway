@@ -63,7 +63,7 @@ export default function CalculatorPage({
         <CornerMotif className="top-0 right-0 h-40 w-40 text-white/45 sm:h-56 sm:w-56" />
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
-            <h1 className="text-4xl leading-[1.03] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+            <h1 className="display text-4xl text-balance sm:text-5xl lg:text-6xl">
               {heading}
             </h1>
             <p className="text-base leading-relaxed text-muted sm:text-lg lg:pb-1.5">
@@ -84,9 +84,7 @@ export default function CalculatorPage({
           <article>{content}</article>
 
           <aside>
-            <h2 className="text-xl font-bold tracking-tight">
-              Common questions
-            </h2>
+            <h2 className="rule-gold display text-2xl">Common questions</h2>
             <dl className="mt-4 space-y-3">
               {faqs.map((f) => (
                 <div

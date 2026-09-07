@@ -20,7 +20,7 @@ export default function Home() {
         <CornerMotif className="top-0 right-0 h-40 w-40 text-white/45 sm:h-56 sm:w-56" />
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
-            <h1 className="text-4xl leading-[1.03] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+            <h1 className="display text-4xl text-balance sm:text-5xl lg:text-6xl">
               Money questions with{" "}
               <em className="accent-text not-italic">settled answers</em>
             </h1>
@@ -43,9 +43,7 @@ export default function Home() {
           if (inGroup.length === 0) return null;
           return (
             <section key={group} className="mb-10 last:mb-0">
-              <h2 className="text-xl font-bold tracking-tight">
-                {groupLabels[group]}
-              </h2>
+              <h2 className="rule-gold display text-2xl">{groupLabels[group]}</h2>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {inGroup.map((c) => (
                   <li key={c.slug}>
@@ -110,7 +108,7 @@ export default function Home() {
           </article>
 
           <aside>
-            <h2 className="text-xl font-bold tracking-tight">In short</h2>
+            <h2 className="rule-gold display text-2xl">In short</h2>
             <dl className="mt-4 space-y-3">
               {[
                 [

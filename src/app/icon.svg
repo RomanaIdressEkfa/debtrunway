@@ -1,5 +1,21 @@
+<!--
+  The tab icon: a khatam star in gold on the deep green of the bands.
+
+  Drawn as one filled polygon rather than the two crossed squares the pattern
+  uses. At sixteen pixels a stroke of any weight closes up into a blur, and
+  what survives is a silhouette — so the star is given to the browser as a
+  silhouette in the first place.
+
+  Sixteen vertices alternate between an outer radius of 10 and an inner one of
+  7.654, which is 10 × cos45 / cos22.5 — the radius at which two squares at
+  forty-five degrees actually cross. The shape is the same khatam as the
+  background; only the construction differs.
+-->
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="8" fill="#B8621B"/>
-  <path d="M9.5 8.5C9.5 16 13 21 23 21" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round"/>
-  <path d="M9 25.5H23" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" opacity="0.45"/>
+  <rect width="32" height="32" rx="8" fill="#0B5A4D" />
+  <polygon
+    fill="#E8C489"
+    points="16,6 18.93,8.93 23.07,8.93 23.07,13.07 26,16 23.07,18.93 23.07,23.07 18.93,23.07 16,26 13.07,23.07 8.93,23.07 8.93,18.93 6,16 8.93,13.07 8.93,8.93 13.07,8.93"
+  />
+  <circle cx="16" cy="16" r="3.1" fill="#0B5A4D" />
 </svg>

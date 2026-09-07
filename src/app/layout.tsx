@@ -33,7 +33,10 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
  */
 const amiri = Amiri({
   variable: "--font-amiri",
-  subsets: ["arabic"],
+  // The Latin cut as well as the Arabic. Amiri's Latin was drawn to sit
+  // beside its Arabic, so setting the headings in it puts the du'a and the
+  // page titles in one voice instead of two typefaces that merely coexist.
+  subsets: ["arabic", "latin"],
   weight: ["400", "700"],
   display: "swap",
 });
