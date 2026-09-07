@@ -11,7 +11,7 @@ import {
 } from "@/lib/investment-zakat";
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
-import { Card, Notice } from "./ui";
+import { Card, Notice, NumberField as Money } from "./ui";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -417,31 +417,3 @@ function StepHeading({
   );
 }
 
-function Money({
-  label,
-  hint,
-  value,
-  onChange,
-}: {
-  label: string;
-  hint: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="block text-base font-medium">{label}</span>
-      <span className="mt-1 block text-sm leading-snug text-muted">{hint}</span>
-      <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="0"
-          inputMode="decimal"
-          aria-label={label}
-          className="w-full min-w-0 bg-transparent py-3 text-base tabular-nums outline-none"
-        />
-      </span>
-    </label>
-  );
-}

@@ -233,3 +233,85 @@ export function Headline({
     </div>
   );
 }
+
+/**
+ * The number field every calculator uses.
+ *
+ * There were seven near-identical copies of this before, one per calculator,
+ * and they all rendered the same thing: a plain white box with a "0" in it.
+ * Nothing told you whether you were entering pounds, grams or a percentage
+ * until you read the label above, and nothing distinguished a field holding
+ * an estate from one holding a count of days. That sameness is what made the
+ * forms look machine-made — a designed form varies where the content varies.
+ *
+ * So this one carries the unit inside the control, on the side the unit
+ * belongs: a currency reads before the figure and a measure reads after it.
+ * The two sit in their own compartments, divided by a hairline, which is what
+ * stops "৳" reading as part of the number the way a bare prefix does.
+ */
+export function NumberField({
+  label,
+  hint,
+  value,
+  onChange,
+  /** Currency symbol or similar, shown before the figure. */
+  prefix,
+  /** Unit shown after the figure — g, %, /month. */
+  suffix,
+  placeholder = "0",
+  /** For the one figure a page is really about. */
+  large,
+  /** Whole numbers only, which changes the keypad on a phone. */
+  whole,
+}: {
+  label: string;
+  hint?: string;
+  value: string;
+  onChange: (value: string) => void;
+  prefix?: string;
+  suffix?: string;
+  placeholder?: string;
+  large?: boolean;
+  whole?: boolean;
+}) {
+  return (
+    <label className="group/field block min-w-0">
+      <span className="block text-base font-medium">{label}</span>
+      {hint && (
+        <span className="mt-1 block text-sm leading-snug text-muted">
+          {hint}
+        </span>
+      )}
+
+      {/* The ring is wide and faint rather than narrow and strong: at four
+          pixels and a tenth opacity it reads as the field lifting slightly,
+          which is easier to live with on a form of a dozen of them. */}
+      <span
+        className={`mt-2 flex items-stretch overflow-hidden rounded-xl border border-line bg-surface transition group-hover/field:border-muted/40 focus-within:border-brand focus-within:ring-4 focus-within:ring-brand/10 ${
+          large ? "shadow-sm" : ""
+        }`}
+      >
+        {prefix && (
+          <span className="flex shrink-0 items-center border-r border-line bg-background px-3 text-sm font-medium text-muted">
+            {prefix}
+          </span>
+        )}
+        <input
+          value={value}
+          placeholder={placeholder}
+          inputMode={whole ? "numeric" : "decimal"}
+          aria-label={label}
+          onChange={(e) => onChange(e.target.value)}
+          className={`w-full min-w-0 bg-transparent px-3 tabular-nums outline-none placeholder:text-muted/40 ${
+            large ? "py-3.5 text-2xl font-bold" : "py-3 text-[1.0625rem]"
+          }`}
+        />
+        {suffix && (
+          <span className="flex shrink-0 items-center border-l border-line bg-background px-3 text-sm font-medium text-muted">
+            {suffix}
+          </span>
+        )}
+      </span>
+    </label>
+  );
+}

@@ -9,11 +9,11 @@ import {
 } from "@/lib/business-zakat";
 import { SILVER_NISAB_GRAMS, GOLD_NISAB_GRAMS } from "@/lib/zakat";
 import { plain } from "@/lib/format";
-import { pricesIn, priceNote } from "@/lib/metals";
+import { priceNote, pricesIn, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
-import { Card, Notice } from "./ui";
+import { Card, Notice, NumberField as Money } from "./ui";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -134,6 +134,7 @@ export default function BusinessZakatCalculator() {
               key={a.key}
               label={a.label}
               hint={a.hint}
+              prefix={symbolFor(currency)}
               value={amounts[a.key]}
               onChange={(v) => set(a.key, v)}
             />
@@ -200,12 +201,14 @@ export default function BusinessZakatCalculator() {
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Money
             label="Payables due now"
+            prefix={symbolFor(currency)}
             hint="Suppliers, wages and bills falling due — not a long-term loan in full"
             value={payables}
             onChange={setPayables}
           />
           <Money
             label="Premises, machinery, vehicles"
+            prefix={symbolFor(currency)}
             hint="Recorded, then excluded — these are the means of trading"
             value={fixedAssets}
             onChange={setFixedAssets}
@@ -218,7 +221,7 @@ export default function BusinessZakatCalculator() {
             hint="Zakat is an obligation on a person, so each partner works out their own"
             value={ownership}
             onChange={setOwnership}
-            unit="%"
+            suffix="%"
           />
         </div>
       </Card>
@@ -244,6 +247,7 @@ export default function BusinessZakatCalculator() {
           />
           <Money
             label="Your personal wealth"
+            prefix={symbolFor(currency)}
             hint="Savings, gold, investments outside the business"
             value={personal}
             onChange={setPersonal}
@@ -439,34 +443,3 @@ function StepHeading({ n, title, sub }: { n: number; title: string; sub: string 
   );
 }
 
-function Money({
-  label,
-  hint,
-  value,
-  onChange,
-  unit,
-}: {
-  label: string;
-  hint: string;
-  value: string;
-  onChange: (v: string) => void;
-  unit?: string;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="block text-base font-medium">{label}</span>
-      <span className="mt-1 block text-sm leading-snug text-muted">{hint}</span>
-      <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="0"
-          inputMode="decimal"
-          aria-label={label}
-          className="w-full min-w-0 bg-transparent py-3 text-base tabular-nums outline-none"
-        />
-        {unit && <span className="shrink-0 text-sm text-muted">{unit}</span>}
-      </span>
-    </label>
-  );
-}

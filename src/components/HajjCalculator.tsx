@@ -5,10 +5,10 @@ import Link from "next/link";
 import { monthlyForTarget, planHajj } from "@/lib/hajj";
 import { SILVER_NISAB_GRAMS, GOLD_NISAB_GRAMS } from "@/lib/zakat";
 import { plain } from "@/lib/format";
-import { pricesIn, priceNote } from "@/lib/metals";
+import { priceNote, pricesIn, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
-import { Card, Notice } from "./ui";
+import { Card, Notice, NumberField as Money } from "./ui";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -93,6 +93,7 @@ export default function HajjCalculator() {
           />
           <Money
             label="What Hajj will cost"
+            prefix={symbolFor(currency)}
             hint="A real quote, not an average"
             value={target}
             onChange={setTarget}
@@ -100,6 +101,7 @@ export default function HajjCalculator() {
           />
           <Money
             label="Saved so far"
+            prefix={symbolFor(currency)}
             hint="What is already put by"
             value={saved}
             onChange={setSaved}
@@ -143,6 +145,7 @@ export default function HajjCalculator() {
           {mode === "byAmount" ? (
             <Money
               label="Set aside each month"
+            prefix={symbolFor(currency)}
               hint="Nothing is assumed to grow — no interest, and no investment return either"
               value={monthly}
               onChange={setMonthly}
@@ -213,6 +216,7 @@ export default function HajjCalculator() {
           </fieldset>
           <Money
             label="Other wealth you hold"
+            prefix={symbolFor(currency)}
             hint="The threshold is measured on everything together"
             value={other}
             onChange={setOther}
@@ -367,37 +371,3 @@ function StepHeading({ n, title, sub }: { n: number; title: string; sub: string 
   );
 }
 
-function Money({
-  label,
-  hint,
-  value,
-  onChange,
-  large,
-}: {
-  label: string;
-  hint?: string;
-  value: string;
-  onChange: (v: string) => void;
-  large?: boolean;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="block text-base font-medium">{label}</span>
-      {hint && (
-        <span className="mt-1 block text-sm leading-snug text-muted">{hint}</span>
-      )}
-      <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="0"
-          inputMode="decimal"
-          aria-label={label}
-          className={`w-full min-w-0 bg-transparent py-3 tabular-nums outline-none ${
-            large ? "text-xl font-bold" : "text-base"
-          }`}
-        />
-      </span>
-    </label>
-  );
-}

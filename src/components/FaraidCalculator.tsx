@@ -10,7 +10,7 @@ import {
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
-import { Card, Notice } from "./ui";
+import { Card, Notice, NumberField as Money } from "./ui";
 
 /**
  * Nothing here is saved.
@@ -444,42 +444,6 @@ function StepHeading({
   );
 }
 
-function Money({
-  label,
-  hint,
-  value,
-  onChange,
-  placeholder,
-  large,
-}: {
-  label: string;
-  hint: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder: string;
-  large?: boolean;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="block text-base font-medium">{label}</span>
-      <span className="mt-1 block text-sm leading-snug text-muted">
-        {hint}
-      </span>
-      <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
-        <input
-          value={value}
-          placeholder={placeholder}
-          inputMode="decimal"
-          aria-label={label}
-          onChange={(e) => onChange(e.target.value)}
-          className={`w-full min-w-0 bg-transparent py-3 tabular-nums outline-none ${
-            large ? "text-xl font-bold" : "text-base"
-          }`}
-        />
-      </span>
-    </label>
-  );
-}
 
 function Row({
   label,

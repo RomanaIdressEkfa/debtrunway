@@ -6,7 +6,7 @@ import { planWill, type Bequest } from "@/lib/wasiyyah";
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
-import { Card, Notice } from "./ui";
+import { Card, Notice, NumberField as Money } from "./ui";
 
 /**
  * Like the inheritance calculator, this keeps nothing. It holds a list of who
@@ -333,35 +333,6 @@ function StepHeading({
   );
 }
 
-function Money({
-  label,
-  value,
-  onChange,
-  large,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  large?: boolean;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="block text-base font-medium">{label}</span>
-      <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="0"
-          inputMode="decimal"
-          aria-label={label}
-          className={`w-full min-w-0 bg-transparent py-3 tabular-nums outline-none ${
-            large ? "text-xl font-bold" : "text-base"
-          }`}
-        />
-      </span>
-    </label>
-  );
-}
 
 function Figure({
   label,

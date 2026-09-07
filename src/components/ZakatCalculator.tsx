@@ -9,11 +9,11 @@ import {
   type Standard,
 } from "@/lib/zakat";
 import { plain } from "@/lib/format";
-import { pricesIn, priceNote } from "@/lib/metals";
+import { priceNote, pricesIn, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
-import { Card, Notice } from "./ui";
+import { Card, Notice, NumberField as Money } from "./ui";
 
 /**
  * Prices are asked for rather than fetched.
@@ -141,12 +141,14 @@ export default function ZakatCalculator() {
           />
           <Money
             label="Gold price per gram"
+            prefix={symbolFor(currency)}
             hint="For gold you hold, or the gold nisab"
             value={goldPrice}
             onChange={setGoldPrice}
           />
           <Money
             label="Silver price per gram"
+            prefix={symbolFor(currency)}
             hint="For silver you hold, or the silver nisab"
             value={silverPrice}
             onChange={setSilverPrice}
@@ -217,6 +219,7 @@ export default function ZakatCalculator() {
               key={a.key}
               label={a.label}
               hint={a.hint}
+              prefix={symbolFor(currency)}
               value={amounts[a.key]}
               onChange={(v) => set(a.key, v)}
             />
@@ -229,20 +232,21 @@ export default function ZakatCalculator() {
             hint="In grams — jewellery, coins, bars"
             value={goldGrams}
             onChange={setGoldGrams}
-            unit="g"
+            suffix="g"
           />
           <Money
             label="Silver you own"
             hint="In grams"
             value={silverGrams}
             onChange={setSilverGrams}
-            unit="g"
+            suffix="g"
           />
         </div>
 
         <div className="mt-5 border-t border-line pt-5">
           <Money
             label="Debts due now"
+            prefix={symbolFor(currency)}
             hint="Bills and repayments you owe today — not the whole balance of a long-term loan"
             value={debts}
             onChange={setDebts}
@@ -431,36 +435,3 @@ function StepHeading({
   );
 }
 
-function Money({
-  label,
-  hint,
-  value,
-  onChange,
-  unit,
-}: {
-  label: string;
-  hint: string;
-  value: string;
-  onChange: (v: string) => void;
-  unit?: string;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="block text-base font-medium">{label}</span>
-      <span className="mt-1 block text-sm leading-snug text-muted">
-        {hint}
-      </span>
-      <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
-        <input
-          value={value}
-          placeholder="0"
-          inputMode="decimal"
-          aria-label={label}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full min-w-0 bg-transparent py-3 tabular-nums outline-none"
-        />
-        {unit && <span className="shrink-0 text-sm text-muted">{unit}</span>}
-      </span>
-    </label>
-  );
-}
