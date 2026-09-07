@@ -51,7 +51,7 @@
   --line: #282b30;
   --grid: rgba(255, 255, 255, 0.045);
   --pattern-ink: rgba(63, 188, 159, 0.14);
-  --gold: #e2b872;
+  --gold: #eccd97;
 
   --brand: #3fbc9f;
   --brand-soft: #10322c;
@@ -429,12 +429,15 @@ input[type="number"] {
    than competing with it, which is also how the buildings this borrows from
    are actually arranged. */
 .band-emerald {
+  --foreground: #ffffff;
+  --accent: var(--gold);
+  --gold: #eccd97;
   background:
     radial-gradient(
       120% 95% at 50% -10%,
-      #15907a 0%,
-      #0d6a5a 42%,
-      #084b3f 78%,
+      #0c6857 0%,
+      #0a5a4b 40%,
+      #084b3f 75%,
       #063a31 100%
     );
   border-color: transparent;
@@ -453,7 +456,7 @@ input[type="number"] {
   background:
     radial-gradient(
       55% 65% at 50% 28%,
-      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.09),
       transparent 68%
     ),
     radial-gradient(
@@ -467,7 +470,7 @@ input[type="number"] {
   background:
     radial-gradient(
       55% 70% at 50% 78%,
-      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.08),
       transparent 68%
     ),
     radial-gradient(
@@ -480,7 +483,7 @@ input[type="number"] {
 /* Muted text and brand links have to change meaning inside the band: the
    tokens they point at are built for a light ground and would vanish here. */
 .band-emerald .text-muted {
-  color: rgba(255, 255, 255, 0.74);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .band-emerald .accent-text {

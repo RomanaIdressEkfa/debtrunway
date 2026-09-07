@@ -49,8 +49,8 @@ export default function SiteFooter() {
           >
             {groups.map((group) => (
               <div key={group}>
-                <h2 className="text-sm font-bold">{groupLabels[group]}</h2>
-                <ul className="mt-3 space-y-2 text-sm">
+                <h2 className="text-base font-bold text-[var(--gold)]">{groupLabels[group]}</h2>
+                <ul className="mt-3 space-y-2.5 text-base">
                   {calculators
                     .filter((c) => c.group === group)
                     .map((c) => (
@@ -68,8 +68,8 @@ export default function SiteFooter() {
             ))}
 
             <div>
-              <h2 className="text-sm font-bold">Site</h2>
-              <ul className="mt-3 space-y-2 text-sm">
+              <h2 className="text-base font-bold text-[var(--gold)]">Site</h2>
+              <ul className="mt-3 space-y-2.5 text-base">
                 {siteLinks.map((l) => (
                   <li key={l.href}>
                     <Link
