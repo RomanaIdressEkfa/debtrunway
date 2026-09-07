@@ -1,0 +1,67 @@
+# Rebuilds the site once a day so the gold and silver price baked into it
+# stays current.
+#
+# The price is fetched at build time rather than from the visitor's browser —
+# see scripts/fetch-metals.ts for why — which means it is only as fresh as the
+# last deploy. Without this, a fortnight without a push leaves the nisab
+# quoted at a fortnight-old price on every zakat page.
+#
+# It commits the new price file rather than only rebuilding, so the figure in
+# the repository always matches the figure on the site, and so a later deploy
+# from any machine starts from the same numbers.
+name: Daily metal prices
+
+on:
+  schedule:
+    # 05:30 UTC. Deliberately not on the hour: scheduled jobs queue heavily at
+    # :00 and GitHub delays them, and nothing here needs a precise minute.
+    - cron: "30 5 * * *"
+  # So it can be run by hand after a price source changes.
+  workflow_dispatch:
+
+# Only one run at a time. Two overlapping runs would race on the same commit.
+concurrency:
+  group: daily-metals
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch today's gold and silver price
+        run: npx tsx scripts/fetch-metals.ts
+
+      # The engines do not depend on the price, but a broken build should stop
+      # a commit rather than ride along with it.
+      - name: Check the engines still pass
+        run: npm run verify
+
+      - name: Commit the new prices, if they moved
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # --quiet exits non-zero when there is nothing staged, which is the
+          # normal case on a day the fetch failed and left the old file alone.
+          if git diff --quiet -- src/lib/metal-prices.json; then
+            echo "Prices unchanged — nothing to commit."
+          else
+            git add src/lib/metal-prices.json
+            git commit -m "Refresh the gold and silver price
+
+          Committed by the daily workflow. The price is baked in at build time
+          rather than fetched from the visitor's browser, so it only moves when
+          the site is rebuilt."
+            git push
+          fi

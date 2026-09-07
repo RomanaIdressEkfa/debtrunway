@@ -29,33 +29,38 @@ export default function Privacy() {
         you close the tab.
       </p>
       <p className="mt-3 leading-relaxed">
-        So that you do not have to type everything again next month, your plan
-        is saved in your browser&rsquo;s own storage, on your device. It never
-        leaves that device, it is not shared between browsers or phones, and the
-        <strong> Start over</strong> button on the calculator erases it. Clearing
-        your browsing data removes it too.
-      </p>
-      <p className="mt-3 leading-relaxed">
-        If you share a plan using the share button, the figures travel inside
-        the link itself — so treat that link as private, and be aware that
-        anyone you send it to can see those numbers.
+        The only thing kept between visits is the colour theme you chose, which
+        is a single word in your browser&rsquo;s own storage on your own device.
+        Clearing your browsing data removes it. No figure you type into any
+        calculator on this site is stored anywhere, on your device or off it.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Analytics and advertising</h2>
-      {/* TODO: keep this section honest — update it the day you add AdSense
-          or any analytics script, not later. */}
+      {/* This section states what is true today and not what might be true
+          later. Update it the day anything is added, not after. */}
       <p className="mt-3 leading-relaxed">
-        This site may use third-party advertising and analytics services. These
-        can set cookies and collect standard technical information such as your
-        approximate location, browser, and the pages you visit, in order to show
-        relevant ads and measure traffic. They have no access to the figures you
-        enter into the calculator.
+        There is no advertising on this site and no advertising network is
+        loaded. There are no tracking scripts, no cookies set by us, and no
+        third party is given anything you enter.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        Our hosting provider records ordinary server logs — the pages requested
+        and roughly where in the world the request came from — as any web host
+        does, and we see those only as aggregate counts. They contain nothing
+        you typed, because nothing you type is ever sent.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        If that ever changes, this page changes on the same day, and it will say
+        plainly what was added rather than that something &ldquo;may&rdquo; be
+        in use.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Your choices</h2>
       <p className="mt-3 leading-relaxed">
-        You can block cookies in your browser settings, and the calculator will
-        still work exactly as it does now.
+        You can block cookies and storage in your browser settings and every
+        calculator here will work exactly as it does now — the only thing you
+        lose is the theme being remembered. There is nothing to opt out of,
+        because there is nothing collecting.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Contact</h2>
