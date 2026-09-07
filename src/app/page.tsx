@@ -25,7 +25,7 @@ export default function Home() {
               Money questions with{" "}
               <em className="accent-text not-italic">settled answers</em>
             </h1>
-            <p className="text-base leading-relaxed text-muted sm:text-lg lg:pb-1.5">
+            <p className="slab-prose text-base leading-relaxed text-muted sm:text-lg lg:pb-1.5">
               Free calculators for the parts of Islamic finance that have a
               fixed, checkable answer — how an estate divides, what zakat is
               due. Every figure comes with the rule behind it.
@@ -34,7 +34,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
+      <div className="slab-prose mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
         <div className="mb-12">
           <QuickNisab />
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Amiri, Cinzel_Decorative, Inter } from "next/font/google";
+import { Amiri, Cinzel_Decorative, Inter, Roboto_Slab } from "next/font/google";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
@@ -33,6 +33,24 @@ const inter = Inter({
  * every visitor was downloading a monospace they would never see. The page
  * weight is unchanged.
  */
+/**
+ * Roboto Slab, on trial for the homepage paragraphs only.
+ *
+ * A slab serif reads slower and heavier than Inter, which may be right for a
+ * page that is mostly explanation and wrong for one that is mostly form. It
+ * is scoped to the homepage so the difference can be judged side by side
+ * against every other page before it goes anywhere near them.
+ *
+ * Only the regular weight is loaded; bold inside a paragraph falls back to
+ * synthesised weight rather than pulling a second file for a trial.
+ */
+const slab = Roboto_Slab({
+  variable: "--font-slab",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 const cinzel = Cinzel_Decorative({
   variable: "--font-cinzel",
   subsets: ["latin"],
@@ -103,7 +121,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${cinzel.variable} ${amiri.variable} h-full antialiased`}
+      className={`${inter.variable} ${cinzel.variable} ${amiri.variable} ${slab.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

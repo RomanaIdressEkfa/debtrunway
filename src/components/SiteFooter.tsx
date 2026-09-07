@@ -99,7 +99,7 @@ export default function SiteFooter() {
             &ldquo;Our Lord, grant us good in this world and good in the
             Hereafter, and protect us from the punishment of the Fire.&rdquo;
           </p>
-          <p className="mt-1.5 text-xs text-muted/70">
+          <p className="mt-2 text-sm text-white/80">
             Surah al-Baqarah 2:201
           </p>
         </div>

@@ -757,3 +757,59 @@ body::after {
     margin: 16mm;
   }
 }
+
+/* ---------- Running text ----------
+   Roboto Slab for prose, Inter for everything that is not prose.
+
+   A slab serif reads slower and heavier, which is what a page of explanation
+   wants and what a form does not. So it goes on paragraphs and definition
+   text and stays off labels, buttons and the interface.
+
+   Figures are the deliberate exception. Any paragraph carrying tabular-nums
+   is a number rather than a sentence — a payoff total, a share, an amount —
+   and those stay in Inter, where the digits are tabular and line up down a
+   column. A slab would set them wider and break that alignment for nothing.
+
+   Prose is also stepped up in size and leading. A slab carries more ink per
+   line than a sans at the same point size and closes up without the room. */
+p:not(.tabular-nums),
+dd,
+article li,
+blockquote {
+  font-family: var(--font-slab), Georgia, serif;
+}
+
+/* Running prose: the size the face actually wants. */
+article p,
+article li,
+.slab-prose p,
+.slab-prose dd,
+p.slab-prose {
+  font-size: 1.09rem;
+  line-height: 1.78;
+}
+
+/* Answers to questions run alongside the prose rather than inside it, so they
+   are lifted too — less far, since they sit in a narrower column. */
+aside dd,
+aside p {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* The intro under a page title is display text, not body text: it is set
+   larger already and does not want the paragraph step on top. */
+header p.slab-prose {
+  font-size: inherit;
+  line-height: 1.65;
+}
+
+/* A guard, after the fact.
+   The band overrides --muted for text-muted, but Tailwind's opacity modifier
+   makes a different class — text-muted/70 is not text-muted — so the source
+   line under the du'a kept the grey meant for a cream page and all but
+   vanished on the green. Redefining the token inside the band catches every
+   such variant at once, including ones not written yet. */
+.band-emerald {
+  --muted: rgba(255, 255, 255, 0.88);
+}
