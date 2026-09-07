@@ -24,11 +24,16 @@ export default function CurrencyPicker({
   value,
   onChange,
   label = "Currency",
+  hint,
   compact = false,
 }: {
   value: string;
   onChange: (code: string) => void;
   label?: string;
+  /** A line under the label. Fields beside this one carry one, and without it
+   *  the picker is a line shorter — which, in a row aligned at the bottom,
+   *  drops its label below theirs. */
+  hint?: string;
   /** Drops the visible label and shrinks the control, for sitting inside a
    *  row of other controls rather than standing as a field of its own. */
   compact?: boolean;
@@ -123,9 +128,16 @@ export default function CurrencyPicker({
   return (
     <div className="min-w-0">
       {!compact && (
-        <span className="block text-base font-medium" id="currency-label">
-          {label}
-        </span>
+        <>
+          <span className="block text-base font-medium" id="currency-label">
+            {label}
+          </span>
+          {hint && (
+            <span className="mt-1 block text-sm leading-snug text-muted">
+              {hint}
+            </span>
+          )}
+        </>
       )}
       <div
         ref={box}

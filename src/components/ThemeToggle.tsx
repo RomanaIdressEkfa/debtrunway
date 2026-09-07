@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
 const SunIcon = (
   <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
@@ -34,32 +34,57 @@ type Theme = (typeof OPTIONS)[number]["value"];
  * a first visit regardless of their operating system. Dark is a choice the
  * reader makes here, and it is remembered.
  */
+/**
+ * The theme lives on the document, not in React.
+ *
+ * The inline script in the layout has already stamped data-theme on <html>
+ * before the first paint, so by the time this component runs the answer is
+ * sitting in the DOM. Reading it with useSyncExternalStore rather than
+ * copying it into state after mount is what the hook exists for: React uses
+ * the server snapshot while hydrating and swaps to the live one immediately
+ * after, so there is no mismatch and no "mounted" flag to gate the markup on.
+ *
+ * The previous version set state twice inside an effect to achieve the same
+ * thing, which works but causes the cascading render the effect rules warn
+ * about — and needed a flag whose only job was to paper over the gap.
+ */
+const listeners = new Set<() => void>();
+
+const subscribe = (notify: () => void) => {
+  listeners.add(notify);
+  // Another tab changing the theme should move this one too.
+  window.addEventListener("storage", notify);
+  return () => {
+    listeners.delete(notify);
+    window.removeEventListener("storage", notify);
+  };
+};
+
+const readTheme = (): Theme =>
+  document.documentElement.getAttribute("data-theme") === "dark"
+    ? "dark"
+    : "light";
+
+/** What the server rendered, and what hydration matches against. */
+const serverTheme = (): Theme => "light";
+
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
+  const theme = useSyncExternalStore(subscribe, readTheme, serverTheme);
 
-  useEffect(() => {
-    setMounted(true);
-    try {
-      if (localStorage.getItem("theme") === "dark") setTheme("dark");
-    } catch {
-      // Private mode or blocked storage: light is the right fallback anyway.
-    }
-  }, []);
-
-  const choose = (next: Theme) => {
-    setTheme(next);
-
-    if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  const choose = useCallback((next: Theme) => {
+    if (next === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
     else document.documentElement.removeAttribute("data-theme");
 
     try {
       if (next === "dark") localStorage.setItem("theme", "dark");
       else localStorage.removeItem("theme");
     } catch {
-      // Nothing to do — the choice still applies for this page view.
+      // Private mode or a full quota: the choice still applies to this view.
     }
-  };
+
+    listeners.forEach((notify) => notify());
+  }, []);
 
   const other: Theme = theme === "dark" ? "light" : "dark";
 
@@ -73,7 +98,7 @@ export default function ThemeToggle() {
         title={`Switch to ${other} theme`}
         className="press rounded-lg border border-line p-2 text-muted hover:border-brand hover:text-brand sm:hidden"
       >
-        {mounted && theme === "dark" ? MoonIcon : SunIcon}
+        {theme === "dark" ? MoonIcon : SunIcon}
       </button>
 
       {/* Wider screens: both states visible, the active one marked. */}
@@ -83,11 +108,7 @@ export default function ThemeToggle() {
         aria-label="Colour theme"
       >
         {OPTIONS.map((option) => {
-          // Before mount the light button is marked, matching the server
-          // markup, so hydration stays clean.
-          const active = mounted
-            ? theme === option.value
-            : option.value === "light";
+          const active = theme === option.value;
           return (
             <button
               key={option.value}

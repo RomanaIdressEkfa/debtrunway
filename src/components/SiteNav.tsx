@@ -12,11 +12,20 @@ import { calculators, groupLabels, groups } from "@/lib/calculators";
  */
 export default function SiteNav() {
   const ref = useRef<HTMLDetailsElement>(null);
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
+  // The menu remembers which page it was opened on rather than simply that it
+  // is open. Navigating changes the pathname, so `open` becomes false during
+  // the next render on its own — no effect watching the route, and so no
+  // setState inside one. The three dismissals below are events, which is
+  // where dismissals belong.
+  const [openedAt, setOpenedAt] = useState<string | null>(null);
+  const open = openedAt !== null && openedAt === pathname;
+
   const close = () => {
-    setOpen(false);
+    setOpenedAt(null);
+    // <details> keeps its own open attribute, and React only removes it on the
+    // next commit; taking it off here stops a frame of the menu still showing.
     ref.current?.removeAttribute("open");
   };
 
@@ -41,14 +50,13 @@ export default function SiteNav() {
     };
   }, [open]);
 
-  // Navigating to a calculator should leave the menu behind.
-  useEffect(close, [pathname]);
-
   return (
     <details
       ref={ref}
       open={open}
-      onToggle={(event) => setOpen(event.currentTarget.open)}
+      onToggle={(event) =>
+        setOpenedAt(event.currentTarget.open ? pathname : null)
+      }
       className="group relative"
     >
       {/* The word costs about 75px, which a 320px header cannot spare. It is

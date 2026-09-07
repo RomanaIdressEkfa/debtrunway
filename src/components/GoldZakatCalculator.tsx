@@ -106,7 +106,11 @@ export default function GoldZakatCalculator() {
             longer label on any one of them pushes its input below the other
             two, which is what the note under the currency used to do. */}
         <div className="mt-5 grid items-end gap-4 sm:grid-cols-3">
-          <CurrencyPicker value={currency} onChange={changeCurrency} />
+          <CurrencyPicker
+            value={currency}
+            onChange={changeCurrency}
+            hint="Prices below are filled in for it"
+          />
           <Field
             label="Gold, per gram"
             hint="Pure, 24 carat"
