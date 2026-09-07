@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Privacy",
   description:
     "What DebtRunway does and does not collect. Calculations run entirely in your browser.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function Privacy() {

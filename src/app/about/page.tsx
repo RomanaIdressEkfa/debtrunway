@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "DebtRunway is built by Romana Idress Ekfa. How the payoff calculations work, and why the tool is free.",
+  alternates: { canonical: "/about" },
 };
 
 export default function About() {
