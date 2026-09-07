@@ -74,6 +74,14 @@ export const calculators: CalculatorMeta[] = [
       "Work out what is owed for fasts of Ramadan not kept — which days are repaid by fasting, which by feeding, and which carry both.",
     group: "worship",
   },
+  {
+    slug: "/hajj-savings-calculator",
+    nav: "Hajj savings",
+    title: "Hajj Savings Calculator",
+    description:
+      "Work out when you can go, or what it takes each month — with the zakat your savings owe along the way, which most plans forget.",
+    group: "worship",
+  },
 ];
 
 export const groupLabels: Record<CalculatorMeta["group"], string> = {

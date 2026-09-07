@@ -13,6 +13,7 @@
 import { calculateInvestmentZakat } from "../src/lib/investment-zakat";
 import { calculateGoldZakat, purityOf, type Item } from "../src/lib/gold-zakat";
 import { calculateFidya } from "../src/lib/fidya";
+import { planHajj, monthlyForTarget } from "../src/lib/hajj";
 
 let failures = 0;
 let checks = 0;
@@ -182,6 +183,49 @@ const fid = {
 {
   const r = calculateFidya({ ...fid, fidyaDays: 10, publishedRate: 0 });
   ok("a missing rate is reported, not silently zero", r.needsRate === true, r.needsRate);
+}
+
+/* ---------------- hajj savings ---------------- */
+
+console.log("\n--- Hajj savings ---\n");
+
+const hajj = { target: 12000, saved: 0, nisab: 500, otherWealth: 0, applyZakat: false };
+
+{
+  const r = planHajj({ ...hajj, monthly: 1000 });
+  ok("12000 at 1000 a month with no zakat takes 12 months", r.months === 12, r.months);
+  ok("...and matches plain division", r.months === r.naiveMonths, r.naiveMonths);
+}
+{
+  const r = planHajj({ ...hajj, monthly: 1000, applyZakat: true });
+  ok("with zakat it takes longer than plain division", (r.months ?? 0) > (r.naiveMonths ?? 0), r.months + " vs " + r.naiveMonths);
+  ok("...and reports the zakat it took out", r.zakatPaid > 0, r.zakatPaid.toFixed(2));
+}
+{
+  const r = planHajj({ ...hajj, saved: 12000, monthly: 100 });
+  ok("already at the target needs no months", r.alreadyThere === true && r.months === 0, r.months);
+}
+{
+  const r = planHajj({ ...hajj, monthly: 0 });
+  ok("saving nothing never arrives", r.neverReaches === true && r.months === null, String(r.months));
+}
+{
+  const r = planHajj({ ...hajj, monthly: 1000, applyZakat: true, nisab: 1000000 });
+  ok("a pot below the nisab pays no zakat", r.zakatPaid === 0, r.zakatPaid);
+}
+{
+  const r = planHajj({ ...hajj, monthly: 1000, applyZakat: true, otherWealth: 1000000 });
+  ok("other wealth carries the pot over the threshold", r.zakatPaid > 0, r.zakatPaid.toFixed(2));
+}
+{
+  const need = monthlyForTarget({ ...hajj, applyZakat: true }, 60);
+  const back = planHajj({ ...hajj, applyZakat: true, monthly: need ?? 0 });
+  ok("solving for a date lands on or inside it", back.months !== null && back.months <= 60, back.months + " months at " + (need ?? 0).toFixed(2));
+}
+{
+  const need = monthlyForTarget({ ...hajj, applyZakat: true }, 60);
+  const short = planHajj({ ...hajj, applyZakat: true, monthly: (need ?? 0) * 0.9 });
+  ok("...and 10% less does not", short.months === null || short.months > 60, String(short.months));
 }
 
 console.log(
