@@ -14,6 +14,7 @@ import { calculateInvestmentZakat } from "../src/lib/investment-zakat";
 import { calculateGoldZakat, purityOf, type Item } from "../src/lib/gold-zakat";
 import { calculateFidya } from "../src/lib/fidya";
 import { planHajj, monthlyForTarget } from "../src/lib/hajj";
+import { calculateBusinessZakat } from "../src/lib/business-zakat";
 
 let failures = 0;
 let checks = 0;
@@ -226,6 +227,57 @@ const hajj = { target: 12000, saved: 0, nisab: 500, otherWealth: 0, applyZakat: 
   const need = monthlyForTarget({ ...hajj, applyZakat: true }, 60);
   const short = planHajj({ ...hajj, applyZakat: true, monthly: (need ?? 0) * 0.9 });
   ok("...and 10% less does not", short.months === null || short.months > 60, String(short.months));
+}
+
+/* ---------------- business ---------------- */
+
+console.log("\n--- Business ---\n");
+
+const biz = {
+  finishedStock: 0, rawMaterials: 0, workInProgress: 0, cash: 0,
+  goodReceivables: 0, doubtfulReceivables: 0, doubtfulView: "exclude" as const,
+  payables: 0, fixedAssets: 0, ownershipPct: 100, nisab: 1000, personalWealth: 0,
+};
+
+{
+  const r = calculateBusinessZakat({ ...biz, finishedStock: 40000, fixedAssets: 500000 });
+  ok("premises and machinery never count", r.grossAssets === 40000, r.grossAssets);
+  ok("...but are reported as excluded", r.excluded.length === 1, r.excluded.length);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, finishedStock: 10000, rawMaterials: 5000, workInProgress: 3000 });
+  ok("stock counts at all three stages", r.grossAssets === 18000, r.grossAssets);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 20000, doubtfulReceivables: 5000 });
+  ok("doubtful debts are left out by default", r.grossAssets === 20000, r.grossAssets);
+  const inc = calculateBusinessZakat({ ...biz, cash: 20000, doubtfulReceivables: 5000, doubtfulView: "include" });
+  ok("...and counted on the cautious view", inc.grossAssets === 25000, inc.grossAssets);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 20000, payables: 8000 });
+  ok("payables come off the assets", r.netBusiness === 12000, r.netBusiness);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 20000, payables: 90000 });
+  ok("payables beyond the assets floor at zero", r.netBusiness === 0, r.netBusiness);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 30000, ownershipPct: 40 });
+  ok("a partner owes on their own share only", r.ownerShare === 12000, r.ownerShare);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 30000, ownershipPct: 40, personalWealth: 5000 });
+  ok("personal wealth joins the total", r.total === 17000, r.total);
+  ok("...and 2.5% of that is the zakat", Math.abs(r.zakat - 425) < 1e-9, r.zakat);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 500 });
+  ok("below the nisab nothing is due", r.due === false && r.zakat === 0, r.zakat);
+}
+{
+  const r = calculateBusinessZakat({ ...biz, cash: 30000, ownershipPct: 0 });
+  ok("an unset share is treated as the whole", r.ownerShare === 30000, r.ownerShare);
 }
 
 console.log(

@@ -34,8 +34,17 @@ export default function ContentPage({ heading, intro, children }: Props) {
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-        {children}
+      {/* The container matches every other page at max-w-6xl, so the prose
+          starts at the same left edge as the title in the band above it — the
+          narrower container made these pages look like a different site.
+
+          The measure itself stays narrow, on the article rather than the
+          container. Sixty to seventy-five characters is where a line stops
+          being comfortable to read, and a full six-column width of running
+          text is well past it. Aligning the page and holding the measure are
+          two different jobs, and they were being done by one element. */}
+      <div className="mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
+        <article className="max-w-3xl">{children}</article>
       </div>
     </>
   );

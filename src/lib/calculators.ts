@@ -43,6 +43,14 @@ export const calculators: CalculatorMeta[] = [
     group: "zakat",
   },
   {
+    slug: "/zakat-on-business-calculator",
+    nav: "Zakat on a business",
+    title: "Zakat on Business Assets Calculator",
+    description:
+      "Stock at every stage, cash and invoices — and everything the business trades with rather than trades in, set aside with the reason.",
+    group: "zakat",
+  },
+  {
     slug: "/zakat-on-gold-calculator",
     nav: "Zakat on gold",
     title: "Zakat on Gold and Silver Calculator",
