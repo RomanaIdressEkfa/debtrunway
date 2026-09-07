@@ -43,6 +43,14 @@ export const calculators: CalculatorMeta[] = [
     group: "zakat",
   },
   {
+    slug: "/zakat-on-gold-calculator",
+    nav: "Zakat on gold",
+    title: "Zakat on Gold and Silver Calculator",
+    description:
+      "Enter each piece with its weight and carat. The alloy comes out, and the position you follow on worn jewellery is applied and compared.",
+    group: "zakat",
+  },
+  {
     slug: "/zakat-on-investments-calculator",
     nav: "Zakat on investments",
     title: "Zakat on Shares, Pensions and Crypto",
