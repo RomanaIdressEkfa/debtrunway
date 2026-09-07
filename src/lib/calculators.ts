@@ -14,7 +14,7 @@ export interface CalculatorMeta {
   title: string;
   /** Meta description and card body. Keep it under ~155 characters. */
   description: string;
-  group: "estate" | "zakat" | "worship";
+  group: "estate" | "zakat" | "worship" | "finance";
 }
 
 export const calculators: CalculatorMeta[] = [
@@ -98,12 +98,21 @@ export const calculators: CalculatorMeta[] = [
       "Work out when you can go, or what it takes each month — with the zakat your savings owe along the way, which most plans forget.",
     group: "worship",
   },
+  {
+    slug: "/islamic-home-finance-calculator",
+    nav: "Islamic home finance",
+    title: "Islamic Home Finance Calculator — Murabaha, Ijara, Musharakah",
+    description:
+      "What murabaha, ijara and diminishing musharakah each cost on the same figures, and what to ask a provider before signing.",
+    group: "finance",
+  },
 ];
 
 export const groupLabels: Record<CalculatorMeta["group"], string> = {
   estate: "Inheritance and estate",
   zakat: "Zakat",
   worship: "Fasting and worship",
+  finance: "Home and finance",
 };
 
 export const bySlug = (slug: string) =>

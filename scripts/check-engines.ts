@@ -16,6 +16,7 @@ import { calculateFidya } from "../src/lib/fidya";
 import { planHajj, monthlyForTarget } from "../src/lib/hajj";
 import { calculateBusinessZakat } from "../src/lib/business-zakat";
 import { planQurbani } from "../src/lib/qurbani";
+import { planHomeFinance, compareStructures } from "../src/lib/home-finance";
 
 let failures = 0;
 let checks = 0;
@@ -331,6 +332,52 @@ const q = {
 {
   const r = planQurbani({ ...q, people: 0 });
   ok("zero people is treated as one", r.animals === 1, r.animals);
+}
+
+/* ---------------- home finance ---------------- */
+
+console.log("\n--- Home finance ---\n");
+
+const hf = { price: 300000, deposit: 60000, years: 25, rate: 5 };
+
+{
+  const r = planHomeFinance({ ...hf, structure: "murabaha" });
+  ok("murabaha finances price less deposit", r.financed === 240000, r.financed);
+  ok("...over 300 months", r.months === 300, r.months);
+  ok("...with a level payment", r.firstPayment === r.lastPayment, r.firstPayment.toFixed(2));
+  ok("...and a fixed total, 5% x 25y on 240k", Math.abs(r.totalProfit - 300000) < 1, r.totalProfit.toFixed(0));
+}
+{
+  const r = planHomeFinance({ ...hf, structure: "musharakah" });
+  ok("musharakah payment falls over the term", r.firstPayment > r.lastPayment, r.firstPayment.toFixed(0) + " to " + r.lastPayment.toFixed(0));
+  ok("...and costs less than murabaha on the same rate", r.totalProfit < 300000, r.totalProfit.toFixed(0));
+}
+{
+  const all = compareStructures(hf);
+  ok("all three finance the same amount", all.murabaha.financed === all.musharakah.financed && all.ijara.financed === 240000, all.ijara.financed);
+  ok("murabaha is reported as fixed", all.murabaha.fixed === true, all.murabaha.fixed);
+  ok("ijara is not", all.ijara.fixed === false, all.ijara.fixed);
+}
+{
+  const r = planHomeFinance({ ...hf, deposit: 300000, structure: "murabaha" });
+  ok("a deposit covering the price leaves nothing to finance", r.invalid !== null, r.invalid ? "explained" : "silent");
+}
+{
+  const r = planHomeFinance({ ...hf, deposit: 999999, structure: "murabaha" });
+  ok("a deposit above the price cannot go negative", r.financed >= 0, r.financed);
+}
+{
+  const r = planHomeFinance({ ...hf, years: 0, structure: "murabaha" });
+  ok("a zero term is refused rather than divided by", r.invalid !== null, r.invalid ? "explained" : "silent");
+}
+{
+  const r = planHomeFinance({ ...hf, rate: 0, structure: "musharakah" });
+  ok("a zero rate costs nothing above the price", Math.abs(r.totalProfit) < 1e-6, r.totalProfit);
+}
+{
+  const r = planHomeFinance({ ...hf, structure: "musharakah" });
+  const last = r.schedule[r.schedule.length - 1];
+  ok("the last payment leaves the house fully owned", Math.abs(last.ownedPct - 100) < 1e-6, last.ownedPct.toFixed(4));
 }
 
 console.log(
