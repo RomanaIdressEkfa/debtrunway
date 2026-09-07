@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { RATE, SILVER_NISAB_GRAMS, GOLD_NISAB_GRAMS } from "@/lib/zakat";
 import { plain } from "@/lib/format";
+import { CURRENCIES, pricesIn } from "@/lib/metals";
 
 /**
  * The homepage tool: one question, three fields, an answer before you scroll.
@@ -24,11 +25,28 @@ const num = (v: string) => {
 };
 
 export default function QuickNisab() {
+  const seed = pricesIn("USD");
   const [wealth, setWealth] = useState("");
-  const [price, setPrice] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [metal, setMetal] = useState<"silver" | "gold">("silver");
+  const [price, setPrice] = useState(
+    seed.available ? seed.silver.toFixed(3) : "",
+  );
 
   const grams = metal === "silver" ? SILVER_NISAB_GRAMS : GOLD_NISAB_GRAMS;
+
+  // Switching either the metal or the currency refills the price, since the
+  // number in the field belongs to the pair and not to one of them.
+  const refill = (nextMetal: "silver" | "gold", nextCurrency: string) => {
+    setMetal(nextMetal);
+    setCurrency(nextCurrency);
+    const p = pricesIn(nextCurrency);
+    if (p.available) {
+      setPrice(
+        nextMetal === "silver" ? p.silver.toFixed(3) : p.gold.toFixed(2),
+      );
+    }
+  };
 
   const { nisab, due, zakat, gap, ready } = useMemo(() => {
     const unit = num(price);
@@ -100,7 +118,7 @@ export default function QuickNisab() {
           <button
             key={m}
             type="button"
-            onClick={() => setMetal(m)}
+            onClick={() => refill(m, currency)}
             aria-pressed={metal === m}
             className={`press rounded-lg border px-3 py-1.5 text-sm font-medium capitalize transition ${
               metal === m
@@ -111,9 +129,19 @@ export default function QuickNisab() {
             {m}
           </button>
         ))}
-        <span className="text-sm text-muted">
-          ({grams}g)
-        </span>
+        <span className="text-sm text-muted">({grams}g)</span>
+        <select
+          value={currency}
+          onChange={(e) => refill(metal, e.target.value)}
+          aria-label="Currency"
+          className="ml-auto cursor-pointer rounded-lg border border-line bg-surface px-2.5 py-1.5 text-sm font-medium outline-none transition focus:border-brand"
+        >
+          {CURRENCIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* The answer replaces a placeholder rather than appearing below it, so
@@ -172,6 +200,9 @@ export default function QuickNisab() {
       </div>
 
       <p className="mt-4 text-sm leading-relaxed text-muted">
+        {seed.available
+          ? `Prices are the market rate on ${seed.fetchedAt}, filled in for you — change them if your local rate differs. `
+          : ""}
         A rough check, not a ruling. The full calculator separates the assets
         that count from the ones that do not, deducts the debts you owe now,
         and asks about the lunar year — all of which can change the answer.

@@ -9,6 +9,8 @@ import {
   type Standard,
 } from "@/lib/zakat";
 import { plain } from "@/lib/format";
+import { pricesIn, priceNote } from "@/lib/metals";
+import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice } from "./ui";
 
@@ -59,8 +61,31 @@ type AssetKey = (typeof ASSETS)[number]["key"];
 
 export default function ZakatCalculator() {
   const [standard, setStandard] = useState<Standard>("silver");
-  const [goldPrice, setGoldPrice] = useState("");
-  const [silverPrice, setSilverPrice] = useState("");
+  // Seeded from the price baked in at build time, so the page arrives with a
+  // working nisab instead of an empty field and a homework assignment. It is
+  // read from JSON in the bundle, not fetched, so the server and the client
+  // render the same thing and hydration stays quiet.
+  const seed = pricesIn("USD");
+  const [currency, setCurrency] = useState("USD");
+  const [goldPrice, setGoldPrice] = useState(
+    seed.available ? seed.gold.toFixed(2) : "",
+  );
+  const [silverPrice, setSilverPrice] = useState(
+    seed.available ? seed.silver.toFixed(3) : "",
+  );
+
+  // Changing the currency refills the prices. It overwrites whatever was
+  // typed, which is the point: a gold price in pounds is wrong the moment the
+  // reader switches to rupees, and leaving it there would be worse than
+  // replacing it.
+  const changeCurrency = (code: string) => {
+    setCurrency(code);
+    const next = pricesIn(code);
+    if (next.available) {
+      setGoldPrice(next.gold.toFixed(2));
+      setSilverPrice(next.silver.toFixed(3));
+    }
+  };
   const [goldGrams, setGoldGrams] = useState("");
   const [silverGrams, setSilverGrams] = useState("");
   const [debts, setDebts] = useState("");
@@ -105,6 +130,12 @@ export default function ZakatCalculator() {
         />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          <CurrencyPicker
+            value={currency}
+            onChange={changeCurrency}
+            note={priceNote(pricesIn(currency))}
+          />
+          <div className="hidden sm:block" />
           <Money
             label="Gold price per gram"
             hint="Needed if you hold gold, or use the gold standard"

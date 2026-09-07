@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "verify": "tsx scripts/verify-faraid.ts"
+    "verify": "tsx scripts/verify-faraid.ts",
+    "prebuild": "tsx scripts/fetch-metals.ts",
+    "metals": "tsx scripts/fetch-metals.ts"
   },
   "dependencies": {
     "next": "16.3.3",
