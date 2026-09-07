@@ -1,0 +1,38 @@
+<!--
+  The khatam: the eight-point star that runs through Islamic ornament from
+  Cordoba to Isfahan, drawn the way the craftsmen drew it — two squares, one
+  turned forty-five degrees over the other.
+
+  The tile is 100 wide with a star at each corner and one at the centre. That
+  spacing is not arbitrary: corner to centre is 70.71, and a star whose squares
+  are 50 across has a circumradius of 35.36, so neighbouring stars meet point
+  to point exactly. The octagons that appear between them are not drawn at all
+  — they are what is left over, which is how this pattern has always worked.
+
+  Strokes are black here and the colour comes from CSS, which masks this file
+  and paints through it. That way one file serves both the light and the dark
+  theme instead of two files drifting apart.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <g id="khatam">
+      <rect x="-25" y="-25" width="50" height="50" />
+      <rect x="-25" y="-25" width="50" height="50" transform="rotate(45)" />
+    </g>
+  </defs>
+  <g fill="none" stroke="#000" stroke-width="1.15">
+    <use href="#khatam" transform="translate(50 50)" />
+    <use href="#khatam" transform="translate(0 0)" />
+    <use href="#khatam" transform="translate(100 0)" />
+    <use href="#khatam" transform="translate(0 100)" />
+    <use href="#khatam" transform="translate(100 100)" />
+  </g>
+  <!-- The small centred octagons pick out the space the stars leave, which is
+       what stops the field reading as a plain grid of stars. -->
+  <g fill="none" stroke="#000" stroke-width="0.8" stroke-opacity="0.55">
+    <circle cx="50" cy="0" r="7" />
+    <circle cx="0" cy="50" r="7" />
+    <circle cx="100" cy="50" r="7" />
+    <circle cx="50" cy="100" r="7" />
+  </g>
+</svg>

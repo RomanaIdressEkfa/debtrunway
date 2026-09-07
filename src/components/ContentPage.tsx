@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CornerMotif } from "./Ornament";
 
 interface Props {
   heading: string;
@@ -16,9 +17,10 @@ interface Props {
 export default function ContentPage({ heading, intro, children }: Props) {
   return (
     <>
-      <div className="relative isolate overflow-hidden border-b border-line">
+      <div className="band-emerald relative isolate overflow-hidden">
         <div className="band-grid islamic-grid" aria-hidden />
         <div className="hero-wash" aria-hidden />
+        <CornerMotif className="top-0 right-0 h-40 w-40 text-white/45 sm:h-56 sm:w-56" />
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
             <h1 className="text-4xl leading-[1.03] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">

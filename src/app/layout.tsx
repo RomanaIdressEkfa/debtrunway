@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import { Amiri, Geist_Mono, Inter } from "next/font/google";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
@@ -21,6 +21,22 @@ const inter = Inter({
 });
 
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+
+/**
+ * Amiri, for the Arabic.
+ *
+ * It is a revival of the Naskh cut used by the Bulaq press, which is what
+ * Qur'anic text is normally set in and what an Arabic reader expects to see.
+ * A system fallback would land on whatever the device happens to have, and on
+ * Windows that is usually a face designed for interface chrome rather than
+ * scripture. Only the weight actually used is loaded.
+ */
+const amiri = Amiri({
+  variable: "--font-amiri",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://debtrunway.com"),
@@ -66,7 +82,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} ${amiri.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

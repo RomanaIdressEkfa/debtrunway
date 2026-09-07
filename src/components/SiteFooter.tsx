@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CornerMotif } from "./Ornament";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
 import Logo from "./Logo";
 
@@ -26,9 +27,10 @@ const siteLinks = [
  */
 export default function SiteFooter() {
   return (
-    <footer className="no-print relative isolate overflow-hidden border-t border-line bg-surface">
+    <footer className="band-emerald no-print relative isolate overflow-hidden">
       <div className="band-grid footer-grid islamic-grid" aria-hidden />
       <div className="footer-wash" aria-hidden />
+      <CornerMotif className="top-0 left-0 h-40 w-40 -scale-x-100 text-white/35 sm:h-52 sm:w-52" />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           {/* Identity */}
@@ -84,6 +86,23 @@ export default function SiteFooter() {
         </div>
 
         {/* The two things a visitor should leave knowing. */}
+        {/* Surah al-Baqarah 2:201. It closes the page rather than opening it:
+            a reader who came for a number gets the number first, and this is
+            here when they are done. lang and dir are set so a screen reader
+            switches voice and the shaping runs the right way. */}
+        <div className="mt-12 border-t border-line pt-10 text-center">
+          <p lang="ar" dir="rtl" className="arabic text-[var(--gold)]">
+            رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ
+          </p>
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted">
+            &ldquo;Our Lord, grant us good in this world and good in the
+            Hereafter, and protect us from the punishment of the Fire.&rdquo;
+          </p>
+          <p className="mt-1.5 text-xs text-muted/70">
+            Surah al-Baqarah 2:201
+          </p>
+        </div>
+
         <div className="mt-12 grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
           <p className="text-sm leading-relaxed text-muted">
             <strong className="text-foreground">

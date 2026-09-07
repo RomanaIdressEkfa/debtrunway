@@ -9,6 +9,7 @@ import {
   type Standard,
 } from "@/lib/zakat";
 import { plain } from "@/lib/format";
+import { CornerMotif } from "./Ornament";
 import { Card, Notice } from "./ui";
 
 /**
@@ -119,8 +120,8 @@ export default function ZakatCalculator() {
         </div>
 
         <fieldset className="mt-5">
-          <legend className="text-sm font-medium">Measure against</legend>
-          <p className="mt-1 text-xs leading-relaxed text-muted">
+          <legend className="text-base font-semibold">Measure against</legend>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
             The silver threshold is far lower, so it brings more people into
             zakat and more wealth to the poor. Most contemporary scholars
             recommend it for that reason. Some hold that gold better reflects
@@ -152,10 +153,10 @@ export default function ZakatCalculator() {
                   >
                     {label} standard
                   </span>
-                  <span className="mt-0.5 block text-xs text-muted">
+                  <span className="mt-1 block text-sm text-muted">
                     {grams}g of {label.toLowerCase()}
                   </span>
-                  <span className="mt-1.5 block text-sm font-semibold tabular-nums">
+                  <span className="mt-1.5 block text-base font-semibold tabular-nums">
                     {amount > 0 ? plain(amount) : "— enter a price"}
                   </span>
                 </button>
@@ -229,7 +230,7 @@ export default function ZakatCalculator() {
               type="button"
               onClick={() => setHeldAYear(value as boolean)}
               aria-pressed={heldAYear === value}
-              className={`press rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${
+              className={`press rounded-xl border px-4 py-3.5 text-left text-base font-medium transition ${
                 heldAYear === value
                   ? "border-brand bg-brand-soft text-brand"
                   : "border-line text-muted hover:border-brand hover:text-brand"
@@ -250,10 +251,12 @@ export default function ZakatCalculator() {
       ) : (
         <>
           <section
-            className={`shimmer card-shadow rounded-2xl p-5 text-white sm:p-7 ${
+            className={`answer-panel shimmer relative isolate overflow-hidden rounded-2xl p-5 text-white sm:p-7 ${
               result.due ? "bg-brand-panel" : "bg-danger-panel"
             }`}
           >
+            <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
+            <CornerMotif className="top-0 right-0 h-36 w-36 text-white/35" />
             <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">
               {result.due ? "Zakat due at 2.5%" : "Below the nisab"}
             </p>
@@ -300,14 +303,14 @@ export default function ZakatCalculator() {
               <h2 className="text-lg font-bold tracking-tight">
                 What was counted
               </h2>
-              <table className="mt-4 w-full border-collapse text-sm">
+              <table className="mt-4 w-full border-collapse text-base">
                 <tbody>
                   {result.assets.map((line) => (
                     <tr key={line.label} className="border-b border-line">
                       <td className="py-2.5 pr-4">
                         {line.label}
                         {line.hint && (
-                          <span className="mt-0.5 block text-xs text-muted">
+                          <span className="mt-1 block text-sm text-muted">
                             {line.hint}
                           </span>
                         )}
@@ -378,7 +381,7 @@ function StepHeading({
       </span>
       <div>
         <h2 className="text-lg font-bold tracking-tight sm:text-xl">{title}</h2>
-        <p className="mt-1 text-sm leading-relaxed text-muted">{sub}</p>
+        <p className="mt-1.5 text-base leading-relaxed text-muted">{sub}</p>
       </div>
     </div>
   );
@@ -399,8 +402,8 @@ function Money({
 }) {
   return (
     <label className="block min-w-0">
-      <span className="block text-sm font-medium">{label}</span>
-      <span className="mt-0.5 block text-xs leading-tight text-muted">
+      <span className="block text-base font-medium">{label}</span>
+      <span className="mt-1 block text-sm leading-snug text-muted">
         {hint}
       </span>
       <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">

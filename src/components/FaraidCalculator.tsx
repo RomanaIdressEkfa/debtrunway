@@ -8,6 +8,7 @@ import {
   type Heirs,
 } from "@/lib/faraid";
 import { plain } from "@/lib/format";
+import { CornerMotif } from "./Ornament";
 import { Card, Notice } from "./ui";
 
 /**
@@ -231,8 +232,8 @@ export default function FaraidCalculator() {
         <div className="mt-5 space-y-5">
           {GROUPS.map((group) => (
             <section key={group.title}>
-              <h3 className="text-sm font-bold">{group.title}</h3>
-              <p className="mt-0.5 text-xs leading-relaxed text-muted">
+              <h3 className="text-base font-bold">{group.title}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-muted">
                 {group.hint}
               </p>
               <div className="mt-3 divide-y divide-line overflow-hidden rounded-xl border border-line">
@@ -271,7 +272,9 @@ export default function FaraidCalculator() {
         </Notice>
       ) : (
         <>
-          <section className="shimmer card-shadow rounded-2xl bg-brand-panel p-5 text-white sm:p-7">
+          <section className="answer-panel shimmer relative isolate overflow-hidden rounded-2xl bg-brand-panel p-5 text-white sm:p-7">
+            <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
+            <CornerMotif className="top-0 right-0 h-36 w-36 text-white/35" />
             <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">
               The estate divides as follows
             </p>
@@ -322,7 +325,7 @@ export default function FaraidCalculator() {
               Why each share is what it is
             </h2>
             <div className="mt-4 overflow-x-auto">
-              <table className="w-full min-w-[540px] border-collapse text-sm">
+              <table className="w-full min-w-[560px] border-collapse text-base">
                 <thead>
                   <tr className="border-b border-line text-left">
                     <th className="py-2 pr-4 font-semibold">Heir</th>
@@ -341,7 +344,7 @@ export default function FaraidCalculator() {
                         {a.count > 1 && (
                           <span className="text-muted"> ×{a.count}</span>
                         )}
-                        <span className="mt-0.5 block text-xs leading-relaxed text-muted">
+                        <span className="mt-1 block text-sm leading-relaxed text-muted">
                           {a.reason}
                         </span>
                       </td>
@@ -363,7 +366,7 @@ export default function FaraidCalculator() {
             {result.notes.length > 0 && (
               <div className="mt-5 space-y-3 border-t border-line pt-4">
                 {result.notes.map((note) => (
-                  <p key={note} className="text-sm leading-relaxed text-muted">
+                  <p key={note} className="text-base leading-relaxed text-muted">
                     {note}
                   </p>
                 ))}
@@ -376,11 +379,11 @@ export default function FaraidCalculator() {
               <h2 className="text-lg font-bold tracking-tight">
                 Who does not inherit here
               </h2>
-              <p className="mt-1.5 text-sm text-muted">
+              <p className="mt-1.5 text-base text-muted">
                 A nearer heir stands in the way. This is hajb, and it is a rule
                 of the law rather than a slight against anyone.
               </p>
-              <ul className="mt-4 space-y-2 text-sm">
+              <ul className="mt-4 space-y-2 text-base">
                 {result.blocked.map((b) => (
                   <li
                     key={b.label + b.by}
@@ -427,7 +430,7 @@ function StepHeading({
       </span>
       <div>
         <h2 className="text-lg font-bold tracking-tight sm:text-xl">{title}</h2>
-        <p className="mt-1 text-sm leading-relaxed text-muted">{sub}</p>
+        <p className="mt-1.5 text-base leading-relaxed text-muted">{sub}</p>
       </div>
     </div>
   );
@@ -450,8 +453,8 @@ function Money({
 }) {
   return (
     <label className="block min-w-0">
-      <span className="block text-sm font-medium">{label}</span>
-      <span className="mt-0.5 block text-xs leading-tight text-muted">
+      <span className="block text-base font-medium">{label}</span>
+      <span className="mt-1 block text-sm leading-snug text-muted">
         {hint}
       </span>
       <span className="mt-2 flex items-center rounded-xl border border-line bg-surface px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
@@ -480,11 +483,11 @@ function Row({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 px-3 py-2.5">
+    <div className="flex items-center justify-between gap-4 px-4 py-3.5">
       <span className="min-w-0">
-        <span className="block text-sm font-medium">{label}</span>
+        <span className="block text-base font-medium">{label}</span>
         {hint && (
-          <span className="mt-0.5 block text-xs leading-tight text-muted">
+          <span className="mt-0.5 block text-sm leading-snug text-muted">
             {hint}
           </span>
         )}
@@ -513,13 +516,13 @@ function Toggle({
         aria-checked={on}
         aria-label={label}
         onClick={() => onChange(!on)}
-        className={`press relative h-7 w-12 shrink-0 rounded-full border transition ${
+        className={`press relative h-8 w-14 shrink-0 rounded-full border transition ${
           on ? "border-brand bg-brand" : "border-line bg-background"
         }`}
       >
         <span
-          className={`absolute top-0.5 h-5 w-5 rounded-full bg-surface shadow-sm transition-all ${
-            on ? "left-[1.4rem]" : "left-0.5"
+          className={`absolute top-0.5 h-6 w-6 rounded-full bg-surface shadow-sm transition-all ${
+            on ? "left-[1.7rem]" : "left-0.5"
           }`}
         />
       </button>
@@ -554,7 +557,7 @@ function Counter({
         />
         <span
           aria-live="polite"
-          className={`w-7 text-center text-base font-bold tabular-nums ${
+          className={`w-8 text-center text-lg font-bold tabular-nums ${
             value === 0 ? "text-muted/40" : ""
           }`}
         >
@@ -588,7 +591,7 @@ function StepButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="press flex h-8 w-8 items-center justify-center rounded-lg border border-line text-base leading-none text-muted transition hover:border-brand hover:text-brand disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line disabled:hover:text-muted"
+      className="press flex h-9 w-9 items-center justify-center rounded-lg border border-line text-lg leading-none text-muted transition hover:border-brand hover:text-brand disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line disabled:hover:text-muted"
     >
       {sign}
     </button>
