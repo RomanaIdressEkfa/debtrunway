@@ -1,7 +1,27 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { BandCurve, CornerMotif } from "@/components/Ornament";
 import QuickNisab from "@/components/QuickNisab";
+import { ANSWERS } from "@/lib/answers";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
+
+const SITE = "https://debtrunway.com";
+
+/**
+ * The homepage had no metadata export at all, so it inherited the layout's
+ * defaults and — the part that mattered — carried no canonical. Every other
+ * page on the site declares one. The page most likely to be reached through a
+ * tracking parameter or a trailing-slash variant was the one page that did
+ * not, which is the wrong way round.
+ */
+export const metadata: Metadata = {
+  // Shorter than the layout default, which ran to 64 characters and was cut
+  // off in results. This fits inside the roughly 60 Google renders.
+  title: {
+    absolute: "Islamic Finance Calculators — Zakat and Faraid | DebtRunway",
+  },
+  alternates: { canonical: "/" },
+};
 
 /**
  * The hub, not a tool.
@@ -14,6 +34,64 @@ import { calculators, groupLabels, groups } from "@/lib/calculators";
 export default function Home() {
   return (
     <>
+      {/* The site's own description, which existed nowhere.
+          Every calculator page carried FAQPage and every answer carried
+          QAPage, but the page that says what the whole site *is* carried
+          nothing — so a search engine had to infer the publisher, the scope
+          and the relationship between the tools from the markup alone.
+          WebSite and Organization state it; the ItemList names every tool and
+          answer so the set is discoverable from one document. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": `${SITE}/#website`,
+                url: `${SITE}/`,
+                name: "DebtRunway",
+                description:
+                  "Free Islamic finance calculators and long-form answers — faraid, zakat, wills, prayer times and the questions in between.",
+                inLanguage: "en",
+                publisher: { "@id": `${SITE}/#publisher` },
+              },
+              {
+                "@type": "Organization",
+                "@id": `${SITE}/#publisher`,
+                name: "DebtRunway",
+                url: `${SITE}/`,
+                founder: {
+                  "@type": "Person",
+                  name: "Romana Idress Ekfa",
+                  url: `${SITE}/about`,
+                },
+              },
+              {
+                "@type": "ItemList",
+                name: "Islamic calculators and answers",
+                numberOfItems: calculators.length + ANSWERS.length,
+                itemListElement: [
+                  ...calculators.map((c, i) => ({
+                    "@type": "ListItem",
+                    position: i + 1,
+                    name: c.title,
+                    url: `${SITE}${c.slug}`,
+                  })),
+                  ...ANSWERS.map((a, i) => ({
+                    "@type": "ListItem",
+                    position: calculators.length + i + 1,
+                    name: a.question,
+                    url: `${SITE}/answers/${a.slug}`,
+                  })),
+                ],
+              },
+            ],
+          }),
+        }}
+      />
+
       <div className="band-emerald relative isolate overflow-hidden">
         <div className="band-grid islamic-grid" aria-hidden />
         <div className="hero-wash" aria-hidden />

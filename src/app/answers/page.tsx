@@ -4,9 +4,9 @@ import ContentPage from "@/components/ContentPage";
 import { ANSWERS, topicLabels } from "@/lib/answers";
 
 export const metadata: Metadata = {
-  title: "Answers",
+  title: "Answers — Islamic Money, Family and Worship",
   description:
-    "Straight answers to the questions Muslims actually ask — bank interest, credit cards, insurance, share screening, inheritance shares, adopted children and missed prayers.",
+    "Long answers to the questions Muslims actually search — bank interest, credit cards, insurance, halal shares, inheritance shares and missed prayers.",
   alternates: { canonical: "/answers" },
 };
 

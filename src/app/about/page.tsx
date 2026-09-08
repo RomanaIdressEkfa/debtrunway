@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContentPage from "@/components/ContentPage";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About — Who Builds These Calculators",
   description:
     "DebtRunway is built by Romana Idress Ekfa. How the inheritance and zakat calculations work, and why the tools are free.",
   alternates: { canonical: "/about" },

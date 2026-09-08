@@ -101,7 +101,7 @@ export const calculators: CalculatorMeta[] = [
   {
     slug: "/islamic-home-finance-calculator",
     nav: "Islamic home finance",
-    title: "Islamic Home Finance Calculator — Murabaha, Ijara, Musharakah",
+    title: "Islamic Home Finance Calculator",
     description:
       "What murabaha, ijara and diminishing musharakah each cost on the same figures, and what to ask a provider before signing.",
     group: "finance",
@@ -117,7 +117,7 @@ export const calculators: CalculatorMeta[] = [
   {
     slug: "/halal-e-numbers-checker",
     nav: "Halal E numbers",
-    title: "Halal E Numbers Checker — What the Number Can and Cannot Tell You",
+    title: "Halal E Numbers Checker — Is It Really Haram?",
     description:
       "Look up any E number and see whether it is settled, depends on the source, or is a matter scholars differ on — and why the forwarded lists are wrong.",
     group: "daily",

@@ -265,7 +265,7 @@ export const ANSWERS: Answer[] = [
   {
     slug: "is-my-salary-haram-if-my-employer-deals-in-interest",
     question: "Is my salary haram if my employer deals in interest?",
-    title: "Is my salary haram if my employer deals in interest?",
+    title: "Is my salary haram if I work for a bank?",
     summary:
       "What your own role is doing matters more than what the company does. The line most scholars draw, and where it leaves ordinary jobs.",
     topic: "money",
@@ -375,7 +375,7 @@ export const ANSWERS: Answer[] = [
   {
     slug: "why-does-a-daughter-inherit-half",
     question: "Why does a daughter inherit half of what a son inherits?",
-    title: "Why a daughter inherits half of a son's share",
+    title: "Why does a daughter inherit half?",
     summary:
       "The rule is narrower than it is usually stated, and the reasoning behind it is about obligations rather than worth. What it does and does not apply to.",
     topic: "family",
@@ -449,7 +449,7 @@ export const ANSWERS: Answer[] = [
     question: "Do adopted children inherit in Islam?",
     title: "Do adopted and step-children inherit?",
     summary:
-      "Not by the fixed shares — and that is not the end of the answer. Why the bequest exists for exactly this case, and the trap of writing an Islamic will in a country whose courts will not recognise it.",
+      "Not by the fixed shares — and that is not the end of it. Why the one-third bequest exists for this case, and the will a British court will override.",
     topic: "family",
     short:
       "No, not through faraid: the fixed shares run on lineage, and adoption in the Western legal sense does not create it. But an adopted or foster child is not an heir, which means the one-third bequest is available to them without restriction — the case the third exists for.",
@@ -515,7 +515,7 @@ export const ANSWERS: Answer[] = [
     question: "Do I have to make up prayers I have missed?",
     title: "Do I have to make up missed prayers?",
     summary:
-      "Sleep and forgetfulness are agreed. Years of deliberate abandonment are not — and the two positions lead to genuinely different advice. Both, and how to actually start.",
+      "Sleep and forgetfulness are agreed. Years of deliberate abandonment are not — and the two positions differ. Both are set out, with how to actually begin.",
     topic: "worship",
     short:
       "A prayer missed through sleep or forgetfulness is prayed when you remember, by consensus. For prayers abandoned deliberately over years the four schools require them to be made up; a minority position holds they cannot be made up at all and what remains is repentance. Both positions agree on what you do next.",
