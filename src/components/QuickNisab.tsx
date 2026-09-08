@@ -73,17 +73,23 @@ export default function QuickNisab() {
         the market — look up today&rsquo;s price and the threshold follows.
       </p>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      {/* field-row, which every calculator page already uses.
+          Without it the two fields are independent columns, so the one with
+          the shorter hint floats its input a line higher than the other —
+          which is exactly what happened the moment this hint grew to two
+          lines. The subgrid pins the label, the hint and the box to shared
+          rows, so the boxes stay level however long either hint runs. */}
+      <div className="field-row mt-5 grid gap-4 sm:grid-cols-2">
         <label className="block min-w-0">
           <span className="block text-base font-medium">
             What you hold, in total
           </span>
           {/* Gold has to be entered as money here, and people arrive holding
-              it as a weight. Saying so in the hint is cheaper than a second
-              field, and the link goes where the weight can be typed. */}
+              it as a weight. One clause is enough to say so; the longer
+              version this replaced wrapped and unbalanced the card. */}
           <span className="mt-1 block text-sm leading-snug text-muted">
-            Cash, bank, investments, and gold and silver at what they would
-            sell for today — minus what you owe now
+            Cash, bank, investments and gold at its sale value — less what you
+            owe now
           </span>
           <span className="mt-2 flex items-center rounded-xl border border-line px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
             <input
