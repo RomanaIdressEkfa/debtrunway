@@ -66,6 +66,25 @@ export default function Home() {
           );
         })}
 
+        {/* The answers are content rather than tools, so they sit after the
+            calculators and before the prose that explains the site. */}
+        <section className="mt-12">
+          <h2 className="rule-gold display text-2xl">Answers</h2>
+          <Link
+            href="/answers"
+            className="card-shadow mt-4 block rounded-2xl border border-line bg-surface p-5 transition hover:border-brand"
+          >
+            <span className="text-lg font-bold tracking-tight">
+              The questions people actually search
+            </span>
+            <span className="mt-1.5 block text-sm leading-relaxed text-muted">
+              Bank interest, credit cards, insurance, share screening, working
+              for a bank, and mortgages — set out at length, with where the
+              scholars part.
+            </span>
+          </Link>
+        </section>
+
         <section className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-14">
           <article>
             <h2 className="text-2xl font-bold tracking-tight">

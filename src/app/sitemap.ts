@@ -2,6 +2,7 @@
 export const dynamic = "force-static";
 
 import type { MetadataRoute } from "next";
+import { ANSWERS } from "@/lib/answers";
 import { calculators } from "@/lib/calculators";
 
 const SITE = "https://debtrunway.com";
@@ -33,6 +34,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    // The answers index, then every answer. They are content rather than
+    // tools, so they sit between the calculators and the standing pages.
+    {
+      url: loc("/answers"),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    ...ANSWERS.map((a) => ({
+      url: loc(`/answers/${a.slug}`),
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
     })),
     ...["/about", "/contact", "/privacy", "/terms"].map((path) => ({
       url: loc(path),

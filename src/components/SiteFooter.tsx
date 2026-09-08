@@ -4,6 +4,7 @@ import { calculators, groupLabels, groups } from "@/lib/calculators";
 import Logo from "./Logo";
 
 const siteLinks = [
+  { href: "/answers", label: "Answers" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy", label: "Privacy" },
