@@ -15,7 +15,9 @@ import {
   calculatePrayerTimes,
   compassPoint,
   formatTime,
+  nextPrayer,
   qiblaDirection,
+  type PrayerTime,
 } from "../src/lib/prayer-times";
 
 let failures = 0;
@@ -184,6 +186,63 @@ for (const [name, input] of [
   const hours = order.map((k) => at(r, k));
   const ascending = hours.every((h, i) => h !== null && (i === 0 || (hours[i - 1] as number) < h));
   ok("Cape Town: the six times run in order", ascending, order.map((k) => formatTime(at(r, k))).join(" "));
+}
+
+/* ---------------- the countdown ---------------- */
+
+console.log("\n--- Next prayer ---\n");
+
+// A plain day: Fajr 05:00, Dhuhr 12:00, Asr 15:30, Maghrib 18:00, Isha 19:30.
+const day: PrayerTime[] = [
+  { key: "fajr", label: "Fajr", hours: 5, estimated: false },
+  { key: "sunrise", label: "Sunrise", hours: 6.5, estimated: false },
+  { key: "dhuhr", label: "Dhuhr", hours: 12, estimated: false },
+  { key: "asr", label: "Asr", hours: 15.5, estimated: false },
+  { key: "maghrib", label: "Maghrib", hours: 18, estimated: false },
+  { key: "isha", label: "Isha", hours: 19.5, estimated: false },
+];
+
+{
+  const r = nextPrayer(day, 13);
+  ok("at 13:00 the next prayer is Asr", r?.key === "asr", r?.key);
+  ok("...and the current one is Dhuhr", r?.currentKey === "dhuhr", r?.currentKey);
+  ok("...2h30m away", r?.hours === 2 && r?.minutes === 30, `${r?.hours}h${r?.minutes}m`);
+}
+{
+  // Sunrise sits in the timetable but is not a prayer to count down to.
+  const r = nextPrayer(day, 6);
+  ok("sunrise is skipped as a target", r?.key === "dhuhr", r?.key);
+  ok("...and Fajr is still the prayer we are in", r?.currentKey === "fajr", r?.currentKey);
+}
+{
+  // Before the first prayer: the one we are in is yesterday's Isha.
+  const r = nextPrayer(day, 3);
+  ok("at 03:00 the next is Fajr", r?.key === "fajr", r?.key);
+  ok("...and we are still in yesterday\u2019s Isha", r?.currentKey === "isha", r?.currentKey);
+  ok("...2h away", r?.hours === 2 && r?.minutes === 0, `${r?.hours}h${r?.minutes}m`);
+}
+{
+  // After the last: the next is tomorrow's Fajr and the gap wraps midnight.
+  const r = nextPrayer(day, 22);
+  ok("at 22:00 the next is tomorrow\u2019s Fajr", r?.key === "fajr", r?.key);
+  ok("...7h away, wrapping midnight", r?.hours === 7 && r?.minutes === 0, `${r?.hours}h${r?.minutes}m`);
+  ok("...and we are in Isha", r?.currentKey === "isha", r?.currentKey);
+}
+{
+  // Progress runs forward through the gap and never leaves 0..1.
+  const early = nextPrayer(day, 12.1);
+  const late = nextPrayer(day, 15.4);
+  ok("progress rises as the next prayer nears", (early?.progress ?? 1) < (late?.progress ?? 0), `${early?.progress.toFixed(2)} then ${late?.progress.toFixed(2)}`);
+  ok("...and stays inside 0 to 1 across the whole day", Array.from({ length: 240 }, (_, i) => nextPrayer(day, i / 10)).every((r) => r !== null && r.progress >= 0 && r.progress <= 1), "24h swept");
+}
+{
+  ok("a timetable with no prayers returns nothing", nextPrayer([], 12) === null, "null");
+}
+{
+  // Exactly on a prayer time: that prayer is now current, not next.
+  const r = nextPrayer(day, 15.5);
+  ok("standing exactly on Asr, Asr is current", r?.currentKey === "asr", r?.currentKey);
+  ok("...and Maghrib is next", r?.key === "maghrib", r?.key);
 }
 
 console.log(

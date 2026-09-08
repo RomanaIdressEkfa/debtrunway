@@ -356,3 +356,70 @@ export function compassPoint(bearing: number): string {
   ];
   return points[Math.round(fixAngle(bearing) / 22.5) % 16];
 }
+
+/**
+ * Which prayer is next, which is current, and how far through the gap we are.
+ *
+ * This lived inside the component, where it could not be tested — and it is
+ * the piece most likely to be quietly wrong, because every interesting case
+ * happens at a boundary. Before Fajr the current prayer is yesterday's Isha;
+ * after Isha the next one is tomorrow's Fajr and the gap wraps past midnight;
+ * at high latitude a prayer may be missing from the list altogether.
+ *
+ * Sunrise is not a prayer and is skipped, though it stays in the timetable.
+ */
+export interface NextPrayer {
+  key: string;
+  label: string;
+  /** The prayer now in, which is the previous one. */
+  currentKey: string;
+  /** When the next one falls, in hours after midnight. */
+  at: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  /** How far through the gap between the two, from 0 to 1. */
+  progress: number;
+}
+
+const PRAYER_KEYS = new Set(["fajr", "dhuhr", "asr", "maghrib", "isha"]);
+
+export function nextPrayer(
+  times: PrayerTime[],
+  hoursNow: number,
+): NextPrayer | null {
+  const prayers = times
+    .filter((t) => PRAYER_KEYS.has(t.key) && t.hours !== null)
+    .map((t) => ({ ...t, hours: t.hours as number }))
+    .sort((a, b) => a.hours - b.hours);
+
+  if (prayers.length === 0) return null;
+
+  const later = prayers.find((t) => t.hours > hoursNow);
+  // Past the last prayer of the day, the next is the first one tomorrow.
+  const target = later ?? prayers[0];
+  const gap = later ? target.hours - hoursNow : 24 - hoursNow + target.hours;
+
+  // Before the first prayer of the day, the one we are in is the last of
+  // yesterday.
+  const current =
+    [...prayers].reverse().find((t) => t.hours <= hoursNow) ??
+    prayers[prayers.length - 1];
+
+  // The span between them, wrapping midnight wherever it has to.
+  let span = target.hours - current.hours;
+  if (span <= 0) span += 24;
+
+  const totalSeconds = Math.max(0, Math.round(gap * 3600));
+
+  return {
+    key: target.key,
+    label: target.label,
+    currentKey: current.key,
+    at: target.hours,
+    hours: Math.floor(totalSeconds / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+    progress: span > 0 ? Math.min(1, Math.max(0, (span - gap) / span)) : 0,
+  };
+}

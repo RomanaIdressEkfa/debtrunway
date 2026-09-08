@@ -6,6 +6,7 @@ import {
   calculatePrayerTimes,
   compassPoint,
   formatTime,
+  nextPrayer,
   qiblaDirection,
   type AsrSchool,
 } from "@/lib/prayer-times";
@@ -86,8 +87,6 @@ const num = (v: string) => {
   return Number.isFinite(n) ? n : 0;
 };
 
-const PRAYERS = new Set(["fajr", "dhuhr", "asr", "maghrib", "isha"]);
-
 export default function PrayerTimesCalculator() {
   // Both of these are read from the environment rather than held in state,
   // so nothing has to be copied in after mount.
@@ -136,46 +135,15 @@ export default function PrayerTimesCalculator() {
 
   const qibla = place ? qiblaDirection(place.lat, place.lng) : null;
 
-  /** Which prayer is next, and how long until it. */
+  // The boundary cases here — before Fajr, after Isha, exactly on a prayer —
+  // are the ones most likely to be quietly wrong, so the logic lives in the
+  // library where check-prayer can exercise all of them.
   const next = useMemo(() => {
     if (!result || !now) return null;
-    const hoursNow =
-      now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
-
-    const upcoming = result.times
-      .filter((t) => PRAYERS.has(t.key) && t.hours !== null)
-      .map((t) => ({ ...t, hours: t.hours as number }));
-    if (upcoming.length === 0) return null;
-
-    const later = upcoming.find((t) => t.hours > hoursNow);
-    // After Isha the next prayer is tomorrow's Fajr, so the gap wraps midnight.
-    const target = later ?? upcoming[0];
-    const gap = later
-      ? target.hours - hoursNow
-      : 24 - hoursNow + target.hours;
-
-    const current =
-      [...upcoming].reverse().find((t) => t.hours <= hoursNow) ??
-      upcoming[upcoming.length - 1];
-
-    const totalSeconds = Math.max(0, Math.round(gap * 3600));
-    return {
-      label: target.label,
-      key: target.key,
-      currentKey: current.key,
-      at: target.hours,
-      h: Math.floor(totalSeconds / 3600),
-      m: Math.floor((totalSeconds % 3600) / 60),
-      s: totalSeconds % 60,
-      /** How far through the gap between the two prayers we are, 0 to 1. */
-      progress: (() => {
-        const span = later
-          ? target.hours - current.hours + (current.hours > target.hours ? 24 : 0)
-          : 24 - current.hours + target.hours;
-        const done = span - gap;
-        return span > 0 ? Math.min(1, Math.max(0, done / span)) : 0;
-      })(),
-    };
+    return nextPrayer(
+      result.times,
+      now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600,
+    );
   }, [result, now]);
 
   const useExactLocation = () => {
@@ -256,11 +224,11 @@ export default function PrayerTimesCalculator() {
               className="mt-1 text-5xl font-bold tracking-tight tabular-nums sm:text-6xl"
               aria-live="off"
             >
-              {String(next.h).padStart(2, "0")}
+              {String(next.hours).padStart(2, "0")}
               <span className="text-white/50">:</span>
-              {String(next.m).padStart(2, "0")}
+              {String(next.minutes).padStart(2, "0")}
               <span className="text-white/50">:</span>
-              {String(next.s).padStart(2, "0")}
+              {String(next.seconds).padStart(2, "0")}
             </p>
             <p className="mt-1.5 text-lg text-white/85">
               at {formatTime(next.at)}
