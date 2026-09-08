@@ -320,8 +320,8 @@ export default function PrayerTimesCalculator() {
             : source === "typed"
               ? "Using the coordinates you entered."
               : zoneKnown
-                ? `Taken from your time zone, which puts you near ${place.city} — right to within a couple of minutes. Use your exact location below for the rest.`
-                : `Your time zone is not one we have a city for, so these are ${place.city}'s times. Set your location below.`}{" "}
+                ? `Your browser reports ${zone}, which puts you near ${place.city} — right to within a couple of minutes. Use your exact location below for the rest.`
+                : `Your browser reports ${zone || "no time zone"}, which is not one we have a city for, so these are ${place.city}'s times. Set your location below.`}{" "}
           Following {result.method.label}, Asr at shadow{" "}
           {asr === "hanafi" ? "×2" : "×1"}.
         </p>
