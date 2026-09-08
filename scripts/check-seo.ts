@@ -17,6 +17,7 @@
  * not the registry field.
  */
 
+import { readFileSync } from "node:fs";
 import { calculators } from "../src/lib/calculators";
 import { ANSWERS, topicLabels } from "../src/lib/answers";
 
@@ -216,6 +217,55 @@ console.log("\n--- The answers hold their own shape ---\n");
     (t) => !ANSWERS.some((a) => a.topic === t),
   );
   ok("no topic heading is empty", empty.length === 0, empty.join("; ") || "all three filled");
+}
+
+console.log("\n--- The privacy page tells the truth ---\n");
+
+{
+  /**
+   * The privacy page promises, in its own words, to change the day anything
+   * is added. A promise like that is kept by a person remembering, which is
+   * to say it is eventually broken. This checks it instead.
+   *
+   * It is a blunt check on purpose: if a script is loaded, the page must name
+   * its vendor. It cannot verify that the description is accurate — only a
+   * reader can — but it can stop the page saying "no tracking scripts" on a
+   * site that has one.
+   */
+  const layout = readFileSync("src/app/layout.tsx", "utf8");
+  const privacy = readFileSync("src/app/privacy/page.tsx", "utf8");
+
+  const hasBeacon = /cloudflareinsights\.com/.test(layout);
+  const namesIt = /Cloudflare Web Analytics/.test(privacy);
+  ok(
+    hasBeacon
+      ? "the analytics script is named on the privacy page"
+      : "no analytics script, and the privacy page does not claim one",
+    hasBeacon === namesIt,
+    hasBeacon
+      ? namesIt
+        ? "beacon present and disclosed"
+        : "BEACON LOADED BUT NOT DISCLOSED"
+      : namesIt
+        ? "privacy page describes a script that is not loaded"
+        : "neither present",
+  );
+
+  // The specific sentence that was true before the beacon and false after.
+  const staleClaim = /no tracking scripts/i.test(privacy);
+  ok(
+    "the privacy page does not still claim there are no tracking scripts",
+    !(hasBeacon && staleClaim),
+    staleClaim ? "STALE CLAIM PRESENT" : "clean",
+  );
+
+  // Nothing about the beacon changes this, and the site would be worth less
+  // if it ever did.
+  ok(
+    "the privacy page still promises entered figures are never transmitted",
+    /never (?:transmitted|sent)|is sent anywhere/i.test(privacy),
+    "stated",
+  );
 }
 
 console.log(

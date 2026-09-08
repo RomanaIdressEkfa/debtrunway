@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Amiri, Cinzel_Decorative, Inter, Roboto_Slab } from "next/font/google";
 import Link from "next/link";
+import Script from "next/script";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
 import SiteNav from "@/components/SiteNav";
@@ -156,6 +157,34 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
 
         <SiteFooter />
+
+        {/*
+         * Cloudflare Web Analytics.
+         *
+         * Chosen over Google Analytics deliberately. It sets no cookie, builds
+         * no cross-site profile and does not fingerprint the device, so there
+         * is nothing to ask consent for under the GDPR or the ePrivacy rules,
+         * and no banner has to appear on a page about someone's inheritance.
+         *
+         * The token is public by design — it ships in the HTML of every page
+         * and identifies the site to Cloudflare, not the account. It is not a
+         * credential and there is nothing to protect by hiding it.
+         *
+         * What this does send, on every page view: the URL, the referrer, the
+         * country, the browser and screen size. That is a real change from
+         * sending nothing, so /privacy says so in the same commit that added
+         * this. Whatever a reader types into a calculator is still never
+         * transmitted — the beacon has no access to it.
+         *
+         * afterInteractive keeps it out of the critical path, so a slow beacon
+         * cannot delay the page a visitor came for.
+         */}
+        <Script
+          strategy="afterInteractive"
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "b29dfc2a3b4b4729bcbc6efbb5b7b063"}'
+        />
       </body>
     </html>
   );

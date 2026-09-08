@@ -37,30 +37,57 @@ export default function Privacy() {
 
       <h2 className="mt-8 text-xl font-bold">Analytics and advertising</h2>
       {/* This section states what is true today and not what might be true
-          later. Update it the day anything is added, not after. */}
+          later. Update it the day anything is added, not after — which is what
+          happened when the Cloudflare beacon went in. */}
       <p className="mt-3 leading-relaxed">
         There is no advertising on this site and no advertising network is
-        loaded. There are no tracking scripts, no cookies set by us, and no
-        third party is given anything you enter.
+        loaded. No third party is given anything you enter into a calculator.
       </p>
       <p className="mt-3 leading-relaxed">
-        Our hosting provider records ordinary server logs — the pages requested
-        and roughly where in the world the request came from — as any web host
-        does, and we see those only as aggregate counts. They contain nothing
-        you typed, because nothing you type is ever sent.
+        There is one analytics script, and this page would rather name it than
+        describe it vaguely. It is{" "}
+        <strong>Cloudflare Web Analytics</strong>, and on each page view it
+        records the address of the page, the site you arrived from, your
+        country, your browser and your screen size. That is the whole list.
       </p>
       <p className="mt-3 leading-relaxed">
-        If that ever changes, this page changes on the same day, and it will say
-        plainly what was added rather than that something &ldquo;may&rdquo; be
-        in use.
+        It was chosen over the usual alternative for specific reasons. It sets
+        no cookie. It does not follow you to any other website, and it cannot,
+        because it builds no identifier that persists between sites or between
+        visits. It does not fingerprint your device. There is consequently
+        nothing for you to consent to and no banner interrupting a page about
+        your family&rsquo;s inheritance.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        What it does <em>not</em> see is everything that matters here. The
+        script has no access to the fields on any calculator. The value of your
+        estate, who in your family has died, what you hold in gold or in the
+        bank — none of it is sent anywhere, by this script or by anything else.
+        The calculation still runs entirely in your browser.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        Our hosting provider also records ordinary server logs — the pages
+        requested and roughly where in the world the request came from — as any
+        web host does, and we see those only as aggregate counts.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        If anything further is added, this page changes on the same day, and it
+        will say plainly what was added rather than that something
+        &ldquo;may&rdquo; be in use. That is how this paragraph came to name
+        Cloudflare.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Your choices</h2>
       <p className="mt-3 leading-relaxed">
         You can block cookies and storage in your browser settings and every
         calculator here will work exactly as it does now — the only thing you
-        lose is the theme being remembered. There is nothing to opt out of,
-        because there is nothing collecting.
+        lose is the theme being remembered.
+      </p>
+      <p className="mt-3 leading-relaxed">
+        If you would rather not be counted at all, any content blocker or a
+        browser with tracker blocking switched on will stop the analytics
+        script, and nothing on the site breaks when it does. Every calculator
+        works identically with it blocked, because none of them depend on it.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Contact</h2>
