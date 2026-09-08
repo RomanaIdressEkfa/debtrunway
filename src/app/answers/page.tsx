@@ -6,7 +6,7 @@ import { ANSWERS, topicLabels } from "@/lib/answers";
 export const metadata: Metadata = {
   title: "Answers",
   description:
-    "Straight answers to the money questions Muslims actually ask — bank interest, credit cards, insurance, share screening, working for a bank, and mortgages.",
+    "Straight answers to the questions Muslims actually ask — bank interest, credit cards, insurance, share screening, inheritance shares, adopted children and missed prayers.",
   alternates: { canonical: "/answers" },
 };
 
@@ -18,11 +18,15 @@ export default function Page() {
       heading="Answers"
       intro="The questions people put into a search box rather than into a calculator. Each one sets out the positions, says where scholars part, and points at the tool if there is one."
     >
+      {/* Counted from the data rather than written out, because the sentence
+          said six for as long as there were six and would have gone on saying
+          it. */}
       <p className="leading-relaxed">
-        There are six of these and they are long. That is deliberate: a page
-        that gestures at an answer wastes the reader&rsquo;s time and, on a
-        site full of them, buries the pages that do not. More will be added
-        when there is something worth saying at this length.
+        There are {ANSWERS.length} of these and they are long. That is
+        deliberate: a page that gestures at an answer wastes the
+        reader&rsquo;s time and, on a site full of them, buries the pages that
+        do not. More are added when there is something worth saying at this
+        length.
       </p>
 
       {topics.map((topic) => {

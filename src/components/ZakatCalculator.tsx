@@ -134,7 +134,7 @@ export default function ZakatCalculator() {
     setAmounts((a) => ({ ...a, [key]: value }));
 
   // Switching the unit restates what is in the fields rather than
-  // reinterpreting the digits, so 40g of gold becomes 3.429355 ভরি — not 40 ভরি,
+  // reinterpreting the digits, so 40g of gold becomes 3.429355 bhori — not 40 bhori,
   // which would be twelve times the metal and would not look wrong on screen.
   const changeWeightUnit = (next: string) => {
     setGoldWeight((v) => restate(v, weightUnit, next));
@@ -214,7 +214,7 @@ export default function ZakatCalculator() {
                   >
                     {label} standard
                   </span>
-                  {/* Also in ভরি, because the gram figures look like odd
+                  {/* Also in bhori, because the gram figures look like odd
                       decimals until you know they are 7.5 and 52.5 tola —
                       which is the form South Asia has recorded for centuries
                       and the reason 87.48 is not a rounding artefact. */}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import PrayerTimesCalculator from "@/components/PrayerTimesCalculator";
 import { bySlug } from "@/lib/calculators";
@@ -125,6 +126,30 @@ export default function Page() {
             compass reads <em>magnetic</em> north. The gap between them runs
             from a fraction of a degree to more than twenty depending where you
             stand. Set your compass app to true north before you turn.
+          </p>
+
+          <h2 className="mt-10 text-2xl font-bold tracking-tight">
+            If there are years behind you
+          </h2>
+          <p className="mt-3 leading-relaxed">
+            A timetable is of no use to someone whose real question is what to
+            do about the prayers already missed, and that question stops a
+            great many people from starting at all — the arithmetic of a decade
+            looks unpayable, so nothing gets prayed today either.
+          </p>
+          <p className="mt-3 leading-relaxed">
+            The four schools require them to be made up; a minority position
+            holds that a deliberately abandoned prayer cannot be made up and
+            asks for repentance and more voluntary prayer instead. Both
+            positions,{" "}
+            <Link
+              href="/answers/do-i-have-to-make-up-missed-prayers"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
+            >
+              and the practical way to begin
+            </Link>
+            , are set out at length. There is no reading of the disagreement on
+            which starting today is the wrong move.
           </p>
 
           <h2 className="mt-10 text-2xl font-bold tracking-tight">

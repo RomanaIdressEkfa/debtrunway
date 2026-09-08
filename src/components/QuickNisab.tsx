@@ -205,7 +205,7 @@ export default function QuickNisab() {
           : ""}
         A rough check, not a ruling. The full calculator separates the assets
         that count from the ones that do not, takes gold and silver by weight
-        in grams or ভরি rather than asking you to value them, deducts the debts
+        in grams or bhori rather than asking you to value them, deducts the debts
         you owe now, and asks about the lunar year — all of which can change
         the answer.
       </p>

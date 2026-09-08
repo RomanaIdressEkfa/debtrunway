@@ -7,14 +7,14 @@
  * which South Asia has recorded for centuries as 7.5 tola and 52.5 tola. The
  * tola is 11.664 grams, and 7.5 x 11.664 is 87.48 exactly.
  *
- * So a jeweller in Dhaka, Karachi or Kolkata weighs in ভরি and quotes a price
- * in ভরি, and asking that customer for grams makes them do a conversion the
+ * So a jeweller in Dhaka, Karachi or Kolkata weighs in bhori and quotes a price
+ * in bhori, and asking that customer for grams makes them do a conversion the
  * page could do for them — and get wrong, since most people reach for 11.66 or
  * 11.7 and the error compounds across a heavy set of jewellery.
  *
- * The unit is the same quantity under three names: ভরি in Bangladesh, tola in
+ * The unit is the same quantity under three names: bhori in Bangladesh, tola in
  * Pakistan and northern India, and 180 troy grains historically. One tola is
- * sixteen আনা (anna), which is how smaller pieces are quoted.
+ * sixteen anna (anna), which is how smaller pieces are quoted.
  */
 
 export interface WeightUnit {
@@ -41,7 +41,7 @@ export interface WeightUnit {
  */
 export const GRAMS_PER_TOLA = 11.664;
 
-/** Sixteen আনা to the ভরি, which is how smaller pieces are quoted. */
+/** Sixteen anna to the bhori, which is how smaller pieces are quoted. */
 export const ANNA_PER_TOLA = 16;
 
 export const WEIGHT_UNITS: WeightUnit[] = [
@@ -54,17 +54,17 @@ export const WEIGHT_UNITS: WeightUnit[] = [
   },
   {
     id: "tola",
-    label: "ভরি / tola",
-    short: "ভরি",
+    label: "Bhori / tola",
+    short: "bhori",
     grams: GRAMS_PER_TOLA,
-    note: "Bangladesh, Pakistan and India. One ভরি is 11.664g, and the nisab is 7.5 ভরি of gold or 52.5 ভরি of silver.",
+    note: "Bangladesh, Pakistan and India. One bhori is 11.664g, and the nisab is 7.5 bhori of gold or 52.5 bhori of silver.",
   },
   {
     id: "anna",
-    label: "আনা / anna",
-    short: "আনা",
+    label: "Anna",
+    short: "anna",
     grams: GRAMS_PER_TOLA / ANNA_PER_TOLA,
-    note: "Sixteen আনা to the ভরি — how a jeweller quotes a piece under one ভরি.",
+    note: "Sixteen anna to the bhori — how a jeweller quotes a piece under one bhori.",
   },
   {
     id: "ozt",
@@ -90,7 +90,7 @@ export const fromGrams = (grams: number, unitId: string): number =>
  * A weight written the way the chosen unit is normally written.
  *
  * Grams get one decimal because a tenth of a gram is a visible amount of gold;
- * ভরি and troy ounces get three, because a thousandth of a ভরি is about a
+ * bhori and troy ounces get three, because a thousandth of a bhori is about a
  * hundredth of a gram and people compare these figures against a receipt.
  */
 export function formatWeight(grams: number, unitId: string): string {
@@ -104,7 +104,7 @@ export function formatWeight(grams: number, unitId: string): string {
 }
 
 /**
- * ভরি and আনা together, as a jeweller says it: "3 ভরি 8 আনা".
+ * bhori and anna together, as a jeweller says it: "3 bhori 8 anna".
  *
  * Returned only for the tola unit, where the pair is idiomatic. Everywhere
  * else a decimal is what people expect.
@@ -114,9 +114,9 @@ export function tolaAndAnna(grams: number): string {
   const whole = Math.floor(total + 1e-9);
   const anna = (total - whole) * ANNA_PER_TOLA;
   const roundedAnna = Math.round(anna * 10) / 10;
-  if (whole === 0) return `${Number(roundedAnna.toFixed(1))} আনা`;
-  if (roundedAnna < 0.05) return `${whole} ভরি`;
-  return `${whole} ভরি ${Number(roundedAnna.toFixed(1))} আনা`;
+  if (whole === 0) return `${Number(roundedAnna.toFixed(1))} anna`;
+  if (roundedAnna < 0.05) return `${whole} bhori`;
+  return `${whole} bhori ${Number(roundedAnna.toFixed(1))} anna`;
 }
 
 /**

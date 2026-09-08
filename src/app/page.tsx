@@ -79,8 +79,9 @@ export default function Home() {
             </span>
             <span className="mt-1.5 block text-sm leading-relaxed text-muted">
               Bank interest, credit cards, insurance, share screening, working
-              for a bank, and mortgages — set out at length, with where the
-              scholars part.
+              for a bank, mortgages, why a daughter inherits half, whether an
+              adopted child inherits at all, and years of missed prayers — set
+              out at length, with where the scholars part.
             </span>
           </Link>
         </section>

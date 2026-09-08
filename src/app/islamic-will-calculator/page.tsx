@@ -116,6 +116,32 @@ export default function Page() {
           </p>
 
           <h2 className="mt-10 text-2xl font-bold tracking-tight">
+            The case the third was made for
+          </h2>
+          <p className="mt-3 leading-relaxed">
+            An adopted child, a step-child, a foster child raised for twenty
+            years — none of them are reached by the fixed shares, because those
+            run on lineage. That sounds like the scheme having nothing to say
+            to such a family, and it is the opposite: precisely because they
+            are not heirs, the rule against bequeathing to an heir does not
+            apply to them, and the whole third is available without anyone
+            needing to consent.
+          </p>
+          <p className="mt-3 leading-relaxed">
+            The same is true of a non-Muslim parent, a carer, or a relative the
+            scheme does not reach.{" "}
+            <Link
+              href="/answers/do-adopted-children-inherit"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
+            >
+              Whether an adopted child inherits
+            </Link>{" "}
+            goes through it, including the routes that sit outside the estate
+            altogether and the trap of drafting a will your own courts will
+            override.
+          </p>
+
+          <h2 className="mt-10 text-2xl font-bold tracking-tight">
             A plan is not a will
           </h2>
           <p className="mt-3 leading-relaxed">

@@ -26,8 +26,8 @@ const faqs = [
     a: "87.48 grams of gold, or 612.36 grams of silver. Because silver is far cheaper by weight, the silver threshold is much lower in money, which brings more people into zakat and more wealth to the poor — the reason most contemporary scholars recommend measuring against silver. Whichever you use, the threshold is measured against your wealth as a whole and not against the jewellery on its own.",
   },
   {
-    q: "Can I weigh in ভরি or tola instead of grams?",
-    a: "Yes — the unit picker above the pieces takes grams, ভরি or tola, আনা and the troy ounce, and every piece is then entered in whichever you chose. Switching converts what you have already typed, so a set of bangles entered as 40 grams becomes 3.429355 ভরি rather than turning into 40 ভরি. One ভরি is 11.664 grams and sixteen আনা, so a jeweller's '3 ভরি 8 আনা' is 3.5 in the field. The nisab in these units is 7.5 ভরি of gold or 52.5 ভরি of silver, which is where 87.48 and 612.36 grams come from.",
+    q: "Can I weigh in bhori or tola instead of grams?",
+    a: "Yes — the unit picker above the pieces takes grams, bhori or tola, anna and the troy ounce, and every piece is then entered in whichever you chose. Switching converts what you have already typed, so a set of bangles entered as 40 grams becomes 3.429355 bhori rather than turning into 40 bhori. One bhori is 11.664 grams and sixteen anna, so a jeweller's '3 bhori 8 anna' is 3.5 in the field. The nisab in these units is 7.5 bhori of gold or 52.5 bhori of silver, which is where 87.48 and 612.36 grams come from.",
   },
   {
     q: "Do gemstones count?",

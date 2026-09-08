@@ -98,7 +98,7 @@ export default function GoldZakatCalculator() {
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
 
   // Changing the unit restates every row rather than reinterpreting the digits
-  // in it, so 40g of bangles becomes 3.429355 ভরি and not 40 ভরি.
+  // in it, so 40g of bangles becomes 3.429355 bhori and not 40 bhori.
   const changeWeightUnit = (next: string) => {
     setRows((rs) =>
       rs.map((r) => ({ ...r, grams: restate(r.grams, weightUnit, next) })),

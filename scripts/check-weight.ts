@@ -38,17 +38,17 @@ console.log("\n--- The nisab in the units it was recorded in ---\n");
 {
   // The whole reason for choosing 11.664 over the physical 11.6638.
   const tolas = fromGrams(GOLD_NISAB_GRAMS, "tola");
-  ok("the gold nisab is exactly 7.5 ভরি", near(tolas, 7.5), tolas);
+  ok("the gold nisab is exactly 7.5 bhori", near(tolas, 7.5), tolas);
 }
 
 {
   const tolas = fromGrams(SILVER_NISAB_GRAMS, "tola");
-  ok("the silver nisab is exactly 52.5 ভরি", near(tolas, 52.5), tolas);
+  ok("the silver nisab is exactly 52.5 bhori", near(tolas, 52.5), tolas);
 }
 
 {
-  ok("7.5 ভরি is exactly 87.48g", near(toGrams(7.5, "tola"), 87.48), toGrams(7.5, "tola"));
-  ok("52.5 ভরি is exactly 612.36g", near(toGrams(52.5, "tola"), 612.36), toGrams(52.5, "tola"));
+  ok("7.5 bhori is exactly 87.48g", near(toGrams(7.5, "tola"), 87.48), toGrams(7.5, "tola"));
+  ok("52.5 bhori is exactly 612.36g", near(toGrams(52.5, "tola"), 612.36), toGrams(52.5, "tola"));
 }
 
 {
@@ -62,15 +62,15 @@ console.log("\n--- The units themselves ---\n");
 
 {
   ok("one gram is one gram", toGrams(1, "g") === 1, toGrams(1, "g"));
-  ok("one ভরি is 11.664g", near(toGrams(1, "tola"), GRAMS_PER_TOLA), toGrams(1, "tola"));
+  ok("one bhori is 11.664g", near(toGrams(1, "tola"), GRAMS_PER_TOLA), toGrams(1, "tola"));
   ok(
-    "sixteen আনা make one ভরি",
+    "sixteen anna make one bhori",
     near(toGrams(ANNA_PER_TOLA, "anna"), GRAMS_PER_TOLA),
     toGrams(ANNA_PER_TOLA, "anna"),
   );
   ok("a troy ounce is 31.1034768g", near(toGrams(1, "ozt"), 31.1034768), toGrams(1, "ozt"));
   ok(
-    "a troy ounce is about 2.666 ভরি",
+    "a troy ounce is about 2.666 bhori",
     Math.abs(fromGrams(toGrams(1, "ozt"), "tola") - 2.666) < 0.001,
     fromGrams(toGrams(1, "ozt"), "tola"),
   );
@@ -96,11 +96,11 @@ console.log("\n--- The units themselves ---\n");
 console.log("\n--- Restating a typed field ---\n");
 
 {
-  // The bug this exists to prevent: 40g becoming 40 ভরি.
+  // The bug this exists to prevent: 40g becoming 40 bhori.
   const asTola = restate("40", "g", "tola");
-  ok("40g restated is not 40 ভরি", asTola !== "40", asTola);
+  ok("40g restated is not 40 bhori", asTola !== "40", asTola);
   ok(
-    "...it is 3.429355 ভরি",
+    "...it is 3.429355 bhori",
     near(Number(asTola), 40 / GRAMS_PER_TOLA, 5e-5),
     `${asTola} against ${(40 / GRAMS_PER_TOLA).toFixed(6)}`,
   );
@@ -117,7 +117,7 @@ console.log("\n--- Restating a typed field ---\n");
   chain = restate(chain, "anna", "ozt");
   chain = restate(chain, "ozt", "g");
   ok(
-    "g → ভরি → আনা → ozt → g returns the same weight",
+    "g → bhori → anna → ozt → g returns the same weight",
     Math.abs(Number(chain) - 87.48) < 0.001,
     `${chain} from 87.48`,
   );
@@ -144,13 +144,13 @@ console.log("\n--- How weights are written out ---\n");
 {
   ok("87.48g reads as 87.5 g", formatWeight(87.48, "g") === "87.5 g", formatWeight(87.48, "g"));
   ok(
-    "the gold nisab reads as 7.5 ভরি",
-    formatWeight(GOLD_NISAB_GRAMS, "tola") === "7.5 ভরি",
+    "the gold nisab reads as 7.5 bhori",
+    formatWeight(GOLD_NISAB_GRAMS, "tola") === "7.5 bhori",
     formatWeight(GOLD_NISAB_GRAMS, "tola"),
   );
   ok(
-    "the silver nisab reads as 52.5 ভরি",
-    formatWeight(SILVER_NISAB_GRAMS, "tola") === "52.5 ভরি",
+    "the silver nisab reads as 52.5 bhori",
+    formatWeight(SILVER_NISAB_GRAMS, "tola") === "52.5 bhori",
     formatWeight(SILVER_NISAB_GRAMS, "tola"),
   );
   ok(
@@ -161,22 +161,22 @@ console.log("\n--- How weights are written out ---\n");
 }
 
 {
-  // The jeweller's form: 3 ভরি 8 আনা is three and a half tola.
+  // The jeweller's form: 3 bhori 8 anna is three and a half tola.
   const grams = 3.5 * GRAMS_PER_TOLA;
-  ok("3.5 ভরি reads as 3 ভরি 8 আনা", tolaAndAnna(grams) === "3 ভরি 8 আনা", tolaAndAnna(grams));
+  ok("3.5 bhori reads as 3 bhori 8 anna", tolaAndAnna(grams) === "3 bhori 8 anna", tolaAndAnna(grams));
   ok(
-    "a whole ভরি drops the আনা",
-    tolaAndAnna(GRAMS_PER_TOLA) === "1 ভরি",
+    "a whole bhori drops the anna",
+    tolaAndAnna(GRAMS_PER_TOLA) === "1 bhori",
     tolaAndAnna(GRAMS_PER_TOLA),
   );
   ok(
-    "under one ভরি is given in আনা alone",
-    tolaAndAnna(GRAMS_PER_TOLA / 2) === "8 আনা",
+    "under one bhori is given in anna alone",
+    tolaAndAnna(GRAMS_PER_TOLA / 2) === "8 anna",
     tolaAndAnna(GRAMS_PER_TOLA / 2),
   );
   ok(
-    "the gold nisab is 7 ভরি 8 আনা",
-    tolaAndAnna(GOLD_NISAB_GRAMS) === "7 ভরি 8 আনা",
+    "the gold nisab is 7 bhori 8 anna",
+    tolaAndAnna(GOLD_NISAB_GRAMS) === "7 bhori 8 anna",
     tolaAndAnna(GOLD_NISAB_GRAMS),
   );
 }
@@ -184,13 +184,13 @@ console.log("\n--- How weights are written out ---\n");
 console.log("\n--- What it does to a real calculation ---\n");
 
 {
-  // A Dhaka household: 5 ভরি of gold. Entered in the wrong unit it would be
+  // A Dhaka household: 5 bhori of gold. Entered in the wrong unit it would be
   // 5 grams, and the answer would be off by a factor of eleven.
   const grams = toGrams(5, "tola");
-  ok("5 ভরি of gold is 58.32g", near(grams, 58.32), grams);
+  ok("5 bhori of gold is 58.32g", near(grams, 58.32), grams);
   ok("...which is below the gold nisab", grams < GOLD_NISAB_GRAMS, `${grams} against ${GOLD_NISAB_GRAMS}`);
   ok(
-    "...but 8 ভরি is above it",
+    "...but 8 bhori is above it",
     toGrams(8, "tola") > GOLD_NISAB_GRAMS,
     `${toGrams(8, "tola")} against ${GOLD_NISAB_GRAMS}`,
   );

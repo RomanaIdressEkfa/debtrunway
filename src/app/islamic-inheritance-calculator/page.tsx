@@ -131,6 +131,38 @@ export default function Page() {
           </p>
 
           <h2 className="mt-10 text-2xl font-bold tracking-tight">
+            The question everyone asks first
+          </h2>
+          <p className="mt-3 leading-relaxed">
+            Why a daughter takes half of what a son takes. It is worth knowing
+            before you read a result, because the rule is narrower than it is
+            usually stated: it governs sons and daughters inheriting together,
+            and across the rest of the scheme a woman frequently takes the same
+            as the man in her position or more. A mother and a father each take
+            a sixth. Uterine siblings share equally by the plain text.
+          </p>
+          <p className="mt-3 leading-relaxed">
+            The reasoning where it does apply, and the two doors the scheme
+            deliberately leaves open for a parent who wants to provide
+            differently, are set out at length in{" "}
+            <Link
+              href="/answers/why-does-a-daughter-inherit-half"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
+            >
+              why a daughter inherits half
+            </Link>
+            . If the family you are working out includes an adopted or a
+            step-child, the shares will not reach them — which is what{" "}
+            <Link
+              href="/answers/do-adopted-children-inherit"
+              className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
+            >
+              the bequest exists for
+            </Link>
+            .
+          </p>
+
+          <h2 className="mt-10 text-2xl font-bold tracking-tight">
             A calculator, not a ruling
           </h2>
           <p className="mt-3 leading-relaxed">

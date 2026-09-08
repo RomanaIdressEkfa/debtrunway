@@ -34,12 +34,12 @@ const faqs = [
     a: "The schools differ genuinely here. The Hanafi position is that zakat is due on gold and silver jewellery regardless of use. The Maliki, Shafi'i and Hanbali positions generally exempt jewellery in regular, lawful use for a woman. This calculator counts whatever weight you enter, so enter what your own position requires and ask a scholar if you are unsure which applies to you.",
   },
   {
-    q: "My gold is weighed in ভরি (bhori), not grams. What do I enter?",
-    a: "Enter it in ভরি. The weight fields carry a unit picker with grams, ভরি or tola, আনা and the troy ounce, and switching it converts what you have already typed rather than reinterpreting the digits. One ভরি is 11.664 grams, which is why the nisab figures are what they are: 87.48 grams is exactly 7.5 ভরি of gold, and 612.36 grams is exactly 52.5 ভরি of silver. Those are the numbers South Asia has recorded for centuries, and the gram figures are simply the same thresholds converted.",
+    q: "My gold is weighed in bhori (bhori), not grams. What do I enter?",
+    a: "Enter it in bhori. The weight fields carry a unit picker with grams, bhori or tola, anna and the troy ounce, and switching it converts what you have already typed rather than reinterpreting the digits. One bhori is 11.664 grams, which is why the nisab figures are what they are: 87.48 grams is exactly 7.5 bhori of gold, and 612.36 grams is exactly 52.5 bhori of silver. Those are the numbers South Asia has recorded for centuries, and the gram figures are simply the same thresholds converted.",
   },
   {
     q: "How do I enter cash, a bank balance, gold and silver all together?",
-    a: "Each has its own field, and they are added for you. Cash in hand and your bank balance go in as money, in whichever currency you picked at the top. Gold and silver go in by weight rather than by value, so you do not have to price them yourself — enter the grams or ভরি and the calculator applies the price you set in step one. Add investments, business stock and money owed to you in their own fields, then deduct what you owe now, and the total is what the 2.5% is taken from.",
+    a: "Each has its own field, and they are added for you. Cash in hand and your bank balance go in as money, in whichever currency you picked at the top. Gold and silver go in by weight rather than by value, so you do not have to price them yourself — enter the grams or bhori and the calculator applies the price you set in step one. Add investments, business stock and money owed to you in their own fields, then deduct what you owe now, and the total is what the 2.5% is taken from.",
   },
   {
     q: "Which debts can I deduct?",
