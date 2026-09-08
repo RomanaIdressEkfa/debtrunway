@@ -14,7 +14,7 @@ export interface CalculatorMeta {
   title: string;
   /** Meta description and card body. Keep it under ~155 characters. */
   description: string;
-  group: "estate" | "zakat" | "worship" | "finance";
+  group: "estate" | "zakat" | "worship" | "finance" | "daily";
 }
 
 export const calculators: CalculatorMeta[] = [
@@ -106,6 +106,14 @@ export const calculators: CalculatorMeta[] = [
       "What murabaha, ijara and diminishing musharakah each cost on the same figures, and what to ask a provider before signing.",
     group: "finance",
   },
+  {
+    slug: "/prayer-times-calculator",
+    nav: "Prayer times and Qibla",
+    title: "Prayer Times and Qibla Direction Calculator",
+    description:
+      "Today's prayer times for your location and the convention you follow, plus the Qibla bearing — worked out on your device, never sent anywhere.",
+    group: "daily",
+  },
 ];
 
 export const groupLabels: Record<CalculatorMeta["group"], string> = {
@@ -113,6 +121,7 @@ export const groupLabels: Record<CalculatorMeta["group"], string> = {
   zakat: "Zakat",
   worship: "Fasting and worship",
   finance: "Home and finance",
+  daily: "Every day",
 };
 
 export const bySlug = (slug: string) =>
