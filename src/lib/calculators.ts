@@ -115,6 +115,14 @@ export const calculators: CalculatorMeta[] = [
     group: "daily",
   },
   {
+    slug: "/halal-e-numbers-checker",
+    nav: "Halal E numbers",
+    title: "Halal E Numbers Checker — What the Number Can and Cannot Tell You",
+    description:
+      "Look up any E number and see whether it is settled, depends on the source, or is a matter scholars differ on — and why the forwarded lists are wrong.",
+    group: "daily",
+  },
+  {
     slug: "/prayer-times-calculator",
     nav: "Prayer times and Qibla",
     title: "Prayer Times and Qibla Direction Calculator",
