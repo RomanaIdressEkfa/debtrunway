@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BandCurve, CornerMotif } from "./Ornament";
-import { calculators, groupLabels, groups } from "@/lib/calculators";
+import { calculators } from "@/lib/calculators";
 import Logo from "./Logo";
 
 const siteLinks = [
@@ -39,35 +39,43 @@ export default function SiteFooter() {
           <div>
             <Logo size={28} />
             <p className="mt-4 max-w-xs leading-relaxed text-muted">
-              Free calculators that show you the real cost of debt — and the
-              exact month it ends.
+              Free calculators for the parts of Islamic finance that have a
+              fixed, checkable answer — each with the ruling behind it.
             </p>
           </div>
 
-          {/* Everything on the site, grouped the way the nav groups it. */}
+          {/* One heading, not six.
+              Grouping the calculators here mirrored the nav, and every group
+              added since — worship, finance, every day — added a column, until
+              six of them wrapped onto a second row and the footer was taller
+              than most of the pages above it. A footer is a place to find a
+              link, not to re-teach the taxonomy: the reader has already met
+              the groups on the homepage and in the nav.
+
+              So the calculators flow through CSS columns under a single
+              heading. The count can double again without the footer growing a
+              row, which is the property that was missing. */}
           <nav
             aria-label="Footer"
-            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
+            className="grid gap-8 sm:grid-cols-[2fr_1fr]"
           >
-            {groups.map((group) => (
-              <div key={group}>
-                <h2 className="text-base font-bold text-[var(--gold)]">{groupLabels[group]}</h2>
-                <ul className="mt-3 space-y-2.5 text-base">
-                  {calculators
-                    .filter((c) => c.group === group)
-                    .map((c) => (
-                      <li key={c.slug}>
-                        <Link
-                          href={c.slug}
-                          className="text-muted transition-colors hover:text-brand"
-                        >
-                          {c.nav}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
+            <div>
+              <h2 className="text-base font-bold text-[var(--gold)]">
+                Calculators
+              </h2>
+              <ul className="mt-3 gap-x-8 text-base sm:columns-2 lg:columns-3">
+                {calculators.map((c) => (
+                  <li key={c.slug} className="mb-2.5 break-inside-avoid">
+                    <Link
+                      href={c.slug}
+                      className="text-muted transition-colors hover:text-brand"
+                    >
+                      {c.nav}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div>
               <h2 className="text-base font-bold text-[var(--gold)]">Site</h2>
