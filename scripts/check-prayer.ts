@@ -82,8 +82,14 @@ const dhaka = { ...base, lat: 23.8103, lng: 90.4125, timezone: 6 };
 const at = (r: ReturnType<typeof calculatePrayerTimes>, key: string) =>
   r.times.find((t) => t.key === key)?.hours ?? null;
 
+// London was declared here and then never used — the ordering loop ran on two
+// cities while the lint warning about the third sat there for weeks. It is the
+// case most worth having: at 51°N the sun sets at a shallow angle, so twilight
+// runs long and the gap between Maghrib and Isha stretches in a way it never
+// does at Mecca's latitude. It is also where a large share of the readers are.
 for (const [name, input] of [
   ["Mecca", mecca],
+  ["London", london],
   ["Dhaka", dhaka],
 ] as const) {
   const r = calculatePrayerTimes(input);
