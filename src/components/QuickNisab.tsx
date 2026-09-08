@@ -78,8 +78,12 @@ export default function QuickNisab() {
           <span className="block text-base font-medium">
             What you hold, in total
           </span>
+          {/* Gold has to be entered as money here, and people arrive holding
+              it as a weight. Saying so in the hint is cheaper than a second
+              field, and the link goes where the weight can be typed. */}
           <span className="mt-1 block text-sm leading-snug text-muted">
-            Cash, bank, gold, investments — minus what you owe now
+            Cash, bank, investments, and gold and silver at what they would
+            sell for today — minus what you owe now
           </span>
           <span className="mt-2 flex items-center rounded-xl border border-line px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
             <input
@@ -200,8 +204,10 @@ export default function QuickNisab() {
           ? `Prices are the market rate on ${seed.fetchedAt}, filled in for you — change them if your local rate differs. `
           : ""}
         A rough check, not a ruling. The full calculator separates the assets
-        that count from the ones that do not, deducts the debts you owe now,
-        and asks about the lunar year — all of which can change the answer.
+        that count from the ones that do not, takes gold and silver by weight
+        in grams or ভরি rather than asking you to value them, deducts the debts
+        you owe now, and asks about the lunar year — all of which can change
+        the answer.
       </p>
     </div>
   );

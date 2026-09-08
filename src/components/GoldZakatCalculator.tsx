@@ -16,7 +16,8 @@ import { plain } from "@/lib/format";
 import { priceNote, pricesIn, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
-import { Card, Notice, NumberField as Field } from "./ui";
+import { Card, Notice, NumberField as Field, WeightUnitPicker } from "./ui";
+import { formatWeight, restate, toGrams, unitById } from "@/lib/weight";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -46,6 +47,7 @@ export default function GoldZakatCalculator() {
   );
   const [school, setSchool] = useState<School>("hanafi");
   const [standard, setStandard] = useState<Metal>("silver");
+  const [weightUnit, setWeightUnit] = useState("g");
   const [otherWealth, setOtherWealth] = useState("");
   const [rows, setRows] = useState<Row[]>([
     { id: "g1", label: "Bangles", metal: "gold", grams: "40", purity: "22", worn: true },
@@ -67,14 +69,16 @@ export default function GoldZakatCalculator() {
         id: r.id,
         label: r.label.trim() || "Unnamed",
         metal: r.metal,
-        grams: num(r.grams),
+        // Rows are typed in whichever unit the box was weighed in; the engine
+        // and the prices both work in grams.
+        grams: toGrams(num(r.grams), weightUnit),
         purity:
           r.metal === "gold"
             ? purityOf(num(r.purity) || 24)
             : (SILVER_GRADES.find((g) => g.key === r.purity)?.purity ?? 0.925),
         use: r.worn ? "worn" : "stored",
       })),
-    [rows],
+    [rows, weightUnit],
   );
 
   const result = useMemo(
@@ -92,6 +96,15 @@ export default function GoldZakatCalculator() {
 
   const update = (id: string, patch: Partial<Row>) =>
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+
+  // Changing the unit restates every row rather than reinterpreting the digits
+  // in it, so 40g of bangles becomes 3.429355 ভরি and not 40 ভরি.
+  const changeWeightUnit = (next: string) => {
+    setRows((rs) =>
+      rs.map((r) => ({ ...r, grams: restate(r.grams, weightUnit, next) })),
+    );
+    setWeightUnit(next);
+  };
 
   return (
     <div className="stagger space-y-4">
@@ -139,7 +152,11 @@ export default function GoldZakatCalculator() {
           sub="Weigh each piece as it is, alloy and all — the carat takes the alloy back out. Zakat is owed on the gold, not on the copper it is mixed with."
         />
 
-        <div className="mt-5 space-y-3">
+        <div className="mt-5">
+          <WeightUnitPicker value={weightUnit} onChange={changeWeightUnit} />
+        </div>
+
+        <div className="mt-4 space-y-3">
           {rows.map((row) => (
             <div key={row.id} className="relative rounded-xl border border-line p-3.5">
               <div className="grid gap-3 pr-9 sm:grid-cols-[1.3fr_0.8fr_0.9fr] sm:pr-0">
@@ -162,10 +179,12 @@ export default function GoldZakatCalculator() {
                       onChange={(e) => update(row.id, { grams: e.target.value })}
                       placeholder="0"
                       inputMode="decimal"
-                      aria-label="Weight in grams"
+                      aria-label={`Weight in ${unitById(weightUnit).label}`}
                       className="w-full min-w-0 bg-transparent py-2.5 text-base tabular-nums outline-none"
                     />
-                    <span className="shrink-0 text-sm text-muted">g</span>
+                    <span className="shrink-0 text-sm text-muted">
+                      {unitById(weightUnit).short}
+                    </span>
                   </span>
                 </label>
 
@@ -396,7 +415,7 @@ export default function GoldZakatCalculator() {
                         </span>
                       </td>
                       <td className="py-3 pr-4 text-right tabular-nums text-muted">
-                        {r.grams.toFixed(1)} g
+                        {formatWeight(r.grams, weightUnit)}
                       </td>
                       <td className="py-3 pr-4 text-right tabular-nums">
                         {r.pureGrams.toFixed(2)} g

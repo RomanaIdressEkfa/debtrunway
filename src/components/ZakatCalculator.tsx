@@ -13,7 +13,8 @@ import { priceNote, pricesIn, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
-import { Card, Notice, NumberField as Money } from "./ui";
+import { Card, Notice, NumberField as Money, WeightUnitPicker } from "./ui";
+import { formatWeight, restate, toGrams, unitById } from "@/lib/weight";
 
 /**
  * Prices are asked for rather than fetched.
@@ -87,8 +88,9 @@ export default function ZakatCalculator() {
       setSilverPrice(next.silver.toFixed(3));
     }
   };
-  const [goldGrams, setGoldGrams] = useState("");
-  const [silverGrams, setSilverGrams] = useState("");
+  const [weightUnit, setWeightUnit] = useState("g");
+  const [goldWeight, setGoldWeight] = useState("");
+  const [silverWeight, setSilverWeight] = useState("");
   const [debts, setDebts] = useState("");
   const [amounts, setAmounts] = useState<Record<AssetKey, string>>({
     cash: "",
@@ -107,18 +109,38 @@ export default function ZakatCalculator() {
         standard,
         cash: num(amounts.cash),
         bank: num(amounts.bank),
-        goldGrams: num(goldGrams),
-        silverGrams: num(silverGrams),
+        // The engine works in grams throughout; the unit is a matter of how
+        // the weight was entered, not of what it is.
+        goldGrams: toGrams(num(goldWeight), weightUnit),
+        silverGrams: toGrams(num(silverWeight), weightUnit),
         investments: num(amounts.investments),
         businessStock: num(amounts.businessStock),
         receivables: num(amounts.receivables),
         debts: num(debts),
       }),
-    [goldPrice, silverPrice, standard, amounts, goldGrams, silverGrams, debts],
+    [
+      goldPrice,
+      silverPrice,
+      standard,
+      amounts,
+      goldWeight,
+      silverWeight,
+      weightUnit,
+      debts,
+    ],
   );
 
   const set = (key: AssetKey, value: string) =>
     setAmounts((a) => ({ ...a, [key]: value }));
+
+  // Switching the unit restates what is in the fields rather than
+  // reinterpreting the digits, so 40g of gold becomes 3.429355 ভরি — not 40 ভরি,
+  // which would be twelve times the metal and would not look wrong on screen.
+  const changeWeightUnit = (next: string) => {
+    setGoldWeight((v) => restate(v, weightUnit, next));
+    setSilverWeight((v) => restate(v, weightUnit, next));
+    setWeightUnit(next);
+  };
 
   return (
     <div className="stagger space-y-4">
@@ -192,8 +214,13 @@ export default function ZakatCalculator() {
                   >
                     {label} standard
                   </span>
+                  {/* Also in ভরি, because the gram figures look like odd
+                      decimals until you know they are 7.5 and 52.5 tola —
+                      which is the form South Asia has recorded for centuries
+                      and the reason 87.48 is not a rounding artefact. */}
                   <span className="mt-1 block text-sm text-muted">
-                    {grams}g of {label.toLowerCase()}
+                    {grams}g — {formatWeight(grams, "tola")} of{" "}
+                    {label.toLowerCase()}
                   </span>
                   <span className="mt-1.5 block text-base font-semibold tabular-nums">
                     {amount > 0 ? plain(amount) : "— enter a price"}
@@ -226,21 +253,48 @@ export default function ZakatCalculator() {
           ))}
         </div>
 
-        <div className="mt-5 grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
-          <Money
-            label="Gold you own"
-            hint="In grams — jewellery, coins, bars"
-            value={goldGrams}
-            onChange={setGoldGrams}
-            suffix="g"
-          />
-          <Money
-            label="Silver you own"
-            hint="In grams"
-            value={silverGrams}
-            onChange={setSilverGrams}
-            suffix="g"
-          />
+        <div className="mt-5 border-t border-line pt-5">
+          <WeightUnitPicker value={weightUnit} onChange={changeWeightUnit} />
+          <div className="field-row mt-4 grid gap-4 sm:grid-cols-2">
+            <Money
+              label="Gold you own"
+              hint="Jewellery, coins, bars — the whole weight, not the pure part"
+              value={goldWeight}
+              onChange={setGoldWeight}
+              suffix={unitById(weightUnit).short}
+            />
+            <Money
+              label="Silver you own"
+              hint="Jewellery, coins, cutlery, bars"
+              value={silverWeight}
+              onChange={setSilverWeight}
+              suffix={unitById(weightUnit).short}
+            />
+          </div>
+          {weightUnit !== "g" && (
+            <p className="mt-2.5 text-sm leading-snug text-muted">
+              {goldWeight || silverWeight ? (
+                <>
+                  That is{" "}
+                  <strong className="text-foreground tabular-nums">
+                    {toGrams(
+                      num(goldWeight) + num(silverWeight),
+                      weightUnit,
+                    ).toFixed(2)}
+                    g
+                  </strong>{" "}
+                  of metal in total, which is what the prices above are quoted
+                  against.
+                </>
+              ) : (
+                <>
+                  Enter the weight as your jeweller wrote it. Mixed carats are
+                  fine here — for a piece-by-piece breakdown that takes the
+                  alloy out, use the gold and silver calculator.
+                </>
+              )}
+            </p>
+          )}
         </div>
 
         <div className="mt-5 border-t border-line pt-5">

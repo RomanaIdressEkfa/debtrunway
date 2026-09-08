@@ -1,3 +1,4 @@
+import { WEIGHT_UNITS, unitById } from "@/lib/weight";
 import type { ReactNode } from "react";
 
 /** The single panel style every calculator section sits in. */
@@ -313,5 +314,46 @@ export function NumberField({
         )}
       </span>
     </label>
+  );
+}
+
+/**
+ * Which weight gold and silver are entered in.
+ *
+ * It sits above the weight fields rather than inside each one. A person holds
+ * their collection in a single unit, and a picker per field would invite a set
+ * of bangles in vori beside a coin in grams — which is how a total goes wrong
+ * without ever looking wrong.
+ */
+export function WeightUnitPicker({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (id: string) => void;
+}) {
+  const active = unitById(value);
+  return (
+    <div className="rounded-xl border border-line bg-background p-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-sm font-medium">Weigh in</span>
+        {WEIGHT_UNITS.map((u) => (
+          <button
+            key={u.id}
+            type="button"
+            onClick={() => onChange(u.id)}
+            aria-pressed={value === u.id}
+            className={`press rounded-lg border px-3 py-1.5 text-sm font-medium transition ${
+              value === u.id
+                ? "border-brand bg-brand-soft text-brand"
+                : "border-line text-muted hover:border-brand hover:text-brand"
+            }`}
+          >
+            {u.label}
+          </button>
+        ))}
+      </div>
+      <p className="mt-2 text-sm leading-snug text-muted">{active.note}</p>
+    </div>
   );
 }
