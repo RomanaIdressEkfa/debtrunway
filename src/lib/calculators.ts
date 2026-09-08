@@ -107,6 +107,14 @@ export const calculators: CalculatorMeta[] = [
     group: "finance",
   },
   {
+    slug: "/hijri-date-converter",
+    nav: "Hijri date",
+    title: "Hijri Date Converter — Islamic Calendar",
+    description:
+      "Today's Hijri date, either calendar converted to the other, and when Ramadan and the two Eids fall by the arithmetic.",
+    group: "daily",
+  },
+  {
     slug: "/prayer-times-calculator",
     nav: "Prayer times and Qibla",
     title: "Prayer Times and Qibla Direction Calculator",

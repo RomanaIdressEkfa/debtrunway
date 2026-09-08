@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "verify": "tsx scripts/verify-faraid.ts && tsx scripts/check-engines.ts && tsx scripts/check-prayer.ts",
+    "verify": "tsx scripts/verify-faraid.ts && tsx scripts/check-engines.ts && tsx scripts/check-prayer.ts && tsx scripts/check-hijri.ts",
     "prebuild": "tsx scripts/fetch-metals.ts",
     "metals": "tsx scripts/fetch-metals.ts"
   },
