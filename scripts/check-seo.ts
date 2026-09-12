@@ -219,6 +219,63 @@ console.log("\n--- The answers hold their own shape ---\n");
   ok("no topic heading is empty", empty.length === 0, empty.join("; ") || "all three filled");
 }
 
+console.log("\n--- What the answer pages tell Google ---\n");
+
+{
+  /**
+   * Search Console reported "URL is on Google, but has issues" across the
+   * answers, and the cause was the QAPage block: Google requires answerCount
+   * on the Question and url on the Answer, and the markup carried neither.
+   *
+   * A missing required property does not stop a page being indexed — every
+   * one of them was indexed throughout — so nothing complains loudly. It
+   * just quietly costs the page its eligibility for the enhancements, which
+   * is exactly the kind of defect that sits unnoticed for months.
+   */
+  const page = readFileSync("src/app/answers/[slug]/page.tsx", "utf8");
+  for (const field of ["answerCount", "url:", "dateCreated", "author"]) {
+    ok(
+      `the answer schema still carries ${field.replace(":", "")}`,
+      page.includes(field),
+      page.includes(field) ? "present" : "MISSING — Google requires it",
+    );
+  }
+
+  // Caught on the first build after the fix: the URL was emitted without its
+  // trailing slash, which on this site is a 308. Structured data pointing at
+  // a redirect manufactures the very "Page with redirect" state the sitemap
+  // was corrected to avoid.
+  ok(
+    "the schema URL keeps its trailing slash",
+    /answer\.slug\}\/`/.test(page),
+    /answer\.slug\}\/`/.test(page) ? "ends in /" : "REDIRECTING URL IN SCHEMA",
+  );
+}
+
+{
+  const bad = ANSWERS.filter((a) => !/^\d{4}-\d{2}-\d{2}$/.test(a.published));
+  ok(
+    "every answer carries a real publication date",
+    bad.length === 0,
+    bad.map((a) => `${a.slug}: ${a.published}`).join("; ") ||
+      `${ANSWERS.length} dated`,
+  );
+}
+
+{
+  // A date in the future would be a lie about how current the page is, and
+  // one before the site existed would be a different lie.
+  const today = new Date().toISOString().slice(0, 10);
+  const impossible = ANSWERS.filter(
+    (a) => a.published > today || a.published < "2026-08-01",
+  );
+  ok(
+    "no publication date is in the future or before the site existed",
+    impossible.length === 0,
+    impossible.map((a) => `${a.slug}: ${a.published}`).join("; ") || `all on or before ${today}`,
+  );
+}
+
 console.log("\n--- The privacy page tells the truth ---\n");
 
 {

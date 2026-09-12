@@ -32,6 +32,15 @@ export interface Answer {
   title: string;
   /** Meta description and the line under the question on the index. */
   summary: string;
+  /**
+   * The day it went live, as YYYY-MM-DD.
+   *
+   * It reaches the reader through dateCreated in the page schema, so it has
+   * to be the real date rather than the build date — a page that claims to
+   * have been written today, every day, is making a false claim about how
+   * current it is.
+   */
+  published: string;
   /** Which cluster it belongs to. */
   topic: "money" | "worship" | "family";
   /** The short answer, given before the reasoning. */
@@ -52,6 +61,7 @@ export const ANSWERS: Answer[] = [
     title: "What to do with bank interest",
     summary:
       "Give it away without expecting reward for it, and to whom. Why leaving it in the account is the one option scholars agree against.",
+    published: "2026-09-08",
     topic: "money",
     short:
       "Take it out and give it away, without intending it as charity and without expecting reward for it. What is disputed is who may receive it. What is not disputed is that leaving it with the bank is the worst of the options.",
@@ -108,6 +118,7 @@ export const ANSWERS: Answer[] = [
     title: "Are credit cards haram?",
     summary:
       "The card is not the problem; the contract behind it is. Why paying in full each month is the pivot, and why some scholars object even then.",
+    published: "2026-09-08",
     topic: "money",
     short:
       "The card itself is a payment instrument and carries no ruling. What matters is the agreement behind it, and specifically whether you ever pay interest. Cleared in full every month, most contemporary scholars permit it with reservations; carrying a balance is riba by consensus.",
@@ -159,6 +170,7 @@ export const ANSWERS: Answer[] = [
     title: "Is conventional insurance permissible?",
     summary:
       "The three objections scholars raise, why compulsory cover is treated differently, and what takaful actually changes.",
+    published: "2026-09-08",
     topic: "money",
     short:
       "The majority position is that conventional commercial insurance is not permissible, on three grounds: uncertainty, gambling, and interest in how premiums are invested. Cover the law compels you to hold is widely treated as an exception, and takaful is the alternative where it exists.",
@@ -212,6 +224,7 @@ export const ANSWERS: Answer[] = [
     title: "How to tell whether a share is halal",
     summary:
       "The two screens scholars apply — what the business does, and what its balance sheet looks like — plus the purification step almost everyone forgets.",
+    published: "2026-09-08",
     topic: "money",
     short:
       "Two screens. The business itself must be lawful, and its finances must stay within thresholds on debt and interest income. If it passes both, a proportion of the dividend still has to be given away — the step most people skip.",
@@ -268,6 +281,7 @@ export const ANSWERS: Answer[] = [
     title: "Is my salary haram if I work for a bank?",
     summary:
       "What your own role is doing matters more than what the company does. The line most scholars draw, and where it leaves ordinary jobs.",
+    published: "2026-09-08",
     topic: "money",
     short:
       "Most scholars look at your own work rather than at your employer's whole business. Directly writing, recording, witnessing or facilitating interest contracts is what the hadith names; work with no such connection is generally treated as lawful, though several hold that leaving is better where an alternative exists.",
@@ -317,6 +331,7 @@ export const ANSWERS: Answer[] = [
     title: "Is a conventional mortgage ever permissible?",
     summary:
       "The majority position, the minority necessity arguments and their conditions, and why the answer has changed as alternatives have appeared.",
+    published: "2026-09-08",
     topic: "money",
     short:
       "The majority position is that it is not, because it is a loan at interest whatever it buys. A minority permitted it in Muslim-minority countries on grounds of need — but those rulings were conditioned on there being no alternative, and in Britain and America there now is one.",
@@ -378,6 +393,7 @@ export const ANSWERS: Answer[] = [
     title: "Why does a daughter inherit half?",
     summary:
       "The rule is narrower than it is usually stated, and the reasoning behind it is about obligations rather than worth. What it does and does not apply to.",
+    published: "2026-09-08",
     topic: "family",
     short:
       "It applies where sons and daughters inherit together as residuaries, and not across the scheme as a whole — in most configurations a woman takes the same as the man in her position, or more, or he takes nothing. Where it does apply, the stated reason is that the shares carry different obligations: his is encumbered by maintenance he owes, hers is not.",
@@ -450,6 +466,7 @@ export const ANSWERS: Answer[] = [
     title: "Do adopted and step-children inherit?",
     summary:
       "Not by the fixed shares — and that is not the end of it. Why the one-third bequest exists for this case, and the will a British court will override.",
+    published: "2026-09-08",
     topic: "family",
     short:
       "No, not through faraid: the fixed shares run on lineage, and adoption in the Western legal sense does not create it. But an adopted or foster child is not an heir, which means the one-third bequest is available to them without restriction — the case the third exists for.",
@@ -516,6 +533,7 @@ export const ANSWERS: Answer[] = [
     title: "Do I have to make up missed prayers?",
     summary:
       "Sleep and forgetfulness are agreed. Years of deliberate abandonment are not — and the two positions differ. Both are set out, with how to actually begin.",
+    published: "2026-09-08",
     topic: "worship",
     short:
       "A prayer missed through sleep or forgetfulness is prayed when you remember, by consensus. For prayers abandoned deliberately over years the four schools require them to be made up; a minority position holds they cannot be made up at all and what remains is repentance. Both positions agree on what you do next.",

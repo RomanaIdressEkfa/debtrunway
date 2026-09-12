@@ -4,6 +4,15 @@ import AnswerBody from "@/components/AnswerBody";
 import ContentPage from "@/components/ContentPage";
 import { ANSWERS, bySlugAnswer, topicLabels } from "@/lib/answers";
 
+const SITE = "https://debtrunway.com";
+
+/** Named once, used on both the Question and the Answer. */
+const AUTHOR = {
+  "@type": "Person",
+  name: "Romana Idress Ekfa",
+  url: `${SITE}/about`,
+} as const;
+
 export function generateStaticParams() {
   return ANSWERS.map((a) => ({ slug: a.slug }));
 }
@@ -42,7 +51,18 @@ export default async function Page({
     <ContentPage heading={answer.question} intro={answer.short}>
       {/* One question, one answer, marked up as such. The page carries a
           single QAPage rather than the FAQPage the calculators use, because
-          that is what this is: one question with one accepted answer. */}
+          that is what this is: one question with one accepted answer.
+
+          Search Console reported "URL is on Google, but has issues" on these
+          pages, and the cause was this block: Google requires answerCount on
+          the Question and url on the Answer, and neither was here. The page
+          was indexed throughout — what the missing fields cost was
+          eligibility for the enhancements, not the listing.
+
+          The author is named rather than left implicit. On a page about
+          money, who is answering is part of what Google weighs, and an
+          unattributed answer about inheritance is worth less than a
+          attributed one. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -52,8 +72,23 @@ export default async function Page({
             mainEntity: {
               "@type": "Question",
               name: answer.question,
+              text: answer.question,
+              // One authored answer, never user-submitted. The count is a
+              // fact about the page, so it is 1 and not a guess.
+              answerCount: 1,
+              dateCreated: answer.published,
+              author: AUTHOR,
               acceptedAnswer: {
                 "@type": "Answer",
+                // Required by Google, and genuinely useful: it is the URL a
+                // result should send the reader to.
+                // The trailing slash matters: the site sets trailingSlash, so the
+                // form without it is a 308 to the form with it. Handing Google
+                // a redirecting URL here would manufacture the same "Page with
+                // redirect" state the sitemap was fixed to avoid.
+                url: `${SITE}/answers/${answer.slug}/`,
+                dateCreated: answer.published,
+                author: AUTHOR,
                 text: [
                   answer.short,
                   ...answer.body.map((b) =>
