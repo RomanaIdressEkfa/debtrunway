@@ -2,6 +2,22 @@
   "name": "debtrunway",
   "version": "0.1.0",
   "private": true,
+  "description": "Islamic calculators — faraid, zakat, prayer times and the Hijri calendar — worked out in the browser, with every engine checked against the classical worked examples.",
+  "homepage": "https://debtrunway.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomanaIdressEkfa/debtrunway.git"
+  },
+  "keywords": [
+    "islamic-finance",
+    "zakat",
+    "faraid",
+    "inheritance",
+    "prayer-times",
+    "hijri-calendar",
+    "halal",
+    "nextjs"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
