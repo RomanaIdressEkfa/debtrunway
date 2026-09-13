@@ -5,6 +5,7 @@ import Logo from "./Logo";
 
 const siteLinks = [
   { href: "/answers", label: "Answers" },
+  { href: "/support", label: "Support" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy", label: "Privacy" },

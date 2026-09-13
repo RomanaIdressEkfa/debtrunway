@@ -49,7 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.6,
     })),
-    ...["/about", "/contact", "/privacy", "/terms"].map((path) => ({
+    ...["/about", "/support", "/contact", "/privacy", "/terms"].map((path) => ({
       url: loc(path),
       lastModified: now,
       changeFrequency: "yearly" as const,
