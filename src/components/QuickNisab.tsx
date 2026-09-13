@@ -6,6 +6,7 @@ import { RATE, SILVER_NISAB_GRAMS, GOLD_NISAB_GRAMS } from "@/lib/zakat";
 import { plain } from "@/lib/format";
 import { pricesIn } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
+import { WEIGHT_UNITS, restate, toGrams, unitById } from "@/lib/weight";
 
 /**
  * The homepage tool: one question, three fields, an answer before you scroll.
@@ -34,7 +35,28 @@ export default function QuickNisab() {
     seed.available ? seed.silver.toFixed(3) : "",
   );
 
+  /**
+   * Gold and silver by weight, because that is how people hold them.
+   *
+   * Asking only for a money total meant a reader with jewellery had to price
+   * it themselves before they could use this at all — and in Bangladesh,
+   * Pakistan and India they do not know it as a money figure in the first
+   * place. They know it as so many bhori. Asking for the weight and doing the
+   * valuation here removes the one step that stopped the box being usable.
+   */
+  const [goldWeight, setGoldWeight] = useState("");
+  const [silverWeight, setSilverWeight] = useState("");
+  const [weightUnit, setWeightUnit] = useState("tola");
+
   const grams = metal === "silver" ? SILVER_NISAB_GRAMS : GOLD_NISAB_GRAMS;
+
+  // Switching the unit restates what is typed rather than reinterpreting the
+  // digits — 40g of gold becomes 3.429355 bhori, not 40 bhori.
+  const changeWeightUnit = (next: string) => {
+    setGoldWeight((v) => restate(v, weightUnit, next));
+    setSilverWeight((v) => restate(v, weightUnit, next));
+    setWeightUnit(next);
+  };
 
   // Switching either the metal or the currency refills the price, since the
   // number in the field belongs to the pair and not to one of them.
@@ -49,19 +71,35 @@ export default function QuickNisab() {
     }
   };
 
-  const { nisab, due, zakat, gap, ready } = useMemo(() => {
+  const { nisab, due, zakat, gap, ready, metalValue, net } = useMemo(() => {
     const unit = num(price);
-    const net = num(wealth);
+    const live = pricesIn(currency);
+
+    // The typed price field belongs to whichever metal the nisab is measured
+    // against. The *other* metal still has to be valued, and the only honest
+    // source for it is the build-time rate — so it is used, and the panel
+    // says which figure came from where rather than blending them silently.
+    const goldPerGram = metal === "gold" ? unit : live.available ? live.gold : 0;
+    const silverPerGram =
+      metal === "silver" ? unit : live.available ? live.silver : 0;
+
+    const metalValue =
+      toGrams(num(goldWeight), weightUnit) * goldPerGram +
+      toGrams(num(silverWeight), weightUnit) * silverPerGram;
+
+    const net = num(wealth) + metalValue;
     const nisab = grams * unit;
     const ready = unit > 0 && net > 0;
     return {
       nisab,
       ready,
+      net,
+      metalValue,
       due: ready && net >= nisab,
       zakat: net * RATE,
       gap: nisab - net,
     };
-  }, [wealth, price, grams]);
+  }, [wealth, price, grams, goldWeight, silverWeight, weightUnit, metal, currency]);
 
   return (
     <div className="card-shadow rounded-2xl border border-line bg-surface p-5 sm:p-6">
@@ -84,12 +122,17 @@ export default function QuickNisab() {
           <span className="block text-base font-medium">
             What you hold, in total
           </span>
-          {/* Gold has to be entered as money here, and people arrive holding
-              it as a weight. One clause is enough to say so; the longer
-              version this replaced wrapped and unbalanced the card. */}
+          {/* Gold is deliberately NOT named here any more.
+              It used to say "and gold at its sale value", which was right
+              when this was the only field. With weight fields below it, a
+              reader who followed both instructions would enter their
+              jewellery twice and be told they owe double. Money here, metal
+              there, and neither hint mentions the other's job. */}
           <span className="mt-1 block text-sm leading-snug text-muted">
-            Cash, bank, investments and gold at its sale value — less what you
-            owe now
+            নগদ, ব্যাংক, বিনিয়োগ — সোনা-রুপা নিচে
+            <span className="mt-0.5 block">
+              Cash, bank and investments only — less what you owe now
+            </span>
           </span>
           <span className="mt-2 flex items-center rounded-xl border border-line px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
             <input
@@ -121,6 +164,54 @@ export default function QuickNisab() {
             />
           </span>
         </label>
+      </div>
+
+      {/* Metal by weight. Bhori is the default unit rather than the gram,
+          because someone who needs this box to do the valuation for them is
+          almost certainly the reader who thinks in bhori — a reader who
+          already knows the gram figure could have priced it themselves. */}
+      <div className="field-row mt-4 grid gap-4 sm:grid-cols-2">
+        <WeightField
+          label="সোনা · Gold you own"
+          hint={`কত ${weightUnit === "tola" ? "ভরি" : ""} সোনা আছে — খালি থাকলে ধরা হবে না`}
+          value={goldWeight}
+          onChange={setGoldWeight}
+          unit={unitById(weightUnit).short}
+        />
+        <WeightField
+          label="রুপা · Silver you own"
+          hint="রুপার ওজন — না থাকলে খালি রাখুন"
+          value={silverWeight}
+          onChange={setSilverWeight}
+          unit={unitById(weightUnit).short}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="text-sm text-muted">ওজনের একক</span>
+        {WEIGHT_UNITS.filter((u) => u.id !== "anna").map((u) => (
+          <button
+            key={u.id}
+            type="button"
+            onClick={() => changeWeightUnit(u.id)}
+            aria-pressed={weightUnit === u.id}
+            className={`press rounded-lg border px-3 py-1.5 text-sm font-medium transition ${
+              weightUnit === u.id
+                ? "border-brand bg-brand-soft text-brand"
+                : "border-line text-muted hover:border-brand hover:text-brand"
+            }`}
+          >
+            {u.label}
+          </button>
+        ))}
+        {metalValue > 0 && (
+          <span className="text-sm text-muted">
+            metal is worth{" "}
+            <strong className="text-foreground tabular-nums">
+              {plain(metalValue)}
+            </strong>
+          </span>
+        )}
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -169,7 +260,7 @@ export default function QuickNisab() {
         ) : due ? (
           <>
             <p className="text-base font-semibold text-brand">
-              Yes — your wealth is above the nisab of {plain(nisab)}.
+              Yes — your {plain(net)} is above the nisab of {plain(nisab)}.
             </p>
             <p className="mt-1.5 text-base text-muted">
               At 2.5% that is roughly{" "}
@@ -180,7 +271,8 @@ export default function QuickNisab() {
         ) : (
           <>
             <p className="text-base font-semibold">
-              No — you are {plain(gap)} below the nisab of {plain(nisab)}.
+              No — your {plain(net)} is {plain(gap)} below the nisab of{" "}
+              {plain(nisab)}.
             </p>
             <p className="mt-1.5 text-base text-muted">
               No zakat is due on this wealth. Sadaqah remains open to you at any
@@ -216,5 +308,39 @@ export default function QuickNisab() {
         the answer.
       </p>
     </div>
+  );
+}
+
+function WeightField({
+  label,
+  hint,
+  value,
+  onChange,
+  unit,
+}: {
+  label: string;
+  hint: string;
+  value: string;
+  onChange: (v: string) => void;
+  unit: string;
+}) {
+  return (
+    <label className="block min-w-0">
+      <span className="block text-base font-medium">{label}</span>
+      <span className="mt-1 block text-sm leading-snug text-muted">{hint}</span>
+      <span className="mt-2 flex items-stretch overflow-hidden rounded-xl border border-line transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="0"
+          inputMode="decimal"
+          aria-label={label}
+          className="w-full min-w-0 bg-transparent px-3 py-3 text-xl font-bold tabular-nums outline-none"
+        />
+        <span className="flex shrink-0 items-center border-l border-line bg-background px-3 text-sm font-medium text-muted">
+          {unit}
+        </span>
+      </span>
+    </label>
   );
 }
