@@ -1,5 +1,7 @@
 "use client";
 
+import { bnFaraidUi } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import {
   distribute,
@@ -120,7 +122,18 @@ const GROUPS: {
   },
 ];
 
-export default function FaraidCalculator() {
+export default function FaraidCalculator({
+  lang = "en",
+}: {
+  /** Labels only. The shares, hajb, awl and radd are identical either way. */
+  lang?: Locale;
+} = {}) {
+  // One function for every visible string. In English it is the identity, so
+  // the English page renders exactly what it always did.
+  const t = lang === "bn" ? bnFaraidUi : (s: string) => s;
+  // hint is optional on a row, and a translator that throws on undefined
+  // would take the whole page down over a missing sentence.
+  const T = (s: string | undefined) => (s === undefined ? undefined : t(s));
   const [total, setTotal] = useState("100000");
   const [funeral, setFuneral] = useState("");
   const [debts, setDebts] = useState("");
@@ -163,36 +176,36 @@ export default function FaraidCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="What was left behind"
+          title={t("What was left behind")}
           sub="Enter the amounts in any currency you like. The shares are fractions, so the answer works out the same in taka, rupees, pounds or riyals."
         />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Money
-            label="Total estate"
-            hint="Everything owned at death, before anything is taken out"
+            label={t("Total estate")}
+            hint={t("Everything owned at death, before anything is taken out")}
             value={total}
             onChange={setTotal}
             placeholder="100000"
             large
           />
           <Money
-            label="Funeral costs"
-            hint="Paid before anything else"
+            label={t("Funeral costs")}
+            hint={t("Paid before anything else")}
             value={funeral}
             onChange={setFuneral}
             placeholder="0"
           />
           <Money
-            label="Outstanding debts"
-            hint="Settled in full before any heir inherits"
+            label={t("Outstanding debts")}
+            hint={t("Settled in full before any heir inherits")}
             value={debts}
             onChange={setDebts}
             placeholder="0"
           />
           <Money
-            label="Bequest (wasiyyah)"
-            hint="Capped at one third, and only to someone who is not an heir"
+            label={t("Bequest (wasiyyah)")}
+            hint={t("Capped at one third, and only to someone who is not an heir")}
             value={bequest}
             onChange={setBequest}
             placeholder="0"
@@ -216,7 +229,7 @@ export default function FaraidCalculator() {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <StepHeading
             n={2}
-            title="Who survived"
+            title={t("Who survived")}
             sub="Only relatives who were alive when the deceased died, and who inherit under Islamic law."
           />
           {chosen > 0 && (
@@ -232,26 +245,26 @@ export default function FaraidCalculator() {
 
         <div className="mt-5 space-y-5">
           {GROUPS.map((group) => (
-            <section key={group.title}>
-              <h3 className="text-base font-bold">{group.title}</h3>
+            <section key={t(group.title)}>
+              <h3 className="text-base font-bold">{t(group.title)}</h3>
               <p className="mt-1 text-sm leading-relaxed text-muted">
-                {group.hint}
+                {T(group.hint)}
               </p>
               <div className="mt-3 divide-y divide-line overflow-hidden rounded-xl border border-line">
                 {group.rows.map((row) =>
                   row.kind === "toggle" ? (
                     <Toggle
                       key={row.key}
-                      label={row.label}
-                      hint={row.hint}
+                      label={t(row.label)}
+                      hint={T(row.hint)}
                       on={heirs[row.key] as boolean}
                       onChange={(v) => set(row.key, v as Heirs[typeof row.key])}
                     />
                   ) : (
                     <Counter
                       key={row.key}
-                      label={row.label}
-                      hint={row.hint}
+                      label={t(row.label)}
+                      hint={T(row.hint)}
                       value={heirs[row.key] as number}
                       max={row.max}
                       onChange={(v) => set(row.key, v as Heirs[typeof row.key])}
@@ -303,7 +316,7 @@ export default function FaraidCalculator() {
                   className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5"
                 >
                   <span className="font-medium">
-                    {a.label}
+                    {t(a.label)}
                     {a.count > 1 && (
                       <span className="text-white/60"> ×{a.count}</span>
                     )}
@@ -341,12 +354,12 @@ export default function FaraidCalculator() {
                   {result.awards.map((a) => (
                     <tr key={a.key} className="border-b border-line last:border-0">
                       <td className="py-3 pr-4">
-                        <span className="font-medium">{a.label}</span>
+                        <span className="font-medium">{t(a.label)}</span>
                         {a.count > 1 && (
                           <span className="text-muted"> ×{a.count}</span>
                         )}
                         <span className="mt-1 block text-sm leading-relaxed text-muted">
-                          {a.reason}
+                          {t(a.reason)}
                         </span>
                       </td>
                       <td className="py-3 pr-4 text-right font-semibold tabular-nums text-brand">
@@ -390,8 +403,10 @@ export default function FaraidCalculator() {
                     key={b.label + b.by}
                     className="flex flex-wrap items-baseline gap-x-2 rounded-lg bg-background px-3 py-2.5"
                   >
-                    <span className="font-medium">{b.label}</span>
-                    <span className="text-muted">excluded by {b.by}</span>
+                    <span className="font-medium">{t(b.label)}</span>
+                    <span className="text-muted">
+                      {lang === "bn" ? `${t(b.by)} থাকায় বাদ` : `excluded by ${b.by}`}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -402,7 +417,7 @@ export default function FaraidCalculator() {
 
       {!result.empty && !result.insolvent && (
         <PrintButton
-          label="Save this division as a PDF"
+          label={t("Save this division as a PDF")}
           hint="Opens your browser’s print dialogue. Choose “Save as PDF” as the destination. Nothing is uploaded to make the file."
         />
       )}

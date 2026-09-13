@@ -8,6 +8,9 @@
  * been built is a 404. So the list is explicit, and a page joins it on the
  * day it exists rather than the day it is planned.
  */
-export const BN_PAGES: readonly string[] = ["/zakat-calculator"];
+export const BN_PAGES: readonly string[] = [
+  "/zakat-calculator",
+  "/islamic-inheritance-calculator",
+];
 
 export const hasBnPage = (slug: string) => BN_PAGES.includes(slug);
