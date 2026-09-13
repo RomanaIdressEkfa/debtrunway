@@ -919,3 +919,34 @@ header p.slab-prose {
     animation: none;
   }
 }
+
+/**
+ * bKash's own colours, used only on the bKash card.
+ *
+ * The rest of the site is deep green and stays deep green. This one panel
+ * borrows the magenta because that is what makes it recognisable at a glance
+ * as the bKash step rather than another section of the page — someone
+ * scanning for where to send money finds it without reading.
+ *
+ * Both themes are defined. On the dark ground the tint drops to a deep plum
+ * so the card still reads as bKash without glowing.
+ */
+:root {
+  --bkash: #e2136e;
+  --bkash-soft: #fdeef5;
+  --bkash-line: #f6c3da;
+}
+
+:root:not([data-theme="light"]) {
+  @media (prefers-color-scheme: dark) {
+    --bkash: #ff5c9d;
+    --bkash-soft: #2a1220;
+    --bkash-line: #4d2038;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bkash: #ff5c9d;
+  --bkash-soft: #2a1220;
+  --bkash-line: #4d2038;
+}

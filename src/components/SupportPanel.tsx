@@ -26,10 +26,9 @@ import { Card, Notice } from "./ui";
  * are the ones deciding whether any of this is worth supporting.
  */
 const STEPS = [
-  "bKash অ্যাপ খুলুন → Send Money",
-  `নম্বর দিন: ${BKASH}`,
-  "যত টাকা ইচ্ছা পাঠান — কোনো নির্দিষ্ট অঙ্ক নেই",
-  "পাঠানোর পর Transaction ID টা কপি করে নিচের ফর্মে দিন",
+  { title: "সেন্ড মানি", sub: "বিকাশ অ্যাপে Send Money বেছে নিন" },
+  { title: "নম্বর দিন", sub: "উপরের নম্বরটি লিখুন বা পেস্ট করুন" },
+  { title: "টাকা ও পিন", sub: "পরিমাণ দিয়ে পিন দিন" },
 ];
 
 type Sort = "date" | "amount";
@@ -161,109 +160,202 @@ export default function SupportPanel() {
         </p>
       </Card>
 
-      {/* ---------- How ---------- */}
-      <Card>
-        <h2 className="rule-gold display text-2xl">If you would like to give</h2>
-        <p className="mt-3 text-base leading-relaxed text-muted">
-          Through bKash, which is why the steps below are in Bengali — it is
-          only available in Bangladesh.
-        </p>
+      {/* ---------- Give: two columns, payment beside the form ----------
+          Side by side because the two halves are read together — you copy the
+          number from the right, send the money in the app, then come back and
+          type what you sent into the left. Stacked, that is a scroll up and
+          down on a phone with the app already open. */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        {/* --- 1. Send --- */}
+        <Card className="no-print">
+          <Step n={1} title="টাকা পাঠান" sub="Send the money" />
 
-        <div className="mt-5 flex flex-wrap items-center gap-3 rounded-xl border border-line bg-background p-4">
-          <span className="text-sm font-medium text-muted">bKash</span>
-          <span className="font-mono text-2xl font-bold tracking-wide tabular-nums">
-            {BKASH}
-          </span>
-          <button
-            type="button"
-            onClick={copyNumber}
-            className="press ml-auto rounded-lg border border-brand bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+          {/* The bKash panel wears bKash's own magenta. Everything else here
+              is the site's green; this one borrows the brand so that someone
+              scanning for where to send money finds it without reading. */}
+          <div
+            className="mt-5 rounded-2xl border p-5"
+            style={{
+              background: "var(--bkash-soft)",
+              borderColor: "var(--bkash-line)",
+            }}
           >
-            {copied ? "কপি হয়েছে ✓" : "কপি করুন"}
-          </button>
-        </div>
-
-        <ol className="mt-5 space-y-2.5">
-          {STEPS.map((s, i) => (
-            <li key={s} className="flex gap-3">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-soft text-sm font-bold text-brand">
-                {i + 1}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span
+                className="text-2xl font-bold tracking-tight"
+                style={{ color: "var(--bkash)" }}
+              >
+                বিকাশ
               </span>
-              <span className="text-base leading-relaxed">{s}</span>
-            </li>
-          ))}
-        </ol>
-      </Card>
+              <span
+                className="rounded-full border px-3 py-1 text-xs font-semibold"
+                style={{
+                  color: "var(--bkash)",
+                  borderColor: "var(--bkash-line)",
+                }}
+              >
+                ● সেন্ড মানি
+              </span>
+            </div>
 
-      {/* ---------- Tell us ---------- */}
-      <Card className="no-print">
-        <h2 className="rule-gold display text-2xl">Then tell us, so it can be recorded</h2>
-        <p className="mt-3 text-base leading-relaxed text-muted">
-          Every entry in the ledger below is checked against the account before
-          it is written down, which is the only reason the ledger is worth
-          anything. bKash gives a website no way to confirm a transaction, so a
-          form that published straight to the list could be filled in by
-          anybody. This one opens your own email instead.
-        </p>
+            <p className="mt-5 text-center text-sm text-muted">
+              এই নম্বরে সেন্ড মানি করুন
+            </p>
+            <p
+              className="mt-1 text-center text-3xl font-bold tracking-wide tabular-nums sm:text-4xl"
+              style={{ color: "var(--bkash)" }}
+            >
+              {BKASH}
+            </p>
 
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <Field
-            id="txn"
-            label="Transaction ID"
-            hint="bKash-এর মেসেজে পাবেন"
-            value={form.txn}
-            onChange={(v) => setForm({ ...form, txn: v })}
-            placeholder="8N7A1B2C3D"
-          />
-          <Field
-            id="amount"
-            label="Amount"
-            hint="টাকায়"
-            value={form.amount}
-            onChange={(v) => setForm({ ...form, amount: v })}
-            placeholder="500"
-          />
-          <Field
-            id="name"
-            label="Name for the list"
-            hint="খালি রাখলে Anonymous লেখা হবে"
-            value={form.name}
-            onChange={(v) => setForm({ ...form, name: v })}
-            placeholder="Anonymous"
-          />
-          <Field
-            id="note"
-            label="A note, if you want"
-            hint="ইচ্ছা হলে কিছু লিখুন"
-            value={form.note}
-            onChange={(v) => setForm({ ...form, note: v })}
-            placeholder="—"
-          />
-        </div>
+            <button
+              type="button"
+              onClick={copyNumber}
+              className="press mt-4 flex w-full items-center justify-center gap-2 rounded-xl border bg-surface px-4 py-3 text-base font-semibold transition hover:opacity-90"
+              style={{ borderColor: "var(--bkash-line)", color: "var(--bkash)" }}
+            >
+              {copied ? "কপি হয়েছে ✓" : "বিকাশ নম্বর কপি করুন"}
+            </button>
 
-        <a
-          href={ready ? mailto : undefined}
-          aria-disabled={!ready}
-          className={`press mt-5 inline-block rounded-xl px-5 py-3 text-base font-semibold transition ${
-            ready
-              ? "bg-brand text-white hover:opacity-90"
-              : "pointer-events-none border border-line bg-background text-muted opacity-60"
-          }`}
-        >
-          Send the details →
-        </a>
-        {!ready && (
-          <p className="mt-2 text-sm text-muted">
-            Transaction ID দিলে বোতামটা কাজ করবে।
+            <div
+              className="mt-5 border-t pt-4"
+              style={{ borderColor: "var(--bkash-line)" }}
+            >
+              <p
+                className="text-center text-xs font-semibold"
+                style={{ color: "var(--bkash)" }}
+              >
+                টাকা পাঠানোর ৩টি সহজ ধাপ
+              </p>
+              <ol className="mt-3 grid grid-cols-3 gap-2">
+                {STEPS.map((s, i) => (
+                  <li key={s.title} className="text-center">
+                    <span
+                      className="mx-auto flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white"
+                      style={{ background: "var(--bkash)" }}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="mt-2 block text-xs leading-snug font-semibold">
+                      {s.title}
+                    </span>
+                    <span className="mt-0.5 block text-xs leading-snug text-muted">
+                      {s.sub}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          <p className="mt-4 text-sm leading-relaxed text-muted">
+            যত টাকা ইচ্ছা — কোনো নির্দিষ্ট অঙ্ক নেই।
+            <span className="mt-0.5 block">
+              Any amount. There is no set figure and no minimum.
+            </span>
           </p>
-        )}
+        </Card>
 
-        <p className="mt-4 text-sm leading-relaxed text-muted">
-          Nothing you type here is sent to a server. The button opens your own
-          mail app with the details filled in, and you send it yourself — the
-          same promise every calculator on this site makes.
-        </p>
-      </Card>
+        {/* --- 2. Tell us --- */}
+        <Card className="no-print">
+          <Step
+            n={2}
+            title="তারপর জানান"
+            sub="Then tell us, so it can be recorded"
+          />
+
+          <div className="mt-5 grid gap-4">
+            <Field
+              id="txn"
+              label="ট্রানজেকশন আইডি *"
+              hint="বিকাশের মেসেজে পাবেন · from the bKash SMS"
+              value={form.txn}
+              onChange={(v) => setForm({ ...form, txn: v })}
+              placeholder="8N7A1B2C3D"
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field
+                id="amount"
+                label="কত টাকা"
+                hint="Amount sent"
+                value={form.amount}
+                onChange={(v) => setForm({ ...form, amount: v })}
+                placeholder="500"
+              />
+              <Field
+                id="name"
+                label="নাম"
+                hint="খালি রাখলে Anonymous"
+                value={form.name}
+                onChange={(v) => setForm({ ...form, name: v })}
+                placeholder="Anonymous"
+              />
+            </div>
+            <Field
+              id="note"
+              label="কিছু বলতে চাইলে"
+              hint="A note, if you want"
+              value={form.note}
+              onChange={(v) => setForm({ ...form, note: v })}
+              placeholder="—"
+            />
+          </div>
+
+          <a
+            href={ready ? mailto : undefined}
+            aria-disabled={!ready}
+            className={`press mt-5 block rounded-xl px-5 py-3.5 text-center text-base font-semibold transition ${
+              ready
+                ? "bg-brand text-white hover:opacity-90"
+                : "pointer-events-none border border-line bg-background text-muted opacity-60"
+            }`}
+          >
+            পাঠিয়ে দিন · Send the details →
+          </a>
+          {!ready && (
+            <p className="mt-2 text-center text-sm text-muted">
+              ট্রানজেকশন আইডি দিলে বোতামটা কাজ করবে।
+            </p>
+          )}
+
+          <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-muted">
+            <svg
+              viewBox="0 0 16 16"
+              className="mt-0.5 h-4 w-4 shrink-0 text-brand"
+              aria-hidden
+              fill="none"
+            >
+              <path
+                d="M8 1.5l5.5 2.2v3.6c0 3.2-2.2 6-5.5 7.2-3.3-1.2-5.5-4-5.5-7.2V3.7L8 1.5z"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5.8 8l1.6 1.6L10.4 6.6"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>
+              আপনার লেখা কিছুই কোনো সার্ভারে যায় না — বোতামটা আপনার নিজের মেইল
+              অ্যাপ খুলে দেয়, আপনি নিজে পাঠান।
+              <span className="mt-0.5 block">
+                Nothing here is sent to a server. The button opens your own mail
+                app with the details filled in.
+              </span>
+            </span>
+          </p>
+        </Card>
+      </div>
+
+      <Notice>
+        তালিকার প্রতিটা নাম বিকাশের হিসাবের সাথে মিলিয়ে দেখার পরেই ওঠে — আর
+        সেটাই তালিকাটার একমাত্র মূল্য। বিকাশ কোনো ওয়েবসাইটকে লেনদেন যাচাই করার
+        সুযোগ দেয় না, তাই সরাসরি তালিকায় বসে যাওয়া ফরম যে কেউ ভরে দিতে পারত।
+      </Notice>
 
       {/* ---------- The ledger ---------- */}
       <Card>
@@ -397,5 +489,27 @@ function Field({
         />
       </span>
     </label>
+  );
+}
+
+/**
+ * A numbered step heading.
+ *
+ * Bengali first and English under it, because the two audiences for this page
+ * are not the same person: whoever sends money is in Bangladesh reading
+ * Bengali, and whoever is deciding whether the site deserves supporting is
+ * mostly not.
+ */
+function Step({ n, title, sub }: { n: number; title: string; sub: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-base font-bold text-brand">
+        {n}
+      </span>
+      <div>
+        <h2 className="display text-xl leading-tight">{title}</h2>
+        <p className="mt-0.5 text-sm text-muted">{sub}</p>
+      </div>
+    </div>
   );
 }
