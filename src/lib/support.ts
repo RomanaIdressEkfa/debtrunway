@@ -62,18 +62,16 @@ export interface Goal {
 export const DONATIONS: Donation[] = [];
 
 /**
- * What has actually been spent. The domain is the only real cost so far —
- * everything else the site uses is on a free tier, and the page says that
- * plainly instead of implying a server bill that does not exist.
+ * What donated money has been spent on — which is nothing, because none has
+ * arrived yet.
+ *
+ * The domain deliberately is not listed here. It was bought before any of
+ * this existed and paid for out of pocket, so billing it to a fund that has
+ * received nothing would be claiming a reimbursement nobody offered. This
+ * list is for what readers' money goes to, not a record of what the site has
+ * cost its author.
  */
-export const EXPENSES: Expense[] = [
-  {
-    date: "2026-08-31",
-    amount: 1450,
-    item: "debtrunway.com — one year",
-    why: "The domain. It is the only thing this site costs money to keep, and it was paid for before any of this was asked for.",
-  },
-];
+export const EXPENSES: Expense[] = [];
 
 export const GOAL: Goal = {
   target: 35000,
