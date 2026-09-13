@@ -13,6 +13,8 @@ import {
 import { placeFromTimezone, type Place } from "@/lib/timezone-places";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField } from "./ui";
+import { bnPrayer } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * The page opens with times rather than with a form.
@@ -87,7 +89,15 @@ const num = (v: string) => {
   return Number.isFinite(n) ? n : 0;
 };
 
-export default function PrayerTimesCalculator() {
+export default function PrayerTimesCalculator({
+  lang = "en",
+}: {
+  /** Labels only. The astronomy is identical either way. */
+  lang?: Locale;
+} = {}) {
+  // Named tr, not t: the times list already iterates a PrayerTime called t,
+  // and a translator sharing that name would shadow it inside the map.
+  const tr = lang === "bn" ? bnPrayer : (s: string) => s;
   // Both of these are read from the environment rather than held in state,
   // so nothing has to be copied in after mount.
   const ms = useSyncExternalStore(clock.subscribe, clock.get, clock.getServer);
@@ -172,7 +182,7 @@ export default function PrayerTimesCalculator() {
         setLocationError(
           err.code === err.PERMISSION_DENIED
             ? "Location was declined, which is fair. The times below stay on your time zone, which is right to within a couple of minutes."
-            : "Your location could not be read. The times below stay on your time zone.",
+            : tr("Your location could not be read. The times below stay on your time zone."),
         );
       },
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 },
@@ -181,7 +191,7 @@ export default function PrayerTimesCalculator() {
 
   const setCoord = (which: "lat" | "lng", v: string) => {
     if (!place) return;
-    setChosen({ ...place, [which]: num(v), city: "Your coordinates", country: "" });
+    setChosen({ ...place, [which]: num(v), city: tr("Your coordinates"), country: "" });
     setSource("typed");
   };
 
@@ -191,7 +201,7 @@ export default function PrayerTimesCalculator() {
     return (
       <div className="answer-panel relative isolate overflow-hidden rounded-2xl bg-brand-panel p-6 text-white sm:p-8">
         <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
-        <p className="text-lg text-white/85">Working out your times…</p>
+        <p className="text-lg text-white/85">{tr("Working out your times…")}</p>
       </div>
     );
   }
@@ -218,7 +228,7 @@ export default function PrayerTimesCalculator() {
         {next && (
           <>
             <p className="mt-5 text-base text-white/80">
-              {next.label} in
+              {tr(next.label)} in
             </p>
             <p
               className="mt-1 text-5xl font-bold tracking-tight tabular-nums sm:text-6xl"
@@ -290,7 +300,7 @@ export default function PrayerTimesCalculator() {
                   <span
                     className={`text-lg ${isNext || isCurrent ? "font-semibold" : ""}`}
                   >
-                    {t.label}
+                    {tr(t.label)}
                   </span>
                   {isNext && (
                     <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">
@@ -316,9 +326,9 @@ export default function PrayerTimesCalculator() {
 
         <p className="mt-4 border-t border-line pt-4 text-sm leading-relaxed text-muted">
           {source === "exact"
-            ? "Using the exact location your browser gave, which stayed in this tab."
+            ? tr("Using the exact location your browser gave, which stayed in this tab.")
             : source === "typed"
-              ? "Using the coordinates you entered."
+              ? tr("Using the coordinates you entered.")
               : zoneKnown
                 ? `Your browser reports ${zone}, which puts you near ${place.city} — right to within a couple of minutes. Use your exact location below for the rest.`
                 : `Your browser reports ${zone || "no time zone"}, which is not one we have a city for, so these are ${place.city}'s times. Set your location below.`}{" "}
@@ -369,7 +379,7 @@ export default function PrayerTimesCalculator() {
                 disabled={locating}
                 className="press w-full rounded-xl bg-brand px-4 py-3.5 text-base font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
               >
-                {locating ? "Asking your browser…" : "Use my exact location"}
+                {locating ? tr("Asking your browser…") : tr("Use my exact location")}
               </button>
               {locationError && (
                 <p className="mt-3 rounded-xl border border-line bg-background p-4 text-base leading-relaxed text-muted">
@@ -378,14 +388,14 @@ export default function PrayerTimesCalculator() {
               )}
               <div className="field-row mt-4 grid gap-4 sm:grid-cols-2">
                 <NumberField
-                  label="Latitude"
-                  hint="Positive north, negative south"
+                  label={tr("Latitude")}
+                  hint={tr("Positive north, negative south")}
                   value={String(place.lat)}
                   onChange={(v) => setCoord("lat", v)}
                 />
                 <NumberField
-                  label="Longitude"
-                  hint="Positive east, negative west"
+                  label={tr("Longitude")}
+                  hint={tr("Positive east, negative west")}
                   value={String(place.lng)}
                   onChange={(v) => setCoord("lng", v)}
                 />
@@ -416,7 +426,7 @@ export default function PrayerTimesCalculator() {
                       }`}
                     >
                       <span className={`block text-base font-semibold ${active ? "text-brand" : ""}`}>
-                        {m.label}
+                        {tr(m.label)}
                       </span>
                       <span className="mt-0.5 block text-sm leading-snug text-muted">
                         {m.region} — Fajr {m.fajr}°,{" "}
@@ -440,8 +450,8 @@ export default function PrayerTimesCalculator() {
               <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                 {(
                   [
-                    ["standard", "Shadow ×1", "Maliki, Shafi'i, Hanbali"],
-                    ["hanafi", "Shadow ×2", "Hanafi"],
+                    ["standard", tr("Shadow ×1"), tr("Maliki, Shafi'i, Hanbali")],
+                    ["hanafi", tr("Shadow ×2"), tr("Hanafi")],
                   ] as const
                 ).map(([value, label, who]) => (
                   <button
@@ -483,7 +493,7 @@ export default function PrayerTimesCalculator() {
       </Notice>
 
       <Notice tone="danger">
-        <strong>Check these against your local mosque.</strong> The astronomy
+        <strong>{tr("Check these against your local mosque.")}</strong> The astronomy
         is standard and the arithmetic is tested, but a mosque timetable also
         carries judgements a formula has not got — the horizon you actually
         see, the altitude, the caution a community applies to Fajr in summer.
