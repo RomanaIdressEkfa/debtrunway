@@ -29,6 +29,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 1,
     },
+    // The Bengali homepage. It has its own address so Google can index it
+    // as Bengali — a language toggle that only swapped text client-side
+    // would leave it invisible to exactly the readers it is written for.
+    {
+      url: loc("/bn"),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    },
     ...calculators.map((c) => ({
       url: loc(c.slug),
       lastModified: now,

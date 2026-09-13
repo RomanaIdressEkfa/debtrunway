@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Amiri, Cinzel_Decorative, Inter, Roboto_Slab } from "next/font/google";
 import Link from "next/link";
 import Script from "next/script";
+import LanguageToggle from "@/components/LanguageToggle";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
 import SiteNav from "@/components/SiteNav";
@@ -150,6 +151,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </Link>
             <div className="flex items-center gap-2">
               <SiteNav />
+              <LanguageToggle />
               <ThemeToggle />
             </div>
           </div>

@@ -20,7 +20,11 @@ import { usePathname } from "next/navigation";
  * and a reader who ignores it entirely loses nothing.
  */
 
-const DELAY_MS = 150_000; // two and a half minutes
+// Thirty seconds while this is being tested. Put it back to 150_000 —
+// two and a half minutes — before anyone but us is looking at the site:
+// half a minute is fast enough to feel like the page interrupting you,
+// which is the thing this design was built to avoid.
+const DELAY_MS = 30_000;
 const KEY = "support-prompt-dismissed";
 
 /** Not on the page that already is the ask, and not on the legal pages. */

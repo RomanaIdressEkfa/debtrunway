@@ -4,6 +4,7 @@ import { BandCurve, CornerMotif } from "@/components/Ornament";
 import QuickNisab from "@/components/QuickNisab";
 import { ANSWERS } from "@/lib/answers";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
+import { alternatesFor } from "@/lib/i18n";
 
 const SITE = "https://debtrunway.com";
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   title: {
     absolute: "Islamic Finance Calculators — Zakat and Faraid | DebtRunway",
   },
-  alternates: { canonical: "/" },
+  alternates: alternatesFor("/"),
 };
 
 /**
