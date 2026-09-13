@@ -21,6 +21,7 @@ import {
 } from "../src/lib/i18n";
 import { calculators } from "../src/lib/calculators";
 import { ANSWERS } from "../src/lib/answers";
+import { BN_PAGES, hasBnVersion } from "../src/lib/bn-pages";
 
 let failures = 0;
 let checks = 0;
@@ -117,6 +118,47 @@ console.log("\n--- The locale is readable from the path ---\n");
     "a slug starting with 'bn' is not mistaken for Bengali",
     localeOf("/bnf-calculator") === "en",
     localeOf("/bnf-calculator"),
+  );
+}
+
+console.log("\n--- The toggle never offers a page that is not there ---\n");
+
+{
+  /**
+   * The toggle shipped on every page while four had a Bengali version, so on
+   * the rest it linked to /bn/something-nobody-built. A 404 on the one
+   * control whose job is to say "this is also in your language".
+   *
+   * Nothing about that looked wrong until it was clicked, and it was clicked
+   * on twenty-three pages.
+   */
+  const translated = PATHS.filter((p) => hasBnVersion(p));
+  const untranslated = PATHS.filter((p) => !hasBnVersion(p));
+
+  ok(
+    "every page the toggle offers in Bengali really exists",
+    translated.every((p) => p === "/" || BN_PAGES.includes(p)),
+    translated.join(", "),
+  );
+  ok(
+    "pages without a Bengali version are not offered one",
+    untranslated.every((p) => !BN_PAGES.includes(p)),
+    `${untranslated.length} pages stay English-only`,
+  );
+  ok(
+    "the home page is always offered, in both directions",
+    hasBnVersion("/") && hasBnVersion("/bn"),
+    "both",
+  );
+  ok(
+    "a Bengali page knows it has an English twin",
+    BN_PAGES.every((p) => hasBnVersion(`/bn${p}`)),
+    `${BN_PAGES.length} pairs`,
+  );
+  ok(
+    "a trailing slash does not confuse it",
+    hasBnVersion("/zakat-calculator/") === hasBnVersion("/zakat-calculator"),
+    "same answer either way",
   );
 }
 

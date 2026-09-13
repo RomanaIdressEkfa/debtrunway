@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { calculators, groupLabels, groups } from "@/lib/calculators";
+import { BN_GROUPS, BN_UI_MAP, bnFor } from "@/lib/bn";
+import { BN_PAGES } from "@/lib/bn-pages";
+import { localeOf } from "@/lib/i18n";
 
 /**
  * A <details> element for the accessibility and keyboard behaviour the browser
@@ -13,6 +16,11 @@ import { calculators, groupLabels, groups } from "@/lib/calculators";
 export default function SiteNav() {
   const ref = useRef<HTMLDetailsElement>(null);
   const pathname = usePathname();
+
+  // The chrome follows the page it is sitting on. A Bengali page with an
+  // English menu is only half translated, and the half a reader meets first.
+  const bn = localeOf(pathname ?? "/") === "bn";
+  const label = (s: string) => (bn ? (BN_UI_MAP[s] ?? s) : s);
 
   // The menu remembers which page it was opened on rather than simply that it
   // is open. Navigating changes the pathname, so `open` becomes false during
@@ -63,7 +71,7 @@ export default function SiteNav() {
           replaced by a list icon there and returns from `sm` up. */}
       <summary
         className="press flex cursor-pointer list-none items-center gap-1.5 rounded-lg border border-line p-2 text-sm font-medium text-muted hover:bg-background hover:text-brand sm:border-0 sm:px-3 sm:py-1.5"
-        aria-label="Calculators"
+        aria-label={label("Calculators")}
       >
         <svg
           aria-hidden
@@ -74,7 +82,7 @@ export default function SiteNav() {
             <path d="M2.5 4h11M2.5 8h11M2.5 12h11" />
           </g>
         </svg>
-        <span className="hidden sm:inline">Calculators</span>
+        <span className="hidden sm:inline">{label("Calculators")}</span>
         <svg
           aria-hidden
           viewBox="0 0 12 12"
@@ -97,7 +105,7 @@ export default function SiteNav() {
         {groups.map((group) => (
           <div key={group} className="mb-4 last:mb-0">
             <p className="mb-1.5 text-xs font-semibold tracking-wider text-muted uppercase">
-              {groupLabels[group]}
+              {bn ? BN_GROUPS[group] : groupLabels[group]}
             </p>
             <ul>
               {calculators
@@ -105,14 +113,14 @@ export default function SiteNav() {
                 .map((c) => (
                   <li key={c.slug}>
                     <Link
-                      href={c.slug}
+                      href={bn && BN_PAGES.includes(c.slug) ? `/bn${c.slug}` : c.slug}
                       onClick={close}
                       aria-current={pathname === c.slug ? "page" : undefined}
                       className={`block rounded-md px-2 py-2 text-sm transition-colors hover:bg-background hover:text-brand ${
                         pathname === c.slug ? "font-semibold text-brand" : ""
                       }`}
                     >
-                      {c.nav}
+                      {bn ? (bnFor(c.slug)?.nav ?? c.nav) : c.nav}
                     </Link>
                   </li>
                 ))}

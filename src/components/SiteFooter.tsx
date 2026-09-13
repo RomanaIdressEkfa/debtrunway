@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { BandCurve, CornerMotif } from "./Ornament";
 import { calculators } from "@/lib/calculators";
 import Logo from "./Logo";
+import { BN_UI_MAP, bnFor } from "@/lib/bn";
+import { BN_PAGES } from "@/lib/bn-pages";
+import { localeOf } from "@/lib/i18n";
+import { usePathname } from "next/navigation";
 
 const siteLinks = [
   { href: "/answers", label: "Answers" },
@@ -28,6 +34,8 @@ const siteLinks = [
  * own padding are what separate it; that is the whole job of a band.
  */
 export default function SiteFooter() {
+  const bn = localeOf(usePathname() ?? "/") === "bn";
+  const label = (s: string) => (bn ? (BN_UI_MAP[s] ?? s) : s);
   return (
     <footer className="band-emerald no-print relative isolate overflow-hidden">
       <div className="band-grid footer-grid islamic-grid" aria-hidden />
@@ -68,10 +76,10 @@ export default function SiteFooter() {
                 {calculators.map((c) => (
                   <li key={c.slug} className="mb-2.5 break-inside-avoid">
                     <Link
-                      href={c.slug}
+                      href={bn && BN_PAGES.includes(c.slug) ? `/bn${c.slug}` : c.slug}
                       className="text-muted transition-colors hover:text-brand"
                     >
-                      {c.nav}
+                      {bn ? (bnFor(c.slug)?.nav ?? c.nav) : c.nav}
                     </Link>
                   </li>
                 ))}
@@ -87,7 +95,7 @@ export default function SiteFooter() {
                       href={l.href}
                       className="text-muted transition-colors hover:text-brand"
                     >
-                      {l.label}
+                      {label(l.label)}
                     </Link>
                   </li>
                 ))}

@@ -1,12 +1,16 @@
 /**
- * Which calculators have a Bengali page of their own, as opposed to merely a
- * Bengali name on a card.
+ * Which pages exist in Bengali.
  *
- * The distinction matters on the Bengali homepage. A card whose title reads
- * in Bengali and whose link opens an English page is honest enough while the
- * translation is in progress; a card that links to /bn/something that has not
- * been built is a 404. So the list is explicit, and a page joins it on the
- * day it exists rather than the day it is planned.
+ * Two things read this list, and both of them break without it.
+ *
+ * The Bengali homepage links its cards here or to the English page, so a card
+ * that reads in Bengali never opens a 404. And the language toggle offers
+ * Bengali only where Bengali is really there — it shipped on all twenty-seven
+ * pages while four had a translation, pointing the other twenty-three at
+ * /bn/something-nobody-built. A control whose whole job is to say "this is
+ * also in your language" was saying it falsely.
+ *
+ * A page joins this list on the day it is built, not the day it is planned.
  */
 export const BN_PAGES: readonly string[] = [
   "/zakat-calculator",
@@ -15,3 +19,17 @@ export const BN_PAGES: readonly string[] = [
 ];
 
 export const hasBnPage = (slug: string) => BN_PAGES.includes(slug);
+
+/**
+ * Does the page at this path have a Bengali twin?
+ *
+ * Takes a full pathname rather than a registry slug, because the toggle only
+ * knows where the reader is. The homepage is the special case: "/" and "/bn"
+ * both exist and neither is in the list above.
+ */
+export function hasBnVersion(pathname: string): boolean {
+  const bare = pathname.replace(/\/$/, "") || "/";
+  if (bare === "/" || bare === "/bn") return true;
+  const english = bare.startsWith("/bn/") ? bare.slice(3) : bare;
+  return BN_PAGES.includes(english);
+}

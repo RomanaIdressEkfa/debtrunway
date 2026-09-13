@@ -296,3 +296,19 @@ export const ASSET_COPY = {
     receivables: ["আপনার পাওনা", "যে ধার ফেরত পাবেন বলে আশা করেন"],
   },
 } as const;
+
+/**
+ * Chrome strings, keyed by their English so a component can translate without
+ * restructuring. The nav and footer are shared by both languages; only the
+ * words change.
+ */
+export const BN_UI_MAP: Record<string, string> = {
+  Calculators: "ক্যালকুলেটর",
+  Answers: "প্রশ্নোত্তর",
+  Support: "সহায়তা",
+  About: "পরিচিতি",
+  Contact: "যোগাযোগ",
+  Privacy: "গোপনীয়তা",
+  "Terms & disclaimer": "শর্তাবলি ও দাবিত্যাগ",
+  Footer: "ফুটার",
+};
