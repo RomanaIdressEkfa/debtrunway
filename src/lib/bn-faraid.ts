@@ -377,3 +377,88 @@ export const BN_FITR_QURBANI: Record<string, string> = {
 };
 
 export const bnFitrQurbani = (s: string): string => BN_FITR_QURBANI[s] ?? s;
+
+/**
+ * Fidya, kaffarah and the Hijri calendar.
+ *
+ * The month names are the interesting part. Hijri months already have settled
+ * Bengali spellings that every Bangladeshi Muslim reads — মুহাররম, রমজান — so
+ * those are transliterations of the Arabic into the script people know, not
+ * translations of what the names mean.
+ */
+export const BN_FIDYA_HIJRI: Record<string, string> = {
+  // --- Fidya and kaffarah ---
+  "Which days, and why": "কোন দিনগুলো, আর কেন",
+  "Missed, and you can still fast them": "ছুটে গেছে, এখনো রাখতে পারবেন",
+  "Missed, and you will never be able to fast them":
+    "ছুটে গেছে, আর কখনোই রাখতে পারবেন না",
+  "Broken deliberately, with no excuse":
+    "ইচ্ছাকৃতভাবে ভেঙেছেন, কোনো ওজর ছাড়া",
+  "Of those, how many are past a later Ramadan":
+    "এর মধ্যে কয়টা পরের রমজান পার হয়ে গেছে",
+  "Days you did not make up before the following Ramadan came round":
+    "পরের রমজান আসার আগে যে দিনগুলোর কাজা করেননি",
+  "What one day's feeding costs": "একদিনের খাওয়ানোর খরচ কত",
+  "Wheat, per kilogram": "গম, প্রতি কেজি",
+  "By weight of wheat": "গমের ওজন ধরে",
+  "Rate for one day": "একদিনের হার",
+  "The figure your mosque or charity announces":
+    "আপনার মসজিদ বা সংস্থা যে অঙ্ক ঘোষণা করে",
+  "In your own currency, as announced locally":
+    "আপনার নিজের মুদ্রায়, স্থানীয়ভাবে যেমন ঘোষণা হয়",
+  "The fast alone": "শুধু রোজা",
+  "Feeding as well": "সাথে খাওয়ানোও",
+  "Line by line": "ধাপে ধাপে",
+
+  // --- Hijri ---
+  "Gregorian to Hijri": "ইংরেজি থেকে হিজরি",
+  "Hijri to Gregorian": "হিজরি থেকে ইংরেজি",
+  "In the Hijri calendar": "হিজরি ক্যালেন্ডারে",
+  "In the Gregorian calendar": "ইংরেজি ক্যালেন্ডারে",
+  "Type any date and the other calendar follows. The fields start on today.":
+    "যেকোনো তারিখ লিখুন, অন্য ক্যালেন্ডারটা সাথে সাথে বদলাবে। ঘরগুলো আজকের তারিখে শুরু হয়।",
+  Day: "দিন",
+  Month: "মাস",
+  Year: "সন",
+  "1 to 30": "১ থেকে ৩০",
+  "Reading today's date…": "আজকের তারিখ পড়া হচ্ছে…",
+  "What is coming": "সামনে যা আসছে",
+  "Your zakat anniversary": "আপনার যাকাতের তারিখ",
+  "This is arithmetic, not a sighting.": "এটা হিসাব, চাঁদ দেখা নয়।",
+  "Ramadan begins": "রমজান শুরু",
+  "Eid al-Fitr": "ঈদুল ফিতর",
+  "Day of Arafah": "আরাফার দিন",
+  "Eid al-Adha": "ঈদুল আজহা",
+  "Islamic New Year": "হিজরি নববর্ষ",
+  Ashura: "আশুরা",
+
+  // Hijri months, in the spellings Bengali readers already know
+  Muharram: "মুহাররম",
+  Safar: "সফর",
+  "Rabi' al-Awwal": "রবিউল আউয়াল",
+  "Rabi' al-Thani": "রবিউস সানি",
+  "Jumada al-Ula": "জমাদিউল আউয়াল",
+  "Jumada al-Akhirah": "জমাদিউস সানি",
+  Rajab: "রজব",
+  "Sha'ban": "শাবান",
+  Ramadan: "রমজান",
+  Shawwal: "শাওয়াল",
+  "Dhu al-Qa'dah": "জিলকদ",
+  "Dhu al-Hijjah": "জিলহজ",
+
+  // Gregorian months
+  January: "জানুয়ারি",
+  February: "ফেব্রুয়ারি",
+  March: "মার্চ",
+  April: "এপ্রিল",
+  May: "মে",
+  June: "জুন",
+  July: "জুলাই",
+  August: "আগস্ট",
+  September: "সেপ্টেম্বর",
+  October: "অক্টোবর",
+  November: "নভেম্বর",
+  December: "ডিসেম্বর",
+};
+
+export const bnFidyaHijri = (s: string): string => BN_FIDYA_HIJRI[s] ?? s;

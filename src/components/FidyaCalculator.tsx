@@ -12,13 +12,21 @@ import {
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField as Money } from "./ui";
+import { bnFidyaHijri } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
 
-export default function FidyaCalculator() {
+export default function FidyaCalculator({
+  lang = "en",
+}: {
+  /** Labels only. The rulings and the arithmetic are identical either way. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnFidyaHijri : (s: string) => s;
   const [makeUp, setMakeUp] = useState("");
   const [fidyaDays, setFidyaDays] = useState("");
   const [kaffarahDays, setKaffarahDays] = useState("");
@@ -54,26 +62,26 @@ export default function FidyaCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="Which days, and why"
-          sub="These three are different obligations and are constantly mistaken for one another. Put each day in one box only."
+          title={t("Which days, and why")}
+          sub={t("These three are different obligations and are constantly mistaken for one another. Put each day in one box only.")}
         />
 
         <div className="mt-5 space-y-4">
           <Count
-            label="Missed, and you can still fast them"
-            hint="Illness that passed, travel, menstruation, pregnancy. Owed as fasts — no money."
+            label={t("Missed, and you can still fast them")}
+            hint={t("Illness that passed, travel, menstruation, pregnancy. Owed as fasts — no money.")}
             value={makeUp}
             onChange={setMakeUp}
           />
           <Count
-            label="Missed, and you will never be able to fast them"
-            hint="Chronic illness with no prospect of recovery, or old age. This is what fidya is for."
+            label={t("Missed, and you will never be able to fast them")}
+            hint={t("Chronic illness with no prospect of recovery, or old age. This is what fidya is for.")}
             value={fidyaDays}
             onChange={setFidyaDays}
           />
           <Count
-            label="Broken deliberately, with no excuse"
-            hint="Eating or drinking on purpose during a fast of Ramadan. This is what kaffarah is for."
+            label={t("Broken deliberately, with no excuse")}
+            hint={t("Eating or drinking on purpose during a fast of Ramadan. This is what kaffarah is for.")}
             value={kaffarahDays}
             onChange={setKaffarahDays}
           />
@@ -82,8 +90,8 @@ export default function FidyaCalculator() {
         {num(makeUp) > 0 && (
           <div className="mt-5 border-t border-line pt-5">
             <Count
-              label="Of those, how many are past a later Ramadan"
-              hint="Days you did not make up before the following Ramadan came round"
+              label={t("Of those, how many are past a later Ramadan")}
+              hint={t("Days you did not make up before the following Ramadan came round")}
               value={delayed}
               onChange={setDelayed}
             />
@@ -99,8 +107,8 @@ export default function FidyaCalculator() {
                 <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                   {(
                     [
-                      ["majority", "Feeding as well", "Maliki, Shafi'i, Hanbali"],
-                      ["hanafi", "The fast alone", "Hanafi"],
+                      ["majority", t("Feeding as well"), "Maliki, Shafi'i, Hanbali"],
+                      ["hanafi", t("The fast alone"), "Hanafi"],
                     ] as const
                   ).map(([value, label, who]) => (
                     <button
@@ -136,15 +144,15 @@ export default function FidyaCalculator() {
         <Card className="no-print">
           <StepHeading
             n={2}
-            title="What one day's feeding costs"
-            sub="Where your mosque publishes a figure, that is the one to use — they are pricing the food your community actually eats."
+            title={t("What one day's feeding costs")}
+            sub={t("Where your mosque publishes a figure, that is the one to use — they are pricing the food your community actually eats.")}
           />
 
           <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
             {(
               [
-                ["published", "A published rate", "The figure your mosque or charity announces"],
-                ["weight", "By weight of wheat", `Half a sa', about ${HALF_SAA_WHEAT_KG} kg, per day`],
+                ["published", "A published rate", t("The figure your mosque or charity announces")],
+                ["weight", t("By weight of wheat"), `Half a sa', about ${HALF_SAA_WHEAT_KG} kg, per day`],
               ] as const
             ).map(([value, label, why]) => (
               <button
@@ -173,14 +181,14 @@ export default function FidyaCalculator() {
           <div className="mt-5">
             {rateMethod === "published" ? (
               <Money
-                label="Rate for one day"
-                hint="In your own currency, as announced locally"
+                label={t("Rate for one day")}
+                hint={t("In your own currency, as announced locally")}
                 value={published}
                 onChange={setPublished}
               />
             ) : (
               <Money
-                label="Wheat, per kilogram"
+                label={t("Wheat, per kilogram")}
                 hint={`Multiplied by ${HALF_SAA_WHEAT_KG} kg to give one day's feeding`}
                 value={wheat}
                 onChange={setWheat}
@@ -257,7 +265,7 @@ export default function FidyaCalculator() {
           </section>
 
           <Card>
-            <h2 className="rule-gold display text-2xl">Line by line</h2>
+            <h2 className="rule-gold display text-2xl">{t("Line by line")}</h2>
             <div className="mt-5 space-y-3">
               {result.lines.map((l) => (
                 <div key={l.label} className="rounded-xl bg-background p-4">

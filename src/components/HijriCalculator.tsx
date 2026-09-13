@@ -14,6 +14,8 @@ import {
 } from "@/lib/hijri";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField } from "./ui";
+import { bnFidyaHijri } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * Today's date is read rather than held in state, so the page shows it on
@@ -37,7 +39,13 @@ const num = (v: string) => {
 
 type Direction = "toHijri" | "toGregorian";
 
-export default function HijriCalculator() {
+export default function HijriCalculator({
+  lang = "en",
+}: {
+  /** Labels only. The rulings and the arithmetic are identical either way. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnFidyaHijri : (s: string) => s;
   const stamp = useSyncExternalStore(
     todayStore.subscribe,
     todayStore.get,
@@ -126,7 +134,7 @@ export default function HijriCalculator() {
     return (
       <div className="answer-panel relative isolate overflow-hidden rounded-2xl bg-brand-panel p-6 text-white sm:p-8">
         <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
-        <p className="text-lg text-white/85">Reading today&rsquo;s date…</p>
+        <p className="text-lg text-white/85">{t("Reading today's date…")}</p>
       </div>
     );
   }
@@ -159,8 +167,8 @@ export default function HijriCalculator() {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <StepHeading
             n={1}
-            title={direction === "toHijri" ? "Gregorian to Hijri" : "Hijri to Gregorian"}
-            sub="Type any date and the other calendar follows. The fields start on today."
+            title={direction === "toHijri" ? t("Gregorian to Hijri") : t("Hijri to Gregorian")}
+            sub={t("Type any date and the other calendar follows. The fields start on today.")}
           />
           <button
             type="button"
@@ -173,8 +181,8 @@ export default function HijriCalculator() {
 
         <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
           <NumberField
-            label="Day"
-            hint="1 to 30"
+            label={t("Day")}
+            hint={t("1 to 30")}
             value={active.day}
             onChange={(v) => setEntered({ ...active, day: v })}
             whole
@@ -190,19 +198,19 @@ export default function HijriCalculator() {
                 onChange={(e) =>
                   setEntered({ ...active, month: Number(e.target.value) })
                 }
-                aria-label="Month"
+                aria-label={t("Month")}
                 className="w-full min-w-0 cursor-pointer bg-transparent px-3 py-3 text-[1.0625rem] outline-none"
               >
                 {months.map((m, i) => (
-                  <option key={m} value={i + 1}>
-                    {m}
+                  <option key={t(m)} value={i + 1}>
+                    {t(m)}
                   </option>
                 ))}
               </select>
             </span>
           </label>
           <NumberField
-            label="Year"
+            label={t("Year")}
             hint={direction === "toHijri" ? "CE" : "AH"}
             value={active.year}
             onChange={(v) => setEntered({ ...active, year: v })}
@@ -212,7 +220,7 @@ export default function HijriCalculator() {
 
         <div className="mt-5 rounded-xl bg-brand-soft p-5">
           <p className="text-sm text-muted">
-            {direction === "toHijri" ? "In the Hijri calendar" : "In the Gregorian calendar"}
+            {direction === "toHijri" ? t("In the Hijri calendar") : t("In the Gregorian calendar")}
           </p>
           <p className="mt-1 text-2xl font-bold tracking-tight text-brand sm:text-3xl">
             {converted.label}
@@ -222,7 +230,7 @@ export default function HijriCalculator() {
 
       {/* ---------- What is coming ---------- */}
       <Card>
-        <h2 className="rule-gold display text-2xl">What is coming</h2>
+        <h2 className="rule-gold display text-2xl">{t("What is coming")}</h2>
         <p className="mt-3 text-base leading-relaxed text-muted">
           By the arithmetic. Every one of these is announced by sighting in
           practice, so a day either way is normal and the announcement wins.
@@ -233,7 +241,7 @@ export default function HijriCalculator() {
               key={e.name}
               className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3.5"
             >
-              <span className="text-lg font-medium">{e.name}</span>
+              <span className="text-lg font-medium">{t(e.name)}</span>
               <span className="flex flex-wrap items-baseline gap-x-3">
                 <span className="tabular-nums text-muted">
                   {formatGregorian(e.gregorian)}
@@ -252,7 +260,7 @@ export default function HijriCalculator() {
       </Card>
 
       <Card>
-        <h2 className="rule-gold display text-2xl">Your zakat anniversary</h2>
+        <h2 className="rule-gold display text-2xl">{t("Your zakat anniversary")}</h2>
         <p className="mt-4 text-base leading-relaxed">
           Zakat falls due once your wealth has stood above the nisab for a full
           lunar year, and the date it first crossed is your anniversary
@@ -273,7 +281,7 @@ export default function HijriCalculator() {
       </Card>
 
       <Notice tone="danger">
-        <strong>This is arithmetic, not a sighting.</strong> A Hijri month
+        <strong>{t("This is arithmetic, not a sighting.")}</strong> A Hijri month
         begins when the new crescent is seen, and that depends on where you
         are, on the weather, and on which authority your country follows. The
         tabular calendar used here is exact and always available, but it can

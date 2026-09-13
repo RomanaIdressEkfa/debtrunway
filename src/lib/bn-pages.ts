@@ -19,6 +19,8 @@ export const BN_PAGES: readonly string[] = [
   "/prayer-times-calculator",
   "/zakat-al-fitr-calculator",
   "/qurbani-calculator",
+  "/fidya-and-kaffarah-calculator",
+  "/hijri-date-converter",
 ];
 
 export const hasBnPage = (slug: string) => BN_PAGES.includes(slug);

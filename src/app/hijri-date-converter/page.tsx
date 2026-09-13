@@ -3,13 +3,14 @@ import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import HijriCalculator from "@/components/HijriCalculator";
 import { bySlug } from "@/lib/calculators";
+import { alternatesFor } from "@/lib/i18n";
 
 const meta = bySlug("/hijri-date-converter")!;
 
 export const metadata: Metadata = {
   title: meta.title,
   description: meta.description,
-  alternates: { canonical: meta.slug },
+  alternates: alternatesFor(meta.slug),
 };
 
 const faqs = [
