@@ -34,7 +34,7 @@ export default function SiteFooter() {
       <div className="footer-wash" aria-hidden />
       <CornerMotif className="top-0 left-0 h-40 w-40 -scale-x-100 text-white/35 sm:h-52 sm:w-52" />
       <BandCurve flip />
-      <div className="mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-14">
+      <div className="shell px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-14">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           {/* Identity */}
           <div>

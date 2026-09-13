@@ -62,7 +62,7 @@ export default function CalculatorPage({
         <div className="hero-wash" aria-hidden />
         <CornerMotif className="top-0 right-0 h-40 w-40 text-white/45 sm:h-56 sm:w-56" />
         <BandCurve />
-        <div className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24">
+        <div className="shell px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24">
           <header className="animate-rise grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-14">
             <h1 className="display text-4xl text-balance sm:text-5xl lg:text-6xl">
               {heading}
@@ -74,7 +74,7 @@ export default function CalculatorPage({
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
+      <div className="shell px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
         {children}
 
         {/* Prose and questions side by side, the way a magazine sets a column
