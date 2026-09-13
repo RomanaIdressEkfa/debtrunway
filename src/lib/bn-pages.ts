@@ -11,6 +11,7 @@
 export const BN_PAGES: readonly string[] = [
   "/zakat-calculator",
   "/islamic-inheritance-calculator",
+  "/zakat-on-gold-calculator",
 ];
 
 export const hasBnPage = (slug: string) => BN_PAGES.includes(slug);

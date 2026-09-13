@@ -18,6 +18,8 @@ import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField as Field, WeightUnitPicker } from "./ui";
 import { formatWeight, restate, toGrams, unitById } from "@/lib/weight";
+import { bnGold } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -36,7 +38,13 @@ interface Row {
 
 let nextId = 3;
 
-export default function GoldZakatCalculator() {
+export default function GoldZakatCalculator({
+  lang = "en",
+}: {
+  /** Labels only. Carat, purity and the nisab are identical either way. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnGold : (s: string) => s;
   const seed = pricesIn("USD");
   const [currency, setCurrency] = useState("USD");
   const [goldPrice, setGoldPrice] = useState(
@@ -112,8 +120,8 @@ export default function GoldZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="Today's price"
-          sub="Filled in from the market, in the currency you pick. Change either figure if your local rate differs."
+          title={t("Today's price")}
+          sub={t("Filled in from the market, in the currency you pick. Change either figure if your local rate differs.")}
         />
         {/* items-end keeps the three controls on one baseline. Without it a
             longer label on any one of them pushes its input below the other
@@ -122,19 +130,19 @@ export default function GoldZakatCalculator() {
           <CurrencyPicker
             value={currency}
             onChange={changeCurrency}
-            hint="Prices are shown in it"
+            hint={t("Prices are shown in it")}
           />
           <Field
-            label="Gold, per gram"
+            label={t("Gold, per gram")}
             prefix={symbolFor(currency)}
-            hint="Pure, 24 carat"
+            hint={t("Pure, 24 carat")}
             value={goldPrice}
             onChange={setGoldPrice}
           />
           <Field
-            label="Silver, per gram"
+            label={t("Silver, per gram")}
             prefix={symbolFor(currency)}
-            hint="Fine silver"
+            hint={t("Fine silver")}
             value={silverPrice}
             onChange={setSilverPrice}
           />
@@ -148,8 +156,8 @@ export default function GoldZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="What is in the box"
-          sub="Weigh each piece as it is, alloy and all — the carat takes the alloy back out. Zakat is owed on the gold, not on the copper it is mixed with."
+          title={t("What is in the box")}
+          sub={t("Weigh each piece as it is, alloy and all — the carat takes the alloy back out. Zakat is owed on the gold, not on the copper it is mixed with.")}
         />
 
         <div className="mt-5">
@@ -161,18 +169,18 @@ export default function GoldZakatCalculator() {
             <div key={row.id} className="relative rounded-xl border border-line p-3.5">
               <div className="grid gap-3 pr-9 sm:grid-cols-[1.3fr_0.8fr_0.9fr] sm:pr-0">
                 <label className="block min-w-0">
-                  <span className="block text-sm font-medium text-muted">Piece</span>
+                  <span className="block text-sm font-medium text-muted">{t("Piece")}</span>
                   <input
                     value={row.label}
                     onChange={(e) => update(row.id, { label: e.target.value })}
-                    placeholder="Bangles, ring, coins"
-                    aria-label="What the piece is"
+                    placeholder={t("Bangles, ring, coins")}
+                    aria-label={t("What the piece is")}
                     className="mt-1.5 w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base outline-none transition focus:border-brand"
                   />
                 </label>
 
                 <label className="block min-w-0">
-                  <span className="block text-sm font-medium text-muted">Weight</span>
+                  <span className="block text-sm font-medium text-muted">{t("Weight")}</span>
                   <span className="mt-1.5 flex items-center rounded-lg border border-line bg-surface px-3 transition focus-within:border-brand">
                     <input
                       value={row.grams}
@@ -190,12 +198,12 @@ export default function GoldZakatCalculator() {
 
                 <label className="block min-w-0">
                   <span className="block text-sm font-medium text-muted">
-                    {row.metal === "gold" ? "Carat" : "Fineness"}
+                    {row.metal === "gold" ? t("Carat") : t("Fineness")}
                   </span>
                   <select
                     value={row.purity}
                     onChange={(e) => update(row.id, { purity: e.target.value })}
-                    aria-label="Purity"
+                    aria-label={t("Purity")}
                     className="mt-1.5 w-full cursor-pointer rounded-lg border border-line bg-surface px-3 py-2.5 text-base outline-none transition focus:border-brand"
                   >
                     {row.metal === "gold"
@@ -285,14 +293,14 @@ export default function GoldZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={3}
-          title="Which position on worn jewellery"
-          sub="This is the one question that changes the answer most, and the schools genuinely differ on it. Neither position is the calculator's to pick."
+          title={t("Which position on worn jewellery")}
+          sub={t("This is the one question that changes the answer most, and the schools genuinely differ on it. Neither position is the calculator's to pick.")}
         />
         <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
           {(
             [
-              ["hanafi", "All of it is zakatable", "Hanafi — use makes no difference to gold and silver"],
-              ["majority", "Worn jewellery is exempt", "Maliki, Shafi'i, Hanbali — lawful jewellery in normal use"],
+              ["hanafi", t("All of it is zakatable"), t("Hanafi — use makes no difference to gold and silver")],
+              ["majority", t("Worn jewellery is exempt"), t("Maliki, Shafi'i, Hanbali — lawful jewellery in normal use")],
             ] as const
           ).map(([value, label, who]) => (
             <button
@@ -314,14 +322,14 @@ export default function GoldZakatCalculator() {
 
         <div className="mt-5 grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
           <Field
-            label="Your other zakatable wealth"
+            label={t("Your other zakatable wealth")}
             prefix={symbolFor(currency)}
-            hint="Cash, bank, investments — the nisab is measured on everything together"
+            hint={t("Cash, bank, investments — the nisab is measured on everything together")}
             value={otherWealth}
             onChange={setOtherWealth}
           />
           <fieldset>
-            <legend className="text-base font-medium">Measure nisab against</legend>
+            <legend className="text-base font-medium">{t("Measure nisab against")}</legend>
             <div className="mt-2 flex gap-2">
               {(["silver", "gold"] as const).map((m) => (
                 <button
@@ -345,7 +353,7 @@ export default function GoldZakatCalculator() {
 
       {/* ---------- The answer ---------- */}
       {result.needsPrice ? (
-        <Notice>Enter a metal price above and the answer appears here.</Notice>
+        <Notice>{t("Enter a metal price above and the answer appears here.")}</Notice>
       ) : (
         <>
           <section
@@ -356,7 +364,7 @@ export default function GoldZakatCalculator() {
             <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
             <CornerMotif className="top-0 right-0 h-36 w-36 text-white/35" />
             <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">
-              {result.due ? `Zakat due at ${(RATE * 100).toFixed(1)}%` : "Below the nisab"}
+              {result.due ? `Zakat due at ${(RATE * 100).toFixed(1)}%` : t("Below the nisab")}
             </p>
             <p className="mt-2 text-4xl font-bold tracking-tight tabular-nums sm:text-5xl">
               {plain(result.due ? result.zakat : 0)}
@@ -371,7 +379,7 @@ export default function GoldZakatCalculator() {
               {[
                 ["Pure gold", `${result.countedGoldGrams.toFixed(2)} g`],
                 ["Pure silver", `${result.countedSilverGrams.toFixed(2)} g`],
-                ["Metal value", plain(result.metalValue)],
+                [t("Metal value"), plain(result.metalValue)],
                 [`Nisab (${standard})`, plain(result.nisab)],
               ].map(([label, value]) => (
                 <div key={label}>
@@ -394,14 +402,14 @@ export default function GoldZakatCalculator() {
           </section>
 
           <Card>
-            <h2 className="rule-gold display text-2xl">Piece by piece</h2>
+            <h2 className="rule-gold display text-2xl">{t("Piece by piece")}</h2>
             <div className="mt-5 overflow-x-auto">
               <table className="w-full min-w-[560px] border-collapse text-base">
                 <thead>
                   <tr className="border-b border-line text-left">
                     <th className="py-2 pr-4 font-semibold">Piece</th>
                     <th className="py-2 pr-4 text-right font-semibold">Weighed</th>
-                    <th className="py-2 pr-4 text-right font-semibold">Pure metal</th>
+                    <th className="py-2 pr-4 text-right font-semibold">{t("Pure metal")}</th>
                     <th className="py-2 text-right font-semibold">Counted</th>
                   </tr>
                 </thead>

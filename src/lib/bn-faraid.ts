@@ -179,3 +179,67 @@ export const BN_FARAID_UI: Record<string, string> = {
 /** Either map, English if neither has it. */
 export const bnFaraidUi = (s: string): string =>
   BN_FARAID_UI[s] ?? BN_FARAID[s] ?? s;
+
+/**
+ * The gold and silver calculator's labels.
+ *
+ * It sits in this file rather than a third one because it shares the same
+ * shape and the same lookup function: keyed on the exact English, falling
+ * back to it when a key is missing. The engine strings for this calculator
+ * come from gold-zakat.ts and are few enough to live here beside the UI.
+ */
+export const BN_GOLD: Record<string, string> = {
+  // Step 1
+  "Today's price": "আজকের দাম",
+  "Filled in from the market, in the currency you pick. Change either figure if your local rate differs.":
+    "বাজার থেকে বসানো, আপনি যে মুদ্রা বাছবেন সেই অনুযায়ী। আপনার এলাকার দাম আলাদা হলে বদলে নিন।",
+  "Prices are shown in it": "এই মুদ্রাতেই সব দেখানো হবে",
+  "Gold, per gram": "সোনা, প্রতি গ্রাম",
+  "Pure, 24 carat": "খাঁটি, ২৪ ক্যারেট",
+  "Silver, per gram": "রুপা, প্রতি গ্রাম",
+  "Fine silver": "খাঁটি রুপা",
+
+  // Step 2
+  "What is in the box": "বাক্সে কী কী আছে",
+  "Weigh each piece as it is, alloy and all — the carat takes the alloy back out. Zakat is owed on the gold, not on the copper it is mixed with.":
+    "প্রতিটি গহনা যেমন আছে তেমনই ওজন করুন, খাদসহ — ক্যারেট দিয়ে খাদটা বাদ চলে যাবে। যাকাত সোনার ওপর, তার সাথে মেশানো তামার ওপর নয়।",
+  "What the piece is": "গহনাটা কী",
+  "Bangles, ring, coins": "চুড়ি, আংটি, মুদ্রা",
+  Weight: "ওজন",
+  Carat: "ক্যারেট",
+  Fineness: "বিশুদ্ধতা",
+  Purity: "বিশুদ্ধতা",
+  Worn: "পরা হয়",
+  Stored: "রাখা আছে",
+
+  // Step 3
+  "Which position on worn jewellery": "পরিহিত গহনায় কোন মত",
+  "This is the one question that changes the answer most, and the schools genuinely differ on it. Neither position is the calculator's to pick.":
+    "এই একটা প্রশ্নেই উত্তর সবচেয়ে বেশি বদলায়, আর এখানে মাযহাবগুলোর মধ্যে প্রকৃত মতভেদ আছে। কোনটা নেবেন সেটা ক্যালকুলেটরের ঠিক করার বিষয় নয়।",
+  "Hanafi — use makes no difference to gold and silver":
+    "হানাফি — সোনা-রুপায় ব্যবহারে কোনো পার্থক্য হয় না",
+  "Maliki, Shafi'i, Hanbali — lawful jewellery in normal use":
+    "মালিকি, শাফিয়ি, হাম্বলি — স্বাভাবিক ব্যবহারের বৈধ গহনা বাদ",
+  "All of it is zakatable": "সবটাতেই যাকাত",
+  "Worn jewellery is exempt": "পরিহিত গহনা বাদ",
+
+  // Other wealth and the answer
+  "Your other zakatable wealth": "আপনার বাকি যাকাতযোগ্য সম্পদ",
+  "Cash, bank, investments — the nisab is measured on everything together":
+    "নগদ, ব্যাংক, বিনিয়োগ — নিসাব সবকিছু একসাথে ধরে মাপা হয়",
+  "Measure nisab against": "নিসাব কিসের সাথে মাপবেন",
+  "Enter a metal price above and the answer appears here.":
+    "উপরে ধাতুর দাম দিন, উত্তর এখানে দেখা যাবে।",
+  "Below the nisab": "নিসাবের নিচে",
+  "Metal value": "ধাতুর মূল্য",
+  "Piece by piece": "গহনা ধরে ধরে",
+  "Pure metal": "খাঁটি ধাতু",
+  Weighed: "ওজন",
+  Counted: "ধরা হলো",
+  Piece: "গহনা",
+  "This is one part only": "এটা কেবল একটা অংশ",
+  "This is a calculator, not a fatwa.": "এটা একটা ক্যালকুলেটর, ফতোয়া নয়।",
+};
+
+/** Gold calculator strings, falling back to English. */
+export const bnGold = (s: string): string => BN_GOLD[s] ?? s;
