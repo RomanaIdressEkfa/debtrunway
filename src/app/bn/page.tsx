@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BandCurve, CornerMotif } from "@/components/Ornament";
 import QuickNisab from "@/components/QuickNisab";
 import { BN_GROUPS, BN_HOME, BN_UI, bnFor } from "@/lib/bn";
+import { BN_PAGES } from "@/lib/bn-pages";
 import { calculators, groups } from "@/lib/calculators";
 import { alternatesFor } from "@/lib/i18n";
 
@@ -67,7 +68,7 @@ export default function Page() {
                           card that reads in Bengali and opens in English is
                           still more use than one that opens nothing. */}
                       <Link
-                        href={c.slug}
+                        href={BN_PAGES.includes(c.slug) ? `/bn${c.slug}` : c.slug}
                         className="card-shadow block h-full rounded-2xl border border-line bg-surface p-5 transition hover:border-brand"
                       >
                         <span className="text-lg font-bold tracking-tight">

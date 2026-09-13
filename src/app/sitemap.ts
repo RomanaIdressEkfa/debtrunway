@@ -3,6 +3,7 @@ export const dynamic = "force-static";
 
 import type { MetadataRoute } from "next";
 import { ANSWERS } from "@/lib/answers";
+import { BN_PAGES } from "@/lib/bn-pages";
 import { calculators } from "@/lib/calculators";
 
 const SITE = "https://debtrunway.com";
@@ -29,6 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 1,
     },
+    ...BN_PAGES.map((slug) => ({
+      url: loc(`/bn${slug}`),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     // The Bengali homepage. It has its own address so Google can index it
     // as Bengali — a language toggle that only swapped text client-side
     // would leave it invisible to exactly the readers it is written for.

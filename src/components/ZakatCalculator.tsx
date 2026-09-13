@@ -14,6 +14,8 @@ import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
 import { Card, Notice, NumberField as Money, WeightUnitPicker } from "./ui";
+import { ASSET_COPY, ZAKAT_COPY } from "@/lib/bn";
+import type { Locale } from "@/lib/i18n";
 import { formatWeight, restate, toGrams, unitById } from "@/lib/weight";
 
 /**
@@ -61,7 +63,14 @@ const ASSETS = [
 
 type AssetKey = (typeof ASSETS)[number]["key"];
 
-export default function ZakatCalculator() {
+export default function ZakatCalculator({
+  lang = "en",
+}: {
+  /** Which language the labels speak. The engine is identical either way. */
+  lang?: Locale;
+} = {}) {
+  const t = ZAKAT_COPY[lang];
+  const a11n = ASSET_COPY[lang];
   const [standard, setStandard] = useState<Standard>("silver");
   // Seeded from the price baked in at build time, so the page arrives with a
   // working nisab instead of an empty field and a homework assignment. It is
@@ -148,8 +157,8 @@ export default function ZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="Set the nisab"
-          sub="Nisab is a weight of gold or silver, not a fixed sum, so it moves with the market. Look up today's price per gram in your own currency and enter it here."
+          title={t.step1}
+          sub={t.step1Sub}
         />
 
         {/* One row of three rather than two rows and an empty spacer: the
@@ -159,19 +168,19 @@ export default function ZakatCalculator() {
           <CurrencyPicker
             value={currency}
             onChange={changeCurrency}
-            hint="Prices are shown in it"
+            hint={t.currencyHint}
           />
           <Money
-            label="Gold price per gram"
+            label={t.goldPrice}
             prefix={symbolFor(currency)}
-            hint="For gold you hold, or the gold nisab"
+            hint={t.goldPriceHint}
             value={goldPrice}
             onChange={setGoldPrice}
           />
           <Money
-            label="Silver price per gram"
+            label={t.silverPrice}
             prefix={symbolFor(currency)}
-            hint="For silver you hold, or the silver nisab"
+            hint={t.silverPriceHint}
             value={silverPrice}
             onChange={setSilverPrice}
           />
@@ -181,18 +190,15 @@ export default function ZakatCalculator() {
         </p>
 
         <fieldset className="mt-5">
-          <legend className="text-base font-semibold">Measure against</legend>
+          <legend className="text-base font-semibold">{t.measureAgainst}</legend>
           <p className="mt-1.5 text-sm leading-relaxed text-muted">
-            The silver threshold is far lower, so it brings more people into
-            zakat and more wealth to the poor. Most contemporary scholars
-            recommend it for that reason. Some hold that gold better reflects
-            what the original threshold was worth.
+            {t.measureSub}
           </p>
           <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
             {(
               [
-                ["silver", "Silver", SILVER_NISAB_GRAMS, silverPrice],
-                ["gold", "Gold", GOLD_NISAB_GRAMS, goldPrice],
+                ["silver", t.silver, SILVER_NISAB_GRAMS, silverPrice],
+                ["gold", t.gold, GOLD_NISAB_GRAMS, goldPrice],
               ] as const
             ).map(([value, label, grams, price]) => {
               const active = standard === value;
@@ -212,7 +218,7 @@ export default function ZakatCalculator() {
                   <span
                     className={`block font-semibold ${active ? "text-brand" : ""}`}
                   >
-                    {label} standard
+                    {label} {t.standardOf}
                   </span>
                   {/* Also in bhori, because the gram figures look like odd
                       decimals until you know they are 7.5 and 52.5 tola —
@@ -223,7 +229,7 @@ export default function ZakatCalculator() {
                     {label.toLowerCase()}
                   </span>
                   <span className="mt-1.5 block text-base font-semibold tabular-nums">
-                    {amount > 0 ? plain(amount) : "— enter a price"}
+                    {amount > 0 ? plain(amount) : t.enterPrice}
                   </span>
                 </button>
               );
@@ -236,16 +242,16 @@ export default function ZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="What you hold"
-          sub="Everything you have owned for a full lunar year. Your home, your car, your furniture and the tools of your trade are not counted — zakat falls on wealth that grows, not on what you use."
+          title={t.step2}
+          sub={t.step2Sub}
         />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {ASSETS.map((a) => (
             <Money
               key={a.key}
-              label={a.label}
-              hint={a.hint}
+              label={a11n[a.key][0]}
+              hint={a11n[a.key][1]}
               prefix={symbolFor(currency)}
               value={amounts[a.key]}
               onChange={(v) => set(a.key, v)}
@@ -257,15 +263,15 @@ export default function ZakatCalculator() {
           <WeightUnitPicker value={weightUnit} onChange={changeWeightUnit} />
           <div className="field-row mt-4 grid gap-4 sm:grid-cols-2">
             <Money
-              label="Gold you own"
-              hint="Jewellery, coins, bars — the whole weight, not the pure part"
+              label={t.goldOwn}
+              hint={t.goldOwnHint}
               value={goldWeight}
               onChange={setGoldWeight}
               suffix={unitById(weightUnit).short}
             />
             <Money
-              label="Silver you own"
-              hint="Jewellery, coins, cutlery, bars"
+              label={t.silverOwn}
+              hint={t.silverOwnHint}
               value={silverWeight}
               onChange={setSilverWeight}
               suffix={unitById(weightUnit).short}
@@ -275,7 +281,7 @@ export default function ZakatCalculator() {
             <p className="mt-2.5 text-sm leading-snug text-muted">
               {goldWeight || silverWeight ? (
                 <>
-                  That is{" "}
+                  {t.thatIs}{" "}
                   <strong className="text-foreground tabular-nums">
                     {toGrams(
                       num(goldWeight) + num(silverWeight),
@@ -283,14 +289,11 @@ export default function ZakatCalculator() {
                     ).toFixed(2)}
                     g
                   </strong>{" "}
-                  of metal in total, which is what the prices above are quoted
-                  against.
+                  {t.ofMetal}
                 </>
               ) : (
                 <>
-                  Enter the weight as your jeweller wrote it. Mixed carats are
-                  fine here — for a piece-by-piece breakdown that takes the
-                  alloy out, use the gold and silver calculator.
+                  {t.jewellerNote}
                 </>
               )}
             </p>
@@ -299,9 +302,9 @@ export default function ZakatCalculator() {
 
         <div className="mt-5 border-t border-line pt-5">
           <Money
-            label="Debts due now"
+            label={t.debts}
             prefix={symbolFor(currency)}
-            hint="Bills and repayments you owe today — not the whole balance of a long-term loan"
+            hint={t.debtsHint}
             value={debts}
             onChange={setDebts}
           />
@@ -312,13 +315,13 @@ export default function ZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={3}
-          title="Has a lunar year passed?"
-          sub="Zakat falls due once your wealth has sat above the nisab for one full lunar year — the hawl. This is the one condition a form cannot check for you."
+          title={t.step3}
+          sub={t.step3Sub}
         />
         <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
           {[
-            [true, "Yes, a full year has passed"],
-            [false, "No, or I am not sure"],
+            [true, t.yearYes],
+            [false, t.yearNo],
           ].map(([value, label]) => (
             <button
               key={String(value)}
@@ -353,7 +356,7 @@ export default function ZakatCalculator() {
             <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
             <CornerMotif className="top-0 right-0 h-36 w-36 text-white/35" />
             <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">
-              {result.due ? "Zakat due at 2.5%" : "Below the nisab"}
+              {result.due ? t.zakatDue : t.belowNisab}
             </p>
             <p className="mt-2 text-4xl font-bold tracking-tight tabular-nums sm:text-5xl">
               {result.due ? plain(result.zakat) : plain(0)}
@@ -361,18 +364,18 @@ export default function ZakatCalculator() {
             <p className="mt-1.5 text-lg text-white/85">
               {result.due
                 ? heldAYear
-                  ? "payable now, on the wealth below"
-                  : "payable once a full lunar year has passed"
-                : `your wealth is ${plain(result.shortfall)} short of the threshold`}
+                  ? t.payableNow
+                  : t.payableLater
+                : `${t.shortBy} ${plain(result.shortfall)} ${t.shortSuffix}`}
             </p>
 
             <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-white/20 pt-5 sm:grid-cols-3">
               {[
-                ["Zakatable wealth", plain(result.totalAssets)],
-                ["Less debts", plain(result.totalDebts)],
-                ["Net", plain(result.net)],
+                [t.statWealth, plain(result.totalAssets)],
+                [t.statDebts, plain(result.totalDebts)],
+                [t.statNet, plain(result.net)],
                 [
-                  `Nisab (${result.standard})`,
+                  `${t.statNisab} (${result.standard})`,
                   plain(result.nisab),
                 ],
               ].map(([label, value]) => (
@@ -386,17 +389,14 @@ export default function ZakatCalculator() {
 
           {result.due && !heldAYear && (
             <Notice>
-              Your wealth is above the nisab, but zakat only falls due once it
-              has stayed there for a full lunar year. Note the date it first
-              crossed the threshold — that date becomes your zakat anniversary
-              for every year after.
+              {t.notYetDue}
             </Notice>
           )}
 
           {result.assets.length > 0 && (
             <Card>
               <h2 className="text-lg font-bold tracking-tight">
-                What was counted
+                {t.counted}
               </h2>
               <table className="mt-4 w-full border-collapse text-base">
                 <tbody>
@@ -448,7 +448,7 @@ export default function ZakatCalculator() {
 
       {!result.needsPrice && (
         <PrintButton
-          label="Save this calculation as a PDF"
+          label={t.savePdf}
           hint="Opens your browser’s print dialogue. Choose “Save as PDF” as the destination. Nothing is uploaded to make the file."
         />
       )}

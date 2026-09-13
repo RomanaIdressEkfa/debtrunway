@@ -155,3 +155,144 @@ export const bnFor = (slug: string): BnCopy | undefined => BN_CALCULATORS[slug];
 
 /** Which calculators have Bengali text, so a page can refuse to half-exist. */
 export const bnTranslated = (slug: string): boolean => slug in BN_CALCULATORS;
+
+/**
+ * The zakat calculator's own words, in both languages.
+ *
+ * Both sides live here rather than English staying inline and Bengali being
+ * looked up, because a half-extracted component is the one that drifts: the
+ * English gets edited in the JSX, the Bengali stays as it was, and nobody
+ * notices until a reader compares the two pages. Either both move or neither
+ * does.
+ *
+ * The engine is untouched by any of this. These are labels.
+ */
+export const ZAKAT_COPY = {
+  en: {
+    step1: "Set the nisab",
+    step1Sub:
+      "Nisab is a weight of gold or silver, not a fixed sum, so it moves with the market. Look up today's price per gram in your own currency and enter it here.",
+    currencyHint: "Prices are shown in it",
+    goldPrice: "Gold price per gram",
+    goldPriceHint: "For gold you hold, or the gold nisab",
+    silverPrice: "Silver price per gram",
+    silverPriceHint: "For silver you hold, or the silver nisab",
+    measureAgainst: "Measure against",
+    measureSub:
+      "The silver threshold is far lower, so it brings more people into zakat and more wealth to the poor. Most contemporary scholars recommend it for that reason. Some hold that gold better reflects what the original threshold was worth.",
+    silver: "Silver",
+    gold: "Gold",
+    standardOf: "standard",
+    enterPrice: "— enter a price",
+    step2: "What you hold",
+    step2Sub:
+      "Everything you have owned for a full lunar year. Your home, your car, your furniture and the tools of your trade are not counted — zakat falls on wealth that grows, not on what you use.",
+    goldOwn: "Gold you own",
+    goldOwnHint: "Jewellery, coins, bars — the whole weight, not the pure part",
+    silverOwn: "Silver you own",
+    silverOwnHint: "Jewellery, coins, cutlery, bars",
+    thatIs: "That is",
+    ofMetal: "of metal in total, which is what the prices above are quoted against.",
+    jewellerNote:
+      "Enter the weight as your jeweller wrote it. Mixed carats are fine here — for a piece-by-piece breakdown that takes the alloy out, use the gold and silver calculator.",
+    debts: "Debts due now",
+    debtsHint:
+      "Bills and repayments you owe today — not the whole balance of a long-term loan",
+    step3: "Has a lunar year passed?",
+    step3Sub:
+      "Zakat falls due once your wealth has sat above the nisab for one full lunar year — the hawl. This is the one condition a form cannot check for you.",
+    yearYes: "Yes, a full year has passed",
+    yearNo: "No, or I am not sure",
+    zakatDue: "Zakat due at 2.5%",
+    belowNisab: "Below the nisab",
+    payableNow: "payable now, on the wealth below",
+    payableLater: "payable once a full lunar year has passed",
+    shortBy: "your wealth is",
+    shortSuffix: "short of the threshold",
+    statWealth: "Zakatable wealth",
+    statDebts: "Less debts",
+    statNet: "Net",
+    statNisab: "Nisab",
+    notYetDue:
+      "Your wealth is above the nisab, but zakat only falls due once it has stayed there for a full lunar year. Note the date it first crossed the threshold — that date becomes your zakat anniversary for every year after.",
+    counted: "What was counted",
+    savePdf: "Save this calculation as a PDF",
+  },
+  bn: {
+    step1: "নিসাব ঠিক করুন",
+    step1Sub:
+      "নিসাব হলো সোনা বা রুপার একটা ওজন, নির্দিষ্ট টাকার অঙ্ক নয় — তাই বাজারের সাথে এটা ওঠানামা করে। আজকের প্রতি গ্রামের দাম আপনার নিজের মুদ্রায় দেখে এখানে দিন।",
+    currencyHint: "এই মুদ্রাতেই সব দেখানো হবে",
+    goldPrice: "সোনার দাম, প্রতি গ্রাম",
+    goldPriceHint: "আপনার সোনার জন্য, বা সোনার নিসাবের জন্য",
+    silverPrice: "রুপার দাম, প্রতি গ্রাম",
+    silverPriceHint: "আপনার রুপার জন্য, বা রুপার নিসাবের জন্য",
+    measureAgainst: "কিসের সাথে মাপবেন",
+    measureSub:
+      "রুপার সীমা অনেক কম, তাই এতে বেশি মানুষ যাকাতের আওতায় আসে আর গরিবের কাছে বেশি সম্পদ পৌঁছায়। এই কারণেই বেশিরভাগ সমকালীন আলেম রুপার পরামর্শ দেন। কেউ কেউ বলেন, মূল সীমাটার প্রকৃত মূল্য সোনাতেই বেশি ঠিকভাবে ধরা পড়ে।",
+    silver: "রুপা",
+    gold: "সোনা",
+    standardOf: "হিসাবে",
+    enterPrice: "— দাম দিন",
+    step2: "আপনার যা আছে",
+    step2Sub:
+      "পূর্ণ এক চান্দ্রবছর ধরে আপনার কাছে যা আছে। আপনার বাড়ি, গাড়ি, আসবাব আর পেশার যন্ত্রপাতি ধরা হবে না — যাকাত সেই সম্পদের ওপর যা বাড়ে, যেটা ব্যবহার করেন তার ওপর নয়।",
+    goldOwn: "আপনার সোনা",
+    goldOwnHint: "গহনা, মুদ্রা, বার — পুরো ওজন, শুধু খাঁটি অংশ নয়",
+    silverOwn: "আপনার রুপা",
+    silverOwnHint: "গহনা, মুদ্রা, বাসনপত্র, বার",
+    thatIs: "অর্থাৎ",
+    ofMetal: "ধাতু — উপরের দাম এই ওজনের সাথেই হিসাব হবে।",
+    jewellerNote:
+      "জুয়েলার যেভাবে ওজন লিখে দিয়েছেন সেভাবেই দিন। বিভিন্ন ক্যারেট মিশে থাকলেও সমস্যা নেই — প্রতিটি গহনা আলাদা করে খাদ বাদ দিয়ে হিসাব করতে চাইলে সোনা ও রুপার ক্যালকুলেটর ব্যবহার করুন।",
+    debts: "এখন যে দেনা",
+    debtsHint:
+      "আজ যে বিল ও কিস্তি দিতে হবে — দীর্ঘমেয়াদি ঋণের পুরো টাকা নয়",
+    step3: "এক চান্দ্রবছর পার হয়েছে?",
+    step3Sub:
+      "সম্পদ পূর্ণ এক চান্দ্রবছর নিসাবের উপরে থাকলে তবেই যাকাত ওয়াজিব হয় — একে বলে হাওল। এই একটা শর্ত কোনো ফরম যাচাই করতে পারে না।",
+    yearYes: "হ্যাঁ, পূর্ণ এক বছর হয়েছে",
+    yearNo: "না, বা নিশ্চিত নই",
+    zakatDue: "যাকাত ২.৫% হারে",
+    belowNisab: "নিসাবের নিচে",
+    payableNow: "এখনই দিতে হবে, নিচের সম্পদের ওপর",
+    payableLater: "পূর্ণ এক চান্দ্রবছর পার হলে দিতে হবে",
+    shortBy: "আপনার সম্পদ",
+    shortSuffix: "কম পড়েছে",
+    statWealth: "যাকাতযোগ্য সম্পদ",
+    statDebts: "দেনা বাদ",
+    statNet: "মোট",
+    statNisab: "নিসাব",
+    notYetDue:
+      "আপনার সম্পদ নিসাবের উপরে, কিন্তু পূর্ণ এক চান্দ্রবছর সেখানে থাকলে তবেই যাকাত ওয়াজিব হয়। যেদিন প্রথম নিসাব ছাড়িয়েছিল সেই তারিখটা লিখে রাখুন — ওটাই প্রতি বছরের আপনার যাকাতের তারিখ।",
+    counted: "যা যা ধরা হলো",
+    savePdf: "এই হিসাব PDF করে রাখুন",
+  },
+} as const;
+
+/** The five money assets, in both languages. */
+export const ASSET_COPY = {
+  en: {
+    cash: ["Cash in hand", "Notes and coins at home or on you"],
+    bank: ["Bank accounts", "Current, savings and any money you can withdraw"],
+    investments: [
+      "Shares, funds and pensions",
+      "What you could access today, at today's value",
+    ],
+    businessStock: [
+      "Business stock",
+      "Goods held for resale, at what they would sell for",
+    ],
+    receivables: ["Money owed to you", "Loans you expect to get back"],
+  },
+  bn: {
+    cash: ["হাতের নগদ", "বাড়িতে বা সাথে থাকা টাকা"],
+    bank: ["ব্যাংক অ্যাকাউন্ট", "চলতি, সঞ্চয়ী — যে টাকা তুলতে পারেন"],
+    investments: [
+      "শেয়ার, ফান্ড ও পেনশন",
+      "আজ যা তুলতে পারতেন, আজকের দামে",
+    ],
+    businessStock: ["ব্যবসার মজুদ", "বিক্রির জন্য রাখা পণ্য, বিক্রয়মূল্যে"],
+    receivables: ["আপনার পাওনা", "যে ধার ফেরত পাবেন বলে আশা করেন"],
+  },
+} as const;
