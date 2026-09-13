@@ -5,6 +5,7 @@ import Script from "next/script";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
 import SiteNav from "@/components/SiteNav";
+import SupportPrompt from "@/components/SupportPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
@@ -157,6 +158,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
 
         <SiteFooter />
+
+        {/* All pages, two and a half minutes in. See the component for why
+            the delay is the point rather than an afterthought. */}
+        <SupportPrompt />
 
         {/*
          * Cloudflare Web Analytics.
