@@ -22,18 +22,27 @@ import { usePathname } from "next/navigation";
 
 const DELAY_MS = 150_000; // two and a half minutes
 const KEY = "support-prompt-dismissed";
-const QUIET_DAYS = 30;
 
 /** Not on the page that already is the ask, and not on the legal pages. */
 const SILENT_ON = ["/support", "/privacy", "/terms"];
 
-function dismissedRecently(): boolean {
+/**
+ * Dismissal lasts the visit, and sessionStorage is what a visit means.
+ *
+ * Closing it silences the card for the rest of the time the tab is open,
+ * however many pages are read after that — being asked once per visit is a
+ * request, being asked on every page is nagging. It comes back next time
+ * because the browser clears sessionStorage when the session ends, which is
+ * precisely the definition wanted here and saves inventing one.
+ *
+ * localStorage would have been wrong in the other direction: a single close
+ * silencing the card for good means a reader who dismissed it while busy on
+ * their first visit is never asked again, however many times they come back
+ * and use the calculators.
+ */
+function dismissed(): boolean {
   try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return false;
-    const until = Number(raw);
-    if (!Number.isFinite(until)) return false;
-    return Date.now() < until;
+    return sessionStorage.getItem(KEY) === "1";
   } catch {
     // Private windows and blocked storage throw. Treat it as not dismissed —
     // showing the card once to someone who cannot be remembered is a smaller
@@ -44,9 +53,9 @@ function dismissedRecently(): boolean {
 
 function remember() {
   try {
-    localStorage.setItem(KEY, String(Date.now() + QUIET_DAYS * 86_400_000));
+    sessionStorage.setItem(KEY, "1");
   } catch {
-    /* nothing to do; it will ask again next visit */
+    /* nothing to do; it will ask again on the next page */
   }
 }
 
@@ -58,7 +67,7 @@ export default function SupportPrompt() {
   const silent = SILENT_ON.some((p) => pathname?.startsWith(p));
 
   useEffect(() => {
-    if (silent || dismissedRecently()) return;
+    if (silent || dismissed()) return;
     const t = setTimeout(() => setOpen(true), DELAY_MS);
     return () => clearTimeout(t);
   }, [silent]);
@@ -91,7 +100,7 @@ export default function SupportPrompt() {
           ref={closeRef}
           type="button"
           onClick={close}
-          aria-label="Close, and do not ask again for a month"
+          aria-label="Close — বন্ধ করুন"
           className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-lg text-muted transition hover:bg-background hover:text-foreground"
         >
           <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
@@ -104,14 +113,28 @@ export default function SupportPrompt() {
           </svg>
         </button>
 
-        <p className="pr-8 text-lg font-bold tracking-tight">
+        {/* Both languages, Bengali first.
+            Not a translation stacked on a translation — each line is short
+            enough that a reader skips the one they do not need without the
+            card turning into a wall. Bengali leads because the money goes
+            through bKash, so whoever acts on this is reading Bengali; the
+            English is there because most of the site's readers are not. */}
+        <p className="pr-8 text-lg leading-snug font-bold tracking-tight">
+          এই সাইটটা কি আপনার কাজে লেগেছে?
+        </p>
+        <p className="pr-8 text-lg leading-snug font-bold tracking-tight text-muted">
           Has this been useful to you?
         </p>
+
+        <p className="mt-3 text-sm leading-relaxed">
+          সবকিছু ফ্রি, আর ফ্রিই থাকবে। কোনো বিজ্ঞাপন নেই, আপনি যা লেখেন তা
+          কোথাও যায় না। উপকারে এলে ছোট একটা সদকা করতে পারেন — না দিলেও কোনো
+          সমস্যা নেই।
+        </p>
         <p className="mt-2 text-sm leading-relaxed text-muted">
-          Everything here is free and stays free. No advertising, and nothing
-          you type ever leaves your browser. If it helped, a small sadaqah
-          keeps it going — whatever you feel like, and nothing at all is also
-          a fine answer.
+          Free, and staying free. No adverts, and nothing you type leaves your
+          browser. A small sadaqah keeps it going — and nothing at all is a
+          fine answer too.
         </p>
 
         <div className="mt-4 flex flex-wrap gap-2.5">
@@ -120,14 +143,14 @@ export default function SupportPrompt() {
             onClick={close}
             className="press rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
           >
-            Support the site
+            সদকা করুন · Support
           </Link>
           <button
             type="button"
             onClick={close}
             className="press rounded-xl border border-line px-4 py-2.5 text-sm font-medium text-muted transition hover:border-brand hover:text-brand"
           >
-            Not now
+            এখন নয় · Not now
           </button>
         </div>
       </div>
