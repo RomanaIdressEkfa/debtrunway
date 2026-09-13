@@ -462,3 +462,109 @@ export const BN_FIDYA_HIJRI: Record<string, string> = {
 };
 
 export const bnFidyaHijri = (s: string): string => BN_FIDYA_HIJRI[s] ?? s;
+
+/**
+ * The remaining calculators: will, business zakat, investments, Hajj, home
+ * finance and the E-number checker.
+ *
+ * One map for all six rather than six maps. They share a lookup function and
+ * none of them has enough strings to earn a file, and a reader never meets
+ * two of these on one page anyway.
+ */
+export const BN_REST: Record<string, string> = {
+  // --- Islamic will ---
+  "What the estate is worth": "সম্পত্তির মূল্য কত",
+  "Total estate": "মোট সম্পত্তি",
+  "Funeral costs": "দাফন-কাফনের খরচ",
+  "Debts owed": "যে ঋণ আছে",
+  "Net estate, after debts": "ঋণ বাদ দেওয়ার পর সম্পত্তি",
+  "One third — a ceiling, not a target": "এক-তৃতীয়াংশ — সর্বোচ্চ সীমা, লক্ষ্য নয়",
+  "The most you may will away": "সর্বোচ্চ যতটুকু ওসিয়ত করতে পারেন",
+  "Who you want to leave something to": "কাকে কিছু দিয়ে যেতে চান",
+  "Who the bequest is for": "ওসিয়ত কার জন্য",
+  "Bequest amount": "ওসিয়তের পরিমাণ",
+  "A charity, a friend, a mosque": "কোনো সংস্থা, বন্ধু, বা মসজিদ",
+  "Save this plan as a PDF": "এই পরিকল্পনা PDF করে রাখুন",
+  "Take it to a solicitor or estate attorney. Nothing is uploaded to make the file.":
+    "এটা নিয়ে আইনজীবীর কাছে যান। ফাইল বানাতে কিছুই কোথাও পাঠানো হয় না।",
+
+  // --- Business zakat ---
+  "The threshold": "নিসাব",
+  "Sets the nisab": "এটা দিয়ে নিসাব ঠিক হয়",
+  "Amounts are in it": "এই মুদ্রাতেই সব",
+  "What the business holds": "ব্যবসার কাছে যা আছে",
+  "What it owes, and what it works with": "যা দেনা, আর যা দিয়ে চলে",
+  "Payables due now": "এখন যে পাওনা দিতে হবে",
+  "Suppliers, wages and bills falling due — not a long-term loan in full":
+    "সরবরাহকারী, বেতন ও চলতি বিল — দীর্ঘমেয়াদি ঋণের পুরোটা নয়",
+  "Premises, machinery, vehicles": "দোকান-কারখানা, যন্ত্রপাতি, গাড়ি",
+  "Recorded, then excluded — these are the means of trading":
+    "লেখা থাকবে, কিন্তু ধরা হবে না — এগুলো ব্যবসার উপকরণ",
+  "Your share of the business": "ব্যবসায় আপনার অংশ",
+  "Zakat is an obligation on a person, so each partner works out their own":
+    "যাকাত ব্যক্তির ওপর ওয়াজিব, তাই প্রতিটি অংশীদার নিজেরটা আলাদা হিসাব করবেন",
+  "Your personal wealth": "আপনার ব্যক্তিগত সম্পদ",
+  "Savings, gold, investments outside the business":
+    "ব্যবসার বাইরে সঞ্চয়, সোনা, বিনিয়োগ",
+  "For your records, or for whoever checks the books. Nothing is uploaded to make the file.":
+    "নিজের হিসাবের জন্য, বা যিনি খাতা দেখেন তাঁর জন্য। ফাইল বানাতে কিছুই কোথাও পাঠানো হয় না।",
+
+  // --- Investments ---
+  "Shares and funds": "শেয়ার ও ফান্ড",
+  "Held for trading": "কেনাবেচার জন্য রাখা",
+  "Bought to sell on — shares, funds, anything you actively trade":
+    "বিক্রির উদ্দেশ্যে কেনা — শেয়ার, ফান্ড, যা নিয়মিত কেনাবেচা করেন",
+  "Held for the long term": "দীর্ঘমেয়াদে রাখা",
+  "Bought for dividends or growth, not to flip":
+    "লভ্যাংশ বা বৃদ্ধির জন্য কেনা, দ্রুত বিক্রির জন্য নয়",
+  "Pensions and retirement accounts": "পেনশন ও অবসরের হিসাব",
+  "You can draw on it today": "আজই তুলতে পারেন",
+  "A SIPP you control, an IRA past the age, a vested pot you may withdraw":
+    "যে তহবিল আপনার নিয়ন্ত্রণে এবং যা এখনই তোলা যায়",
+  "Locked until retirement": "অবসর পর্যন্ত আটকানো",
+  "A workplace pension, a 401(k) you cannot draw yet, a defined benefit scheme":
+    "চাকরির পেনশন, যে তহবিল এখনো তোলা যায় না",
+  "Vested percentage": "যতটুকু আপনার হয়ে গেছে",
+  "Zakatable proportion": "যাকাতযোগ্য অংশ",
+  "Tax and penalty on withdrawal": "তোলার সময় কর ও জরিমানা",
+  "What a withdrawal would actually cost you. Leave at zero to assess the gross.":
+    "তুলতে গেলে আসলে কত খরচ হতো। শূন্য রাখলে পুরো অঙ্কের ওপর হিসাব হবে।",
+  "Digital assets": "ডিজিটাল সম্পদ",
+  "Bitcoin and the rest — nearly all contemporary councils treat these as wealth held":
+    "বিটকয়েন ও অন্যান্য — প্রায় সব সমকালীন পরিষদ এগুলোকে সঞ্চিত সম্পদ ধরেন",
+
+  // --- Hajj ---
+  "How you want to plan it": "কীভাবে পরিকল্পনা করবেন",
+  "Either fix what you can put aside and find the date, or fix the date and find what it takes.":
+    "হয় মাসে কত রাখতে পারবেন সেটা ঠিক করে তারিখ বের করুন, নয়তো তারিখ ঠিক করে দেখুন মাসে কত লাগবে।",
+  "The journey and what you have": "সফর আর আপনার যা আছে",
+  "What Hajj will cost": "হজে কত খরচ হবে",
+  "A real quote, not an average": "সত্যিকারের দর, গড় নয়",
+  "What is already put by": "ইতিমধ্যে যা জমেছে",
+  "Saved so far": "এ পর্যন্ত সঞ্চয়",
+  "Set aside each month": "প্রতি মাসে যা রাখবেন",
+  "Years from now": "কত বছর পরে",
+  "Other wealth you hold": "আপনার বাকি সম্পদ",
+  "The threshold is measured on everything together":
+    "নিসাব সবকিছু একসাথে ধরে মাপা হয়",
+  "Zakat on the savings": "সঞ্চয়ের ওপর যাকাত",
+  "Nothing is assumed to grow — no interest, and no investment return either":
+    "কিছু বাড়বে ধরে নেওয়া হয়নি — সুদও নয়, বিনিয়োগের মুনাফাও নয়",
+  "Hajj falls about eleven days earlier each solar year":
+    "প্রতি সৌরবছরে হজ প্রায় এগারো দিন এগিয়ে আসে",
+
+  // --- Home finance ---
+  "The property and the terms": "সম্পত্তি আর শর্তাবলি",
+  "Property price": "সম্পত্তির দাম",
+  "What the house costs": "বাড়ির দাম কত",
+  "What you put in at the start": "শুরুতে আপনি যা দেবেন",
+  Term: "মেয়াদ",
+  "How long the agreement runs": "চুক্তি কত দিনের",
+  "Profit or rental rate": "মুনাফা বা ভাড়ার হার",
+  "Which structure": "কোন কাঠামো",
+  "Save this comparison as a PDF": "এই তুলনা PDF করে রাখুন",
+  "To take to a provider, or to a scholar. Nothing is uploaded to make the file.":
+    "প্রতিষ্ঠানে বা আলেমের কাছে নিয়ে যাওয়ার জন্য। ফাইল বানাতে কিছুই কোথাও পাঠানো হয় না।",
+};
+
+export const bnRest = (s: string): string => BN_REST[s] ?? s;

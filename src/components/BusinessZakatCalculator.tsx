@@ -14,6 +14,8 @@ import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
 import { Card, Notice, NumberField as Money } from "./ui";
+import { bnRest } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -55,7 +57,13 @@ const ASSETS = [
 
 type AssetKey = (typeof ASSETS)[number]["key"];
 
-export default function BusinessZakatCalculator() {
+export default function BusinessZakatCalculator({
+  lang = "en",
+}: {
+  /** Labels only. Every engine behind this page is language-neutral. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnRest : (s: string) => s;
   const seed = pricesIn("USD");
   const [currency, setCurrency] = useState("USD");
   const [metalPrice, setMetalPrice] = useState(
@@ -125,7 +133,7 @@ export default function BusinessZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="What the business holds"
+          title={t("What the business holds")}
           sub="Stock at every stage, the money in it, and the money owed to it. Value stock at what it would sell for today — zakat is on what the goods are worth, not on what you paid."
         />
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -195,21 +203,21 @@ export default function BusinessZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="What it owes, and what it works with"
+          title={t("What it owes, and what it works with")}
           sub="Premises, machinery and vehicles are not zakatable at any value. Enter them anyway — the working should show what was set aside and why, rather than leaving you to wonder whether they were counted."
         />
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Money
-            label="Payables due now"
+            label={t("Payables due now")}
             prefix={symbolFor(currency)}
-            hint="Suppliers, wages and bills falling due — not a long-term loan in full"
+            hint={t("Suppliers, wages and bills falling due — not a long-term loan in full")}
             value={payables}
             onChange={setPayables}
           />
           <Money
-            label="Premises, machinery, vehicles"
+            label={t("Premises, machinery, vehicles")}
             prefix={symbolFor(currency)}
-            hint="Recorded, then excluded — these are the means of trading"
+            hint={t("Recorded, then excluded — these are the means of trading")}
             value={fixedAssets}
             onChange={setFixedAssets}
           />
@@ -217,8 +225,8 @@ export default function BusinessZakatCalculator() {
 
         <div className="mt-5 border-t border-line pt-5">
           <Money
-            label="Your share of the business"
-            hint="Zakat is an obligation on a person, so each partner works out their own"
+            label={t("Your share of the business")}
+            hint={t("Zakat is an obligation on a person, so each partner works out their own")}
             value={ownership}
             onChange={setOwnership}
             suffix="%"
@@ -230,25 +238,25 @@ export default function BusinessZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={3}
-          title="The threshold"
+          title={t("The threshold")}
           sub="Nisab is measured against everything you own, business and personal together. A shop below the threshold on its own can still be zakatable once your savings sit beside it."
         />
         <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
           <CurrencyPicker
             value={currency}
             onChange={changeCurrency}
-            hint="Amounts are in it"
+            hint={t("Amounts are in it")}
           />
           <Money
             label={`${standard === "silver" ? "Silver" : "Gold"} per gram`}
-            hint="Sets the nisab"
+            hint={t("Sets the nisab")}
             value={metalPrice}
             onChange={setMetalPrice}
           />
           <Money
-            label="Your personal wealth"
+            label={t("Your personal wealth")}
             prefix={symbolFor(currency)}
-            hint="Savings, gold, investments outside the business"
+            hint={t("Savings, gold, investments outside the business")}
             value={personal}
             onChange={setPersonal}
           />
@@ -395,8 +403,8 @@ export default function BusinessZakatCalculator() {
           </Card>
 
           <PrintButton
-            label="Save this calculation as a PDF"
-            hint="For your records, or for whoever checks the books. Nothing is uploaded to make the file."
+            label={t("Save this calculation as a PDF")}
+            hint={t("For your records, or for whoever checks the books. Nothing is uploaded to make the file.")}
           />
 
           <Card>

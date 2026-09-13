@@ -12,6 +12,8 @@ import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
 import { Card, Notice, NumberField } from "./ui";
+import { bnRest } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -36,7 +38,13 @@ const STRUCTURES: { key: Structure; label: string; blurb: string }[] = [
   },
 ];
 
-export default function HomeFinanceCalculator() {
+export default function HomeFinanceCalculator({
+  lang = "en",
+}: {
+  /** Labels only. Every engine behind this page is language-neutral. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnRest : (s: string) => s;
 
   const [currency, setCurrency] = useState("USD");
   const [price, setPrice] = useState("300000");
@@ -75,26 +83,26 @@ export default function HomeFinanceCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="The property and the terms"
+          title={t("The property and the terms")}
           sub="The rate is the financier's return — a profit rate or a rental yield, depending on the structure. Use the figure the provider quotes you rather than a mortgage rate."
         />
         <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
           <CurrencyPicker
             value={currency}
             onChange={setCurrency}
-            hint="Amounts are in it"
+            hint={t("Amounts are in it")}
           />
           <NumberField
-            label="Property price"
-            hint="What the house costs"
+            label={t("Property price")}
+            hint={t("What the house costs")}
             value={price}
             onChange={setPrice}
             prefix={sym}
             large
           />
           <NumberField
-            label="Your deposit"
-            hint="What you put in at the start"
+            label={t("Your deposit")}
+            hint={t("What you put in at the start")}
             value={deposit}
             onChange={setDeposit}
             prefix={sym}
@@ -102,15 +110,15 @@ export default function HomeFinanceCalculator() {
         </div>
         <div className="field-row mt-4 grid gap-4 sm:grid-cols-2">
           <NumberField
-            label="Term"
-            hint="How long the agreement runs"
+            label={t("Term")}
+            hint={t("How long the agreement runs")}
             value={years}
             onChange={setYears}
             suffix="years"
           />
           <NumberField
-            label="Profit or rental rate"
-            hint="Yearly, as the provider quotes it"
+            label={t("Profit or rental rate")}
+            hint={t("Yearly, as the provider quotes it")}
             value={rate}
             onChange={setRate}
             suffix="%"
@@ -122,7 +130,7 @@ export default function HomeFinanceCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="Which structure"
+          title={t("Which structure")}
           sub="These are genuinely different contracts, not three names for the same thing. The one you are offered depends on the provider and the country."
         />
         <div className="mt-5 grid gap-2.5 sm:grid-cols-3">
@@ -303,8 +311,8 @@ export default function HomeFinanceCalculator() {
           </Card>
 
           <PrintButton
-            label="Save this comparison as a PDF"
-            hint="To take to a provider, or to a scholar. Nothing is uploaded to make the file."
+            label={t("Save this comparison as a PDF")}
+            hint={t("To take to a provider, or to a scholar. Nothing is uploaded to make the file.")}
           />
         </>
       )}

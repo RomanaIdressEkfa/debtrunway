@@ -12,13 +12,21 @@ import {
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField as Money } from "./ui";
+import { bnRest } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
 
-export default function InvestmentZakatCalculator() {
+export default function InvestmentZakatCalculator({
+  lang = "en",
+}: {
+  /** Labels only. Every engine behind this page is language-neutral. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnRest : (s: string) => s;
   const [trading, setTrading] = useState("");
   const [longTerm, setLongTerm] = useState("");
   const [method, setMethod] = useState<LongTermMethod>("portion");
@@ -58,20 +66,20 @@ export default function InvestmentZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="Shares and funds"
+          title={t("Shares and funds")}
           sub="Why you hold them decides how they are valued. Bought to sell on, they are stock in trade. Bought to hold, the reasoning looks through the share to what the company itself owns."
         />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Money
-            label="Held for trading"
-            hint="Bought to sell on — shares, funds, anything you actively trade"
+            label={t("Held for trading")}
+            hint={t("Bought to sell on — shares, funds, anything you actively trade")}
             value={trading}
             onChange={setTrading}
           />
           <Money
-            label="Held for the long term"
-            hint="Bought for dividends or growth, not to flip"
+            label={t("Held for the long term")}
+            hint={t("Bought for dividends or growth, not to flip")}
             value={longTerm}
             onChange={setLongTerm}
           />
@@ -140,7 +148,7 @@ export default function InvestmentZakatCalculator() {
                     value={portion}
                     onChange={(e) => setPortion(e.target.value)}
                     inputMode="decimal"
-                    aria-label="Zakatable proportion"
+                    aria-label={t("Zakatable proportion")}
                     className="w-full min-w-0 bg-transparent py-3 text-base tabular-nums outline-none"
                   />
                   <span className="shrink-0 text-sm text-muted">%</span>
@@ -152,8 +160,8 @@ export default function InvestmentZakatCalculator() {
 
         <div className="mt-5">
           <Money
-            label="Digital assets"
-            hint="Bitcoin and the rest — nearly all contemporary councils treat these as wealth held"
+            label={t("Digital assets")}
+            hint={t("Bitcoin and the rest — nearly all contemporary councils treat these as wealth held")}
             value={crypto}
             onChange={setCrypto}
           />
@@ -164,20 +172,20 @@ export default function InvestmentZakatCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="Pensions and retirement accounts"
+          title={t("Pensions and retirement accounts")}
           sub="The question here is not how much is in it but whether you can reach it. Wealth you cannot take possession of is treated differently from wealth you can."
         />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Money
-            label="You can draw on it today"
-            hint="A SIPP you control, an IRA past the age, a vested pot you may withdraw"
+            label={t("You can draw on it today")}
+            hint={t("A SIPP you control, an IRA past the age, a vested pot you may withdraw")}
             value={accessible}
             onChange={setAccessible}
           />
           <Money
-            label="Tax and penalty on withdrawal"
-            hint="What a withdrawal would actually cost you. Leave at zero to assess the gross."
+            label={t("Tax and penalty on withdrawal")}
+            hint={t("What a withdrawal would actually cost you. Leave at zero to assess the gross.")}
             value={deductions}
             onChange={setDeductions}
           />
@@ -185,8 +193,8 @@ export default function InvestmentZakatCalculator() {
 
         <div className="mt-5">
           <Money
-            label="Locked until retirement"
-            hint="A workplace pension, a 401(k) you cannot draw yet, a defined benefit scheme"
+            label={t("Locked until retirement")}
+            hint={t("A workplace pension, a 401(k) you cannot draw yet, a defined benefit scheme")}
             value={locked}
             onChange={setLocked}
           />
@@ -249,7 +257,7 @@ export default function InvestmentZakatCalculator() {
                     value={vested}
                     onChange={(e) => setVested(e.target.value)}
                     inputMode="decimal"
-                    aria-label="Vested percentage"
+                    aria-label={t("Vested percentage")}
                     className="w-full min-w-0 bg-transparent py-3 text-base tabular-nums outline-none"
                   />
                   <span className="shrink-0 text-sm text-muted">%</span>

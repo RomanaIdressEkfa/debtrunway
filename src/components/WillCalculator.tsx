@@ -7,6 +7,8 @@ import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
 import PrintButton from "./PrintButton";
 import { Card, Notice, NumberField as Money } from "./ui";
+import { bnRest } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * Like the inheritance calculator, this keeps nothing. It holds a list of who
@@ -21,7 +23,13 @@ const num = (v: string) => {
 
 let nextId = 3;
 
-export default function WillCalculator() {
+export default function WillCalculator({
+  lang = "en",
+}: {
+  /** Labels only. Every engine behind this page is language-neutral. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnRest : (s: string) => s;
   const [total, setTotal] = useState("100000");
   const [funeral, setFuneral] = useState("");
   const [debts, setDebts] = useState("");
@@ -57,22 +65,22 @@ export default function WillCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="What the estate is worth"
+          title={t("What the estate is worth")}
           sub="Debts come out before anything else — and that includes unpaid zakat, an unpaid mahr, and any expiation owed. Those are obligations, not bequests, and they are not limited to a third."
         />
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
-          <Money label="Total estate" value={total} onChange={setTotal} large />
-          <Money label="Funeral costs" value={funeral} onChange={setFuneral} />
-          <Money label="Debts owed" value={debts} onChange={setDebts} />
+          <Money label={t("Total estate")} value={total} onChange={setTotal} large />
+          <Money label={t("Funeral costs")} value={funeral} onChange={setFuneral} />
+          <Money label={t("Debts owed")} value={debts} onChange={setDebts} />
         </div>
 
         {!result.insolvent && (
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <Figure label="Net estate, after debts" value={plain(result.net)} />
+            <Figure label={t("Net estate, after debts")} value={plain(result.net)} />
             <Figure
-              label="The most you may will away"
+              label={t("The most you may will away")}
               value={plain(result.maxBequest)}
-              hint="One third — a ceiling, not a target"
+              hint={t("One third — a ceiling, not a target")}
               strong
             />
           </div>
@@ -83,8 +91,8 @@ export default function WillCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="Who you want to leave something to"
-          sub="Mark anyone who would inherit anyway. A bequest to an heir is a different matter from the third, and the calculator will say so."
+          title={t("Who you want to leave something to")}
+          sub={t("Mark anyone who would inherit anyway. A bequest to an heir is a different matter from the third, and the calculator will say so.")}
         />
 
         <div className="mt-5 space-y-3">
@@ -102,7 +110,7 @@ export default function WillCalculator() {
                     value={row.to}
                     onChange={(e) => update(row.id, { to: e.target.value })}
                     placeholder="A charity, a friend, a mosque"
-                    aria-label="Who the bequest is for"
+                    aria-label={t("Who the bequest is for")}
                     className="mt-1.5 w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base outline-none transition focus:border-brand"
                   />
                 </label>
@@ -115,7 +123,7 @@ export default function WillCalculator() {
                     onChange={(e) => update(row.id, { amount: e.target.value })}
                     placeholder="0"
                     inputMode="decimal"
-                    aria-label="Bequest amount"
+                    aria-label={t("Bequest amount")}
                     className="mt-1.5 w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base tabular-nums outline-none transition focus:border-brand"
                   />
                 </label>
@@ -291,8 +299,8 @@ export default function WillCalculator() {
 
       {!result.insolvent && (
         <PrintButton
-          label="Save this plan as a PDF"
-          hint="Take it to a solicitor or estate attorney. Nothing is uploaded to make the file."
+          label={t("Save this plan as a PDF")}
+          hint={t("Take it to a solicitor or estate attorney. Nothing is uploaded to make the file.")}
         />
       )}
 

@@ -3,13 +3,14 @@ import Link from "next/link";
 import CalculatorPage from "@/components/CalculatorPage";
 import InvestmentZakatCalculator from "@/components/InvestmentZakatCalculator";
 import { bySlug } from "@/lib/calculators";
+import { alternatesFor } from "@/lib/i18n";
 
 const meta = bySlug("/zakat-on-investments-calculator")!;
 
 export const metadata: Metadata = {
   title: meta.title,
   description: meta.description,
-  alternates: { canonical: meta.slug },
+  alternates: alternatesFor(meta.slug),
 };
 
 const faqs = [

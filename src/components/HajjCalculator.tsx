@@ -9,6 +9,8 @@ import { priceNote, pricesIn, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField as Money } from "./ui";
+import { bnRest } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
@@ -17,7 +19,13 @@ const num = (v: string) => {
 
 type Mode = "byAmount" | "byDate";
 
-export default function HajjCalculator() {
+export default function HajjCalculator({
+  lang = "en",
+}: {
+  /** Labels only. Every engine behind this page is language-neutral. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnRest : (s: string) => s;
   const seed = pricesIn("USD");
   const [currency, setCurrency] = useState("USD");
   const [metalPrice, setMetalPrice] = useState(
@@ -82,27 +90,27 @@ export default function HajjCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="The journey and what you have"
+          title={t("The journey and what you have")}
           sub="Package costs vary enormously by country and by season. Use a quote from an operator you would actually travel with rather than a global average."
         />
         <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
           <CurrencyPicker
             value={currency}
             onChange={changeCurrency}
-            hint="Amounts are in it"
+            hint={t("Amounts are in it")}
           />
           <Money
-            label="What Hajj will cost"
+            label={t("What Hajj will cost")}
             prefix={symbolFor(currency)}
-            hint="A real quote, not an average"
+            hint={t("A real quote, not an average")}
             value={target}
             onChange={setTarget}
             large
           />
           <Money
-            label="Saved so far"
+            label={t("Saved so far")}
             prefix={symbolFor(currency)}
-            hint="What is already put by"
+            hint={t("What is already put by")}
             value={saved}
             onChange={setSaved}
           />
@@ -113,8 +121,8 @@ export default function HajjCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="How you want to plan it"
-          sub="Either fix what you can put aside and find the date, or fix the date and find what it takes."
+          title={t("How you want to plan it")}
+          sub={t("Either fix what you can put aside and find the date, or fix the date and find what it takes.")}
         />
 
         <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
@@ -144,17 +152,17 @@ export default function HajjCalculator() {
         <div className="mt-5">
           {mode === "byAmount" ? (
             <Money
-              label="Set aside each month"
+              label={t("Set aside each month")}
             prefix={symbolFor(currency)}
-              hint="Nothing is assumed to grow — no interest, and no investment return either"
+              hint={t("Nothing is assumed to grow — no interest, and no investment return either")}
               value={monthly}
               onChange={setMonthly}
               large
             />
           ) : (
             <Money
-              label="Years from now"
-              hint="Hajj falls about eleven days earlier each solar year"
+              label={t("Years from now")}
+              hint={t("Hajj falls about eleven days earlier each solar year")}
               value={years}
               onChange={setYears}
               large
@@ -167,7 +175,7 @@ export default function HajjCalculator() {
       <Card className="no-print">
         <StepHeading
           n={3}
-          title="Zakat on the savings"
+          title={t("Zakat on the savings")}
           sub="Money set aside for Hajj is still your wealth. Above the nisab, and once a lunar year has passed over it, zakat is due on the whole balance — every year it sits there."
         />
 
@@ -190,7 +198,7 @@ export default function HajjCalculator() {
         <div className="mt-5 grid items-end gap-4 border-t border-line pt-5 sm:grid-cols-3">
           <Money
             label={`${standard === "silver" ? "Silver" : "Gold"} price per gram`}
-            hint="Sets the nisab"
+            hint={t("Sets the nisab")}
             value={metalPrice}
             onChange={setMetalPrice}
           />
@@ -215,9 +223,9 @@ export default function HajjCalculator() {
             </div>
           </fieldset>
           <Money
-            label="Other wealth you hold"
+            label={t("Other wealth you hold")}
             prefix={symbolFor(currency)}
-            hint="The threshold is measured on everything together"
+            hint={t("The threshold is measured on everything together")}
             value={other}
             onChange={setOther}
           />
