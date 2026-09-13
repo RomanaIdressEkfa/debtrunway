@@ -9,13 +9,21 @@ import { pricesIn, priceNote, symbolFor } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice, NumberField } from "./ui";
+import { bnFitrQurbani } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
 
-export default function QurbaniCalculator() {
+export default function QurbaniCalculator({
+  lang = "en",
+}: {
+  /** Labels only. The ruling and the arithmetic are identical either way. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnFitrQurbani : (s: string) => s;
   const seed = pricesIn("USD");
   const [currency, setCurrency] = useState("USD");
   const [metalPrice, setMetalPrice] = useState(
@@ -72,7 +80,7 @@ export default function QurbaniCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="Who and what"
+          title={t("Who and what")}
           sub="A sheep or a goat stands for one person and cannot be divided. A cow, a buffalo or a camel carries seven — and seven is a ceiling, not a target."
         />
 
@@ -93,7 +101,7 @@ export default function QurbaniCalculator() {
                 }`}
               >
                 <span className={`block text-base font-semibold ${active ? "text-brand" : ""}`}>
-                  {a.label}
+                  {t(a.label)}
                 </span>
                 <span className="mt-0.5 block text-sm text-muted">
                   {a.shares === 1 ? "1 person" : `${a.shares} shares`}
@@ -112,8 +120,8 @@ export default function QurbaniCalculator() {
 
         <div className="field-row mt-5 grid gap-4 sm:grid-cols-3">
           <NumberField
-            label="People to cover"
-            hint="Everyone the household is sacrificing for"
+            label={t("People to cover")}
+            hint={t("Everyone the household is sacrificing for")}
             value={people}
             onChange={setPeople}
             whole
@@ -121,12 +129,12 @@ export default function QurbaniCalculator() {
           <CurrencyPicker
             value={currency}
             onChange={changeCurrency}
-            hint="Prices are in it"
+            hint={t("Prices are in it")}
           />
           {result.divisible && buyingShares ? (
             <NumberField
-              label="Price of one share"
-              hint="What a share in the animal costs"
+              label={t("Price of one share")}
+              hint={t("What a share in the animal costs")}
               value={sharePrice}
               onChange={setSharePrice}
               prefix={symbolFor(currency)}
@@ -134,7 +142,7 @@ export default function QurbaniCalculator() {
           ) : (
             <NumberField
               label={`Price of one ${result.spec.label.toLowerCase()}`}
-              hint="The whole animal"
+              hint={t("The whole animal")}
               value={animalPrice}
               onChange={setAnimalPrice}
               prefix={symbolFor(currency)}
@@ -165,15 +173,15 @@ export default function QurbaniCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="Is it obligatory on you?"
+          title={t("Is it obligatory on you?")}
           sub="This is the one point where the schools genuinely part, and it changes whether missing it is a sin or a missed good deed."
         />
 
         <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
           {(
             [
-              ["hanafi", "Wajib above the nisab", "Hanafi — obligatory on anyone holding the threshold during Eid"],
-              ["majority", "A confirmed sunnah", "Maliki, Shafi'i, Hanbali — strongly urged, not obligatory"],
+              ["hanafi", t("Wajib above the nisab"), t("Hanafi — obligatory on anyone holding the threshold during Eid")],
+              ["majority", "A confirmed sunnah", t("Maliki, Shafi'i, Hanbali — strongly urged, not obligatory")],
             ] as const
           ).map(([value, label, who]) => (
             <button
@@ -197,15 +205,15 @@ export default function QurbaniCalculator() {
           <>
             <div className="field-row mt-5 grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
               <NumberField
-                label="Wealth you hold over Eid"
-                hint="Cash, gold, savings — no lunar year needed here"
+                label={t("Wealth you hold over Eid")}
+                hint={t("Cash, gold, savings — no lunar year needed here")}
                 value={wealth}
                 onChange={setWealth}
                 prefix={symbolFor(currency)}
               />
               <NumberField
                 label={`${standard === "silver" ? "Silver" : "Gold"} per gram`}
-                hint="Sets the nisab"
+                hint={t("Sets the nisab")}
                 value={metalPrice}
                 onChange={setMetalPrice}
                 prefix={symbolFor(currency)}
@@ -253,7 +261,7 @@ export default function QurbaniCalculator() {
         </p>
         <p className="mt-1.5 text-lg text-white/85">
           {result.needsPrice
-            ? "Enter a price above to see the cost."
+            ? t("Enter a price above to see the cost.")
             : `${plain(result.cost)} in total, ${plain(result.costPerPerson)} a person`}
         </p>
 

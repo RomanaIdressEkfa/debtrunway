@@ -304,3 +304,76 @@ export const BN_PRAYER: Record<string, string> = {
 };
 
 export const bnPrayer = (s: string): string => BN_PRAYER[s] ?? s;
+
+/**
+ * Zakat al-Fitr and qurbani — the two Ramadan and Eid pages.
+ *
+ * Staples are translated to what is actually eaten and actually said. The
+ * engine offers wheat, barley, dates and raisins because those are the four
+ * named in the hadith, and rice because it is what most of the Muslim world
+ * eats; in Bengali the rice entry is চাল, and a Bangladeshi reader will pick
+ * it without hesitating.
+ */
+export const BN_FITR_QURBANI: Record<string, string> = {
+  // --- Fitr ---
+  "Which staple, and at what price": "কোন খাদ্য, আর কত দাম",
+  "Who you are paying for": "কার কার পক্ষ থেকে দিচ্ছেন",
+  "Price per kilogram": "প্রতি কেজির দাম",
+  "People in the household": "পরিবারের সদস্য",
+  "One more person": "একজন বাড়ান",
+  "One fewer person": "একজন কমান",
+  "Per person": "জনপ্রতি",
+  "Total to give": "মোট দিতে হবে",
+  "How much wheat": "কতটুকু গম",
+  "Half a sa'": "অর্ধ সা'",
+  "Hanafi, for wheat": "হানাফি — গমের ক্ষেত্রে",
+  "It has to arrive before the Eid prayer.":
+    "ঈদের নামাজের আগেই পৌঁছাতে হবে।",
+
+  // Staples
+  "Wheat or flour": "গম বা আটা",
+  Barley: "যব",
+  Dates: "খেজুর",
+  Raisins: "কিশমিশ",
+  Rice: "চাল",
+
+  // --- Qurbani ---
+  "Is it obligatory on you?": "আপনার ওপর কি ওয়াজিব?",
+  "Who and what": "কার জন্য, আর কী",
+  "Wealth you hold over Eid": "ঈদের সময় আপনার যে সম্পদ",
+  "Cash, gold, savings — no lunar year needed here":
+    "নগদ, সোনা, সঞ্চয় — এখানে এক বছর পার হওয়া লাগে না",
+  "Sets the nisab": "এটা দিয়ে নিসাব ঠিক হয়",
+  "Prices are in it": "এই মুদ্রাতেই দাম",
+  "People to cover": "কতজনের জন্য",
+  "Everyone the household is sacrificing for":
+    "পরিবারের যাদের পক্ষ থেকে কুরবানি হবে",
+  "Price of one share": "এক ভাগের দাম",
+  "What a share in the animal costs": "পশুর এক ভাগে কত পড়ে",
+  "The whole animal": "পুরো পশু",
+  "Enter a price above to see the cost.":
+    "উপরে দাম দিলে খরচ দেখা যাবে।",
+  "Wajib above the nisab": "নিসাবের উপরে হলে ওয়াজিব",
+  "Hanafi — obligatory on anyone holding the threshold during Eid":
+    "হানাফি — ঈদের দিনগুলোতে নিসাব পরিমাণ সম্পদ থাকলে ওয়াজিব",
+  "Maliki, Shafi'i, Hanbali — strongly urged, not obligatory":
+    "মালিকি, শাফিয়ি, হাম্বলি — সুন্নতে মুআক্কাদা, ওয়াজিব নয়",
+
+  // Animals
+  Goat: "ছাগল",
+  Sheep: "ভেড়া",
+  Cow: "গরু",
+  Buffalo: "মহিষ",
+  Camel: "উট",
+
+  // Distribution
+  "Your household": "আপনার পরিবার",
+  "Relatives, neighbours and friends": "আত্মীয়, প্রতিবেশী ও বন্ধু",
+  "The poor": "গরিব-মিসকিন",
+
+  // Shared
+  "Maliki, Shafi'i, Hanbali": "মালিকি, শাফিয়ি, হাম্বলি",
+  "This is a calculator, not a fatwa.": "এটা একটা ক্যালকুলেটর, ফতোয়া নয়।",
+};
+
+export const bnFitrQurbani = (s: string): string => BN_FITR_QURBANI[s] ?? s;

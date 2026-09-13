@@ -5,13 +5,21 @@ import { calculateFitr, STAPLES, type Measure } from "@/lib/fitr";
 import { plain } from "@/lib/format";
 import { CornerMotif } from "./Ornament";
 import { Card, Notice } from "./ui";
+import { bnFitrQurbani } from "@/lib/bn-faraid";
+import type { Locale } from "@/lib/i18n";
 
 const num = (v: string) => {
   const n = Number.parseFloat(v);
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
 
-export default function FitrCalculator() {
+export default function FitrCalculator({
+  lang = "en",
+}: {
+  /** Labels only. The ruling and the arithmetic are identical either way. */
+  lang?: Locale;
+} = {}) {
+  const t = lang === "bn" ? bnFitrQurbani : (s: string) => s;
   const [people, setPeople] = useState(4);
   const [staple, setStaple] = useState("rice");
   const [measure, setMeasure] = useState<Measure>("full");
@@ -33,16 +41,16 @@ export default function FitrCalculator() {
       <Card className="no-print">
         <StepHeading
           n={1}
-          title="Who you are paying for"
+          title={t("Who you are paying for")}
           sub="The head of a household pays for everyone under their roof and in their care — spouse, children, an infant born before the Eid prayer, and any dependent relative."
         />
 
         <div className="mt-5 flex items-center justify-between gap-4 rounded-xl border border-line px-4 py-3.5">
-          <span className="text-base font-medium">People in the household</span>
+          <span className="text-base font-medium">{t("People in the household")}</span>
           <span className="flex shrink-0 items-center gap-1">
             <Step
               sign="−"
-              label="One fewer person"
+              label={t("One fewer person")}
               disabled={people <= 1}
               onClick={() => setPeople((n) => Math.max(1, n - 1))}
             />
@@ -51,7 +59,7 @@ export default function FitrCalculator() {
             </span>
             <Step
               sign="+"
-              label="One more person"
+              label={t("One more person")}
               disabled={people >= 30}
               onClick={() => setPeople((n) => Math.min(30, n + 1))}
             />
@@ -62,7 +70,7 @@ export default function FitrCalculator() {
       <Card className="no-print">
         <StepHeading
           n={2}
-          title="Which staple, and at what price"
+          title={t("Which staple, and at what price")}
           sub="A sa' is a measure of volume, not weight, so a sa' of rice and a sa' of dates do not weigh the same. Pick the staple your community pays in and enter its local price."
         />
 
@@ -84,7 +92,7 @@ export default function FitrCalculator() {
                 <span
                   className={`block text-base font-semibold ${active ? "text-brand" : ""}`}
                 >
-                  {s.label}
+                  {t(s.label)}
                 </span>
                 <span className="mt-0.5 block text-sm text-muted">
                   {s.kgPerSaa} kg per sa&rsquo;
@@ -96,7 +104,7 @@ export default function FitrCalculator() {
 
         {staple === "wheat" && (
           <fieldset className="mt-5">
-            <legend className="text-base font-semibold">How much wheat</legend>
+            <legend className="text-base font-semibold">{t("How much wheat")}</legend>
             <p className="mt-1.5 text-sm leading-relaxed text-muted">
               The Hanafi school permits half a sa&rsquo; of wheat in place of a
               full one, wheat having been the more valuable staple. The other
@@ -107,7 +115,7 @@ export default function FitrCalculator() {
               {(
                 [
                   ["full", "A full sa'", "Maliki, Shafi'i, Hanbali"],
-                  ["halfWheat", "Half a sa'", "Hanafi, for wheat"],
+                  ["halfWheat", t("Half a sa'"), t("Hanafi, for wheat")],
                 ] as const
               ).map(([value, label, who]) => (
                 <button
@@ -147,7 +155,7 @@ export default function FitrCalculator() {
               onChange={(e) => setPrice(e.target.value)}
               placeholder="0"
               inputMode="decimal"
-              aria-label="Price per kilogram"
+              aria-label={t("Price per kilogram")}
               className="w-full min-w-0 bg-transparent py-3 text-lg font-semibold tabular-nums outline-none"
             />
             <span className="shrink-0 text-sm text-muted">per kg</span>
@@ -173,13 +181,13 @@ export default function FitrCalculator() {
         {!result.needsPrice && (
           <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-white/20 pt-5">
             <div>
-              <dt className="text-xs text-white/60">Per person</dt>
+              <dt className="text-xs text-white/60">{t("Per person")}</dt>
               <dd className="mt-0.5 text-lg font-semibold tabular-nums">
                 {plain(result.perPerson)}
               </dd>
             </div>
             <div>
-              <dt className="text-xs text-white/60">Total to give</dt>
+              <dt className="text-xs text-white/60">{t("Total to give")}</dt>
               <dd className="mt-0.5 text-lg font-semibold tabular-nums">
                 {plain(result.total)}
               </dd>
@@ -189,7 +197,7 @@ export default function FitrCalculator() {
       </section>
 
       <Notice>
-        <strong>It has to arrive before the Eid prayer.</strong> Given after it,
+        <strong>{t("It has to arrive before the Eid prayer.")}</strong> Given after it,
         it counts as ordinary sadaqah and the obligation of zakat al-Fitr is not
         discharged. Paying a day or two early, so the recipient can actually use
         it for Eid, is the point of the timing.
