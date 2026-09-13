@@ -881,12 +881,12 @@ header p.slab-prose {
  * which is how a site ends up two different widths wide after someone
  * changes one of them and misses the rest. Defined once here instead.
  *
- * 94rem is about 1500px. The reading measure is NOT this: prose is held to
+ * 90.625rem is 1450px. The reading measure is NOT this: prose is held to
  * max-w-3xl on the article itself, because a line of text 1500px wide is
  * unreadable however much room the screen has. Widening the shell moves the
  * cards, the tool and the sidebar outwards; it leaves the paragraphs alone.
  */
 .shell {
   margin-inline: auto;
-  max-width: 94rem;
+  max-width: 90.625rem;
 }

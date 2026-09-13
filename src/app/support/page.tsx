@@ -18,6 +18,7 @@ export default function Page() {
     <ContentPage
       heading="Support"
       intro="What this costs, where every taka has gone, and how to help if it has been useful to you. Nothing here is behind a payment and nothing will be."
+      wide
     >
       <SupportPanel />
 

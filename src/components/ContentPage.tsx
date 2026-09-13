@@ -5,6 +5,15 @@ interface Props {
   heading: string;
   intro: string;
   children: ReactNode;
+  /**
+   * Let the content fill the shell instead of sitting in a reading measure.
+   *
+   * For a page of panels and cards rather than running text — the support
+   * page. Widening the shell to 1500px left those pages as a 768px column
+   * with half the screen empty beside it, because the measure that protects
+   * a paragraph strangles a grid.
+   */
+  wide?: boolean;
 }
 
 /**
@@ -14,7 +23,7 @@ interface Props {
  * reading measure and centred: there is no tool competing for the width here,
  * so an even margin either side reads as a page rather than a gap.
  */
-export default function ContentPage({ heading, intro, children }: Props) {
+export default function ContentPage({ heading, intro, children, wide }: Props) {
   return (
     <>
       <div className="band-emerald relative isolate overflow-hidden">
@@ -44,7 +53,7 @@ export default function ContentPage({ heading, intro, children }: Props) {
           text is well past it. Aligning the page and holding the measure are
           two different jobs, and they were being done by one element. */}
       <div className="shell px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
-        <article className="max-w-3xl">{children}</article>
+        <article className={wide ? "" : "max-w-3xl"}>{children}</article>
       </div>
     </>
   );
