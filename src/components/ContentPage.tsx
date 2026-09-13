@@ -43,17 +43,19 @@ export default function ContentPage({ heading, intro, children, wide }: Props) {
         </div>
       </div>
 
-      {/* The container matches every other page via .shell, so the prose
-          starts at the same left edge as the title in the band above it — the
-          narrower container made these pages look like a different site.
+      {/* Prose is centred in the shell rather than pinned to its left edge.
+          At 1152px a 768px column left a gap you could ignore. At 1450px it
+          leaves nearly seven hundred pixels of empty page down one side,
+          which reads as a layout that broke rather than a measure that was
+          chosen. Balanced margins on both sides read as a page.
 
-          The measure itself stays narrow, on the article rather than the
-          container. Sixty to seventy-five characters is where a line stops
-          being comfortable to read, and a full six-column width of running
-          text is well past it. Aligning the page and holding the measure are
-          two different jobs, and they were being done by one element. */}
+          The trade is that the h1 in the band above stays left and the text
+          below no longer starts under it. That mismatch is the smaller of the
+          two, and a band is a band. */}
       <div className="shell px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
-        <article className={wide ? "" : "max-w-3xl"}>{children}</article>
+        <article className={wide ? "" : "mx-auto max-w-3xl"}>
+          {children}
+        </article>
       </div>
     </>
   );

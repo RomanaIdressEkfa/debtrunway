@@ -71,8 +71,21 @@ export default function SupportPrompt() {
   const silent = SILENT_ON.some((p) => pathname?.startsWith(p));
 
   useEffect(() => {
-    if (silent || dismissed()) return;
-    const t = setTimeout(() => setOpen(true), DELAY_MS);
+    // ?prompt on any URL shows it at once and ignores a dismissal.
+    //
+    // Testing this without an override is miserable: the card is on a timer,
+    // and a single "Not now" silences it for the rest of the browser session,
+    // so anyone checking their own work sees nothing and cannot tell a
+    // working card from a broken one. Reloading does not help — sessionStorage
+    // survives a reload. The override is a query parameter rather than a
+    // build flag so it works on the live site too.
+    const forced =
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).has("prompt");
+    if (!forced && (silent || dismissed())) return;
+    // Zero for the override rather than a synchronous setState, which would
+    // cascade a render out of the effect body.
+    const t = setTimeout(() => setOpen(true), forced ? 0 : DELAY_MS);
     return () => clearTimeout(t);
   }, [silent]);
 

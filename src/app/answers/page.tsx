@@ -17,11 +17,12 @@ export default function Page() {
     <ContentPage
       heading="Answers"
       intro="The questions people put into a search box rather than into a calculator. Each one sets out the positions, says where scholars part, and points at the tool if there is one."
+      wide
     >
       {/* Counted from the data rather than written out, because the sentence
           said six for as long as there were six and would have gone on saying
           it. */}
-      <p className="leading-relaxed">
+      <p className="max-w-3xl leading-relaxed">
         There are {ANSWERS.length} of these and they are long. That is
         deliberate: a page that gestures at an answer wastes the
         reader&rsquo;s time and, on a site full of them, buries the pages that
@@ -37,7 +38,7 @@ export default function Page() {
             <h2 className="rule-gold display text-2xl">
               {topicLabels[topic]}
             </h2>
-            <ul className="mt-5 space-y-4">
+            <ul className="mt-5 grid gap-4 sm:grid-cols-2">
               {inTopic.map((a) => (
                 <li key={a.slug}>
                   <Link
