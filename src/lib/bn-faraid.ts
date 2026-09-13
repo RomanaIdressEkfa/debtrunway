@@ -243,3 +243,64 @@ export const BN_GOLD: Record<string, string> = {
 
 /** Gold calculator strings, falling back to English. */
 export const bnGold = (s: string): string => BN_GOLD[s] ?? s;
+
+/**
+ * Prayer times and Qibla.
+ *
+ * The prayer names are the one place where translation is not a choice: a
+ * Bengali speaker does not read "Dhuhr", they read জোহর, and a timetable that
+ * says Dhuhr is a timetable they have to decode line by line every day.
+ *
+ * The calculation method names stay recognisable rather than literal. "Muslim
+ * World League" becomes মুসলিম ওয়ার্ল্ড লীগ, not a translated description of
+ * what the body does — someone told by their mosque to use MWL needs to find
+ * that name in the list.
+ */
+export const BN_PRAYER: Record<string, string> = {
+  // The five, plus sunrise
+  Fajr: "ফজর",
+  Sunrise: "সূর্যোদয়",
+  Dhuhr: "জোহর",
+  Asr: "আসর",
+  Maghrib: "মাগরিব",
+  Isha: "এশা",
+
+  // Conventions
+  "Muslim World League": "মুসলিম ওয়ার্ল্ড লীগ",
+  ISNA: "ISNA (উত্তর আমেরিকা)",
+  "Egyptian General Authority": "মিশরীয় জেনারেল অথরিটি",
+  "Umm al-Qura": "উম্মুল কুরা (সৌদি আরব)",
+  "University of Islamic Sciences, Karachi": "করাচি ইসলামিক বিশ্ববিদ্যালয়",
+  "Institute of Geophysics, Tehran": "তেহরান জিওফিজিক্স ইনস্টিটিউট",
+
+  // Asr
+  Hanafi: "হানাফি",
+  "Maliki, Shafi'i, Hanbali": "মালিকি, শাফিয়ি, হাম্বলি",
+  "Shadow ×1": "ছায়া ×১",
+  "Shadow ×2": "ছায়া ×২",
+
+  // Location
+  "Your location": "আপনার অবস্থান",
+  "Your coordinates": "আপনার স্থানাঙ্ক",
+  Latitude: "অক্ষাংশ",
+  Longitude: "দ্রাঘিমাংশ",
+  "Positive north, negative south": "উত্তরে ধনাত্মক, দক্ষিণে ঋণাত্মক",
+  "Positive east, negative west": "পূর্বে ধনাত্মক, পশ্চিমে ঋণাত্মক",
+  "Use my exact location": "আমার সঠিক অবস্থান ব্যবহার করুন",
+  "Asking your browser…": "ব্রাউজারকে জিজ্ঞেস করা হচ্ছে…",
+  "Using the coordinates you entered.":
+    "আপনার দেওয়া স্থানাঙ্ক ব্যবহার করা হচ্ছে।",
+  "Using the exact location your browser gave, which stayed in this tab.":
+    "ব্রাউজার যে সঠিক অবস্থান দিয়েছে সেটাই ব্যবহার হচ্ছে — যা এই ট্যাবের বাইরে যায়নি।",
+  "Your location could not be read. The times below stay on your time zone.":
+    "আপনার অবস্থান পড়া যায়নি। নিচের সময়গুলো আপনার টাইম জোন ধরে দেখানো হচ্ছে।",
+
+  // Results
+  "Working out your times…": "আপনার সময় বের করা হচ্ছে…",
+  "Check these against your local mosque.":
+    "আপনার এলাকার মসজিদের সাথে মিলিয়ে নিন।",
+  Next: "পরবর্তী",
+  Qibla: "কিবলা",
+};
+
+export const bnPrayer = (s: string): string => BN_PRAYER[s] ?? s;

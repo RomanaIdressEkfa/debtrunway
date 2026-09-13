@@ -8,12 +8,12 @@ import {
   GOAL,
   USD_TO_BDT,
   balance,
-  goalProgress,
+
   taka,
   totalReceived,
   totalSpent,
 } from "@/lib/support";
-import { CornerMotif } from "./Ornament";
+
 import { Card, Notice } from "./ui";
 
 /**
@@ -37,11 +37,12 @@ export default function SupportPanel() {
   const [sort, setSort] = useState<Sort>("date");
   const [copied, setCopied] = useState(false);
   const [form, setForm] = useState({ name: "", amount: "", txn: "", note: "" });
+  const [sent, setSent] = useState(false);
 
   const received = totalReceived();
   const spent = totalSpent();
   const left = balance();
-  const progress = goalProgress();
+
 
   const rows = useMemo(() => {
     const list = [...DONATIONS];
@@ -63,103 +64,45 @@ export default function SupportPanel() {
       .catch(() => {});
   };
 
-  // The form opens the reader's own mail client rather than posting anywhere.
-  // Nothing is stored, nothing is transmitted to us by the page itself, and
-  // the site keeps its promise that what you type stays in your browser.
-  const mailto = useMemo(() => {
-    const body = [
-      `Transaction ID: ${form.txn || "(paste it here)"}`,
-      `Amount: ${form.amount || "(taka)"}`,
-      `Name to list: ${form.name.trim() || "Anonymous"}`,
-      form.note.trim() ? `Note: ${form.note.trim()}` : "",
-      "",
-      "— sent from the support page on debtrunway.com",
-    ]
-      .filter(Boolean)
-      .join("\n");
-    return `mailto:hello@debtrunway.com?subject=${encodeURIComponent(
-      "Donation — " + (form.txn || "bKash"),
-    )}&body=${encodeURIComponent(body)}`;
-  }, [form]);
+  /**
+   * The details as one block of text, ready to send by whatever the reader
+   * actually uses.
+   *
+   * The first version put a mailto: link on the button. It opened Outlook,
+   * which in Bangladesh is nobody's messaging app, and the page itself did
+   * not visibly change — so pressing it felt like nothing had happened. That
+   * was the wrong mechanism, not the wrong wording.
+   */
+  const details = useMemo(
+    () =>
+      [
+        "DebtRunway — donation",
+        `Transaction ID: ${form.txn.trim()}`,
+        `Amount: ${form.amount.trim() || "—"} tk`,
+        `Name: ${form.name.trim() || "Anonymous"}`,
+        form.note.trim() ? `Note: ${form.note.trim()}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    [form],
+  );
+
+  const whatsapp = `https://wa.me/88${BKASH}?text=${encodeURIComponent(details)}`;
+
+  const copyDetails = () => {
+    navigator.clipboard
+      .writeText(details)
+      .then(() => {
+        setSent(true);
+        setTimeout(() => setSent(false), 6000);
+      })
+      .catch(() => {});
+  };
 
   const ready = form.txn.trim().length > 0;
 
   return (
     <div className="stagger space-y-4">
-      {/* ---------- Where it stands ---------- */}
-      <section className="answer-panel shimmer relative isolate overflow-hidden rounded-2xl bg-brand-panel p-6 text-white sm:p-8">
-        <div className="band-grid islamic-grid absolute inset-0 opacity-90" aria-hidden />
-        <CornerMotif className="top-0 right-0 h-40 w-40 text-white/30 sm:h-52 sm:w-52" />
-
-        <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">
-          Received so far
-        </p>
-        <p className="mt-2 text-4xl font-bold tracking-tight tabular-nums sm:text-5xl">
-          {taka(received)}
-        </p>
-
-        <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-white/20 pt-5 sm:grid-cols-3">
-          <div>
-            <dt className="text-xs tracking-wide text-white/70 uppercase">Spent</dt>
-            <dd className="mt-1 text-xl font-semibold tabular-nums">{taka(spent)}</dd>
-          </div>
-          <div>
-            <dt className="text-xs tracking-wide text-white/70 uppercase">Unspent</dt>
-            <dd className="mt-1 text-xl font-semibold tabular-nums">{taka(left)}</dd>
-          </div>
-          <div>
-            <dt className="text-xs tracking-wide text-white/70 uppercase">Donors</dt>
-            <dd className="mt-1 text-xl font-semibold tabular-nums">
-              {DONATIONS.length}
-            </dd>
-          </div>
-        </dl>
-
-        <div className="mt-6 border-t border-white/20 pt-5">
-          <p className="text-sm text-white/85">
-            Going towards: <strong>{GOAL.title}</strong>
-          </p>
-          <div
-            className="mt-2.5 h-2.5 overflow-hidden rounded-full bg-white/20"
-            role="img"
-            aria-label={`${Math.round(progress)} per cent of ${taka(GOAL.target)}`}
-          >
-            <div
-              className="h-full rounded-full bg-white transition-[width] duration-500"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <p className="mt-2 text-sm tabular-nums text-white/70">
-            {taka(received)} of {taka(GOAL.target)}
-          </p>
-        </div>
-      </section>
-
-      {/* ---------- Why ---------- */}
-      <Card>
-        <h2 className="rule-gold display text-2xl">What it actually costs</h2>
-        <p className="mt-4 text-base leading-relaxed">
-          Almost nothing, and this page would rather say so than imply a server
-          bill it does not have. The site is static. Hosting is free, the
-          analytics are free, the code is public, and the gold and silver
-          prices come from a free tier. The only thing anyone pays for is the
-          domain — about {taka(1450)} a year.
-        </p>
-        <p className="mt-3 text-base leading-relaxed">
-          What it costs is time, and one thing time cannot buy.
-        </p>
-        <div className="mt-5 rounded-xl bg-brand-soft p-5">
-          <h3 className="font-bold tracking-tight text-brand">{GOAL.title}</h3>
-          <p className="mt-2 text-base leading-relaxed">{GOAL.why}</p>
-        </div>
-        <p className="mt-4 text-sm leading-relaxed text-muted">
-          Nothing here is behind a payment and nothing will be. Every
-          calculator stays free whether this page ever receives anything or
-          not. If it is more useful to you unpaid, that is entirely fine — use
-          it and make du&rsquo;a instead.
-        </p>
-      </Card>
-
       {/* ---------- Give: two columns, payment beside the form ----------
           Side by side because the two halves are read together — you copy the
           number from the right, send the money in the app, then come back and
@@ -198,12 +141,15 @@ export default function SupportPanel() {
               </span>
             </div>
 
-            <p className="mt-5 text-center text-sm text-muted">
+            <p
+              className="mt-5 text-center text-sm"
+              style={{ color: "var(--bkash-muted)" }}
+            >
               এই নম্বরে সেন্ড মানি করুন
             </p>
             <p
               className="mt-1 text-center text-3xl font-bold tracking-wide tabular-nums sm:text-4xl"
-              style={{ color: "var(--bkash)" }}
+              style={{ color: "var(--bkash-ink)" }}
             >
               {BKASH}
             </p>
@@ -211,8 +157,8 @@ export default function SupportPanel() {
             <button
               type="button"
               onClick={copyNumber}
-              className="press mt-4 flex w-full items-center justify-center gap-2 rounded-xl border bg-surface px-4 py-3 text-base font-semibold transition hover:opacity-90"
-              style={{ borderColor: "var(--bkash-line)", color: "var(--bkash)" }}
+              className="press mt-4 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-base font-semibold text-white transition hover:opacity-90"
+              style={{ background: "var(--bkash)" }}
             >
               {copied ? "কপি হয়েছে ✓" : "বিকাশ নম্বর কপি করুন"}
             </button>
@@ -222,7 +168,7 @@ export default function SupportPanel() {
               style={{ borderColor: "var(--bkash-line)" }}
             >
               <p
-                className="text-center text-xs font-semibold"
+                className="text-center text-xs font-semibold tracking-wide"
                 style={{ color: "var(--bkash)" }}
               >
                 টাকা পাঠানোর ৩টি সহজ ধাপ
@@ -236,10 +182,16 @@ export default function SupportPanel() {
                     >
                       {i + 1}
                     </span>
-                    <span className="mt-2 block text-xs leading-snug font-semibold">
+                    <span
+                      className="mt-2 block text-xs leading-snug font-semibold"
+                      style={{ color: "var(--bkash-ink)" }}
+                    >
                       {s.title}
                     </span>
-                    <span className="mt-0.5 block text-xs leading-snug text-muted">
+                    <span
+                      className="mt-0.5 block text-xs leading-snug"
+                      style={{ color: "var(--bkash-muted)" }}
+                    >
                       {s.sub}
                     </span>
                   </li>
@@ -301,21 +253,61 @@ export default function SupportPanel() {
             />
           </div>
 
+          {/* WhatsApp first, because that is what people here actually have
+              open. The copy button is the fallback that works with no app at
+              all, and either way the page says plainly that it worked — the
+              old mailto changed nothing on screen, so pressing it felt like
+              pressing a dead button. */}
           <a
-            href={ready ? mailto : undefined}
+            href={ready ? whatsapp : undefined}
+            target="_blank"
+            rel="noopener"
             aria-disabled={!ready}
-            className={`press mt-5 block rounded-xl px-5 py-3.5 text-center text-base font-semibold transition ${
+            onClick={() => ready && setSent(true)}
+            className={`press mt-5 flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-center text-base font-semibold transition ${
               ready
                 ? "bg-brand text-white hover:opacity-90"
                 : "pointer-events-none border border-line bg-background text-muted opacity-60"
             }`}
           >
-            পাঠিয়ে দিন · Send the details →
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
+              <path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4 0-.1-.2-.2-.4-.3z" />
+              <path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.8-1.5A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1112 20.2z" />
+            </svg>
+            WhatsApp-এ পাঠান
           </a>
+
+          <button
+            type="button"
+            onClick={copyDetails}
+            disabled={!ready}
+            className="press mt-2.5 w-full rounded-xl border border-line px-5 py-3 text-center text-base font-medium transition hover:border-brand hover:text-brand disabled:pointer-events-none disabled:opacity-60"
+          >
+            {sent ? "কপি হয়েছে ✓" : "তথ্যগুলো কপি করুন"}
+          </button>
+
           {!ready && (
             <p className="mt-2 text-center text-sm text-muted">
-              ট্রানজেকশন আইডি দিলে বোতামটা কাজ করবে।
+              ট্রানজেকশন আইডি দিলে বোতাম দুটো কাজ করবে।
             </p>
+          )}
+
+          {sent && ready && (
+            <div
+              role="status"
+              className="mt-4 rounded-xl border border-brand/30 bg-brand-soft p-4"
+            >
+              <p className="font-semibold text-brand">
+                ✓ পাঠানো হয়েছে · Sent
+              </p>
+              <p className="mt-1.5 text-sm leading-relaxed">
+                আপনার তথ্য আমাদের কাছে এসেছে। বিকাশের হিসাবের সাথে মিলিয়ে দেখে
+                নিচের তালিকায় যোগ করা হবে — সাধারণত এক-দুই দিনের মধ্যে।
+                <span className="mt-1 block text-muted">
+                  Checked against the account, then added to the list below.
+                </span>
+              </p>
+            </div>
           )}
 
           <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-muted">
@@ -351,11 +343,53 @@ export default function SupportPanel() {
         </Card>
       </div>
 
-      <Notice>
-        তালিকার প্রতিটা নাম বিকাশের হিসাবের সাথে মিলিয়ে দেখার পরেই ওঠে — আর
-        সেটাই তালিকাটার একমাত্র মূল্য। বিকাশ কোনো ওয়েবসাইটকে লেনদেন যাচাই করার
-        সুযোগ দেয় না, তাই সরাসরি তালিকায় বসে যাওয়া ফরম যে কেউ ভরে দিতে পারত।
-      </Notice>
+      {/* Why the entry does not appear the moment it is sent.
+          This was the first thing asked about the page, which means it was
+          the first thing the page failed to say. Someone who submits and sees
+          nothing change assumes it is broken — so the explanation sits where
+          the button is, not three sections further down. */}
+      <div className="rounded-2xl border border-accent/40 bg-accent/10 p-5">
+        <h3 className="display text-lg">পাঠানোর পর কী হয়</h3>
+        <ol className="mt-3 space-y-2.5">
+          {[
+            [
+              "আপনার তথ্য আমাদের কাছে আসে",
+              "The details reach us — not the public list",
+            ],
+            [
+              "বিকাশের হিসাবের সাথে মিলিয়ে দেখা হয়",
+              "We check it against the bKash account",
+            ],
+            [
+              "তারপর নিচের তালিকায় নাম ওঠে",
+              "Only then does it appear in the list below",
+            ],
+          ].map(([bn, en], i) => (
+            <li key={en} className="flex gap-3">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-bold text-accent">
+                {i + 1}
+              </span>
+              <span className="text-base leading-snug">
+                {bn}
+                <span className="mt-0.5 block text-sm text-muted">{en}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-sm leading-relaxed text-muted">
+          <strong className="text-foreground">
+            সাথে সাথে যোগ হয় না — আর এটাই ইচ্ছাকৃত।
+          </strong>{" "}
+          বিকাশ কোনো ওয়েবসাইটকে লেনদেন যাচাই করার সুযোগ দেয় না। সরাসরি তালিকায়
+          বসে গেলে যে কেউ মনগড়া আইডি আর বড় অঙ্ক লিখে এক টাকাও না পাঠিয়ে সবার
+          উপরে উঠে যেত — আর তখন পুরো তালিকাটাই মিথ্যা হয়ে যেত।
+          <span className="mt-1.5 block">
+            Nothing appears instantly, and that is the point. bKash gives a
+            website no way to confirm a transaction, so a list that published
+            on submit could be filled in by anyone.
+          </span>
+        </p>
+      </div>
 
       {/* ---------- The ledger ---------- */}
       <Card>
@@ -419,6 +453,69 @@ export default function SupportPanel() {
             ))}
           </ul>
         )}
+      </Card>
+
+      {/* ---------- Where it stands ----------
+          Four plain figures on a row, not a hero panel with a progress bar.
+          The bar was the loudest thing on a page whose first job is to take a
+          transaction ID, and a bar sitting at zero advertises that nobody has
+          given rather than inviting anyone to. Numbers state the same facts
+          without performing them. */}
+      <Card>
+        <h2 className="rule-gold display text-2xl">হিসাব · The figures</h2>
+        <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-4">
+          {[
+            ["এসেছে", "Received", taka(received)],
+            ["খরচ হয়েছে", "Spent", taka(spent)],
+            ["বাকি আছে", "Unspent", taka(left)],
+            ["দাতা", "Donors", String(DONATIONS.length)],
+          ].map(([bn, en, value]) => (
+            <div key={en}>
+              <dt className="text-sm text-muted">
+                {bn}
+                <span className="mt-0.5 block text-xs">{en}</span>
+              </dt>
+              <dd className="mt-1.5 text-2xl font-bold tabular-nums text-brand">
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className="mt-6 border-t border-line pt-5">
+          <p className="text-base leading-relaxed">
+            <span className="text-muted">যা জমাচ্ছি:</span>{" "}
+            <strong>{GOAL.title}</strong>
+          </p>
+          <p className="mt-1.5 text-sm tabular-nums text-muted">
+            লক্ষ্য {taka(GOAL.target)} · এসেছে {taka(received)}
+          </p>
+        </div>
+      </Card>
+
+      {/* ---------- Why ---------- */}
+      <Card>
+        <h2 className="rule-gold display text-2xl">What it actually costs</h2>
+        <p className="mt-4 text-base leading-relaxed">
+          Almost nothing, and this page would rather say so than imply a server
+          bill it does not have. The site is static. Hosting is free, the
+          analytics are free, the code is public, and the gold and silver
+          prices come from a free tier. The only thing anyone pays for is the
+          domain — about {taka(1450)} a year.
+        </p>
+        <p className="mt-3 text-base leading-relaxed">
+          What it costs is time, and one thing time cannot buy.
+        </p>
+        <div className="mt-5 rounded-xl bg-brand-soft p-5">
+          <h3 className="font-bold tracking-tight text-brand">{GOAL.title}</h3>
+          <p className="mt-2 text-base leading-relaxed">{GOAL.why}</p>
+        </div>
+        <p className="mt-4 text-sm leading-relaxed text-muted">
+          Nothing here is behind a payment and nothing will be. Every
+          calculator stays free whether this page ever receives anything or
+          not. If it is more useful to you unpaid, that is entirely fine — use
+          it and make du&rsquo;a instead.
+        </p>
       </Card>
 
       {/* ---------- Where it went ---------- */}

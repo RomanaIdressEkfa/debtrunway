@@ -921,32 +921,22 @@ header p.slab-prose {
 }
 
 /**
- * bKash's own colours, used only on the bKash card.
+ * bKash colours, and the same ones in both themes.
  *
- * The rest of the site is deep green and stays deep green. This one panel
- * borrows the magenta because that is what makes it recognisable at a glance
- * as the bKash step rather than another section of the page — someone
- * scanning for where to send money finds it without reading.
+ * The first attempt invented a dark-mode variant — bright pink on a deep
+ * plum — and it looked like mud. The step captions all but disappeared into
+ * the ground behind them.
  *
- * Both themes are defined. On the dark ground the tint drops to a deep plum
- * so the card still reads as bKash without glowing.
+ * The mistake was inventing at all. bKash is magenta on near-white; that is
+ * what the app looks like and what people recognise. So this card stays pale
+ * in both themes and paints every colour on it explicitly rather than
+ * inheriting a foreground that flips. A light card on a dark page is not a
+ * bug here — it is the one panel that should catch the eye.
  */
 :root {
-  --bkash: #e2136e;
-  --bkash-soft: #fdeef5;
-  --bkash-line: #f6c3da;
-}
-
-:root:not([data-theme="light"]) {
-  @media (prefers-color-scheme: dark) {
-    --bkash: #ff5c9d;
-    --bkash-soft: #2a1220;
-    --bkash-line: #4d2038;
-  }
-}
-
-:root[data-theme="dark"] {
-  --bkash: #ff5c9d;
-  --bkash-soft: #2a1220;
-  --bkash-line: #4d2038;
+  --bkash: #d81b60;
+  --bkash-soft: #fff1f6;
+  --bkash-line: #f3bed3;
+  --bkash-ink: #3d1226;
+  --bkash-muted: #7a5065;
 }
