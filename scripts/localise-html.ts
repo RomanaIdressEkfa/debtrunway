@@ -66,6 +66,46 @@ if (stillEnglish.length > 0) {
   process.exit(1);
 }
 
+/**
+ * While we are walking the export: every page owns its own share card.
+ *
+ * The root layout used to set openGraph.title, and a child that declares no
+ * openGraph of its own inherits the parent block whole — so all fifty-nine
+ * pages posted to WhatsApp and Facebook showed the homepage headline. It is
+ * invisible on the site itself and only shows up in someone else's chat.
+ */
+const allHtml = (dir: string): string[] => {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === "_next") continue;
+      out.push(...allHtml(full));
+    } else if (entry.name === "index.html") out.push(full);
+  }
+  return out;
+};
+
+const ogTitle = (html: string) =>
+  html.match(/<meta property="og:title" content="([^"]*)"/)?.[1] ?? "";
+
+const pages = allHtml("out");
+// join(), not a literal: this runs on Windows, where the separator is a
+// backslash and "out/index.html" never matches what readdirSync built.
+const HOME = join("out", "index.html");
+const home = ogTitle(readFileSync(HOME, "utf8"));
+const borrowed = pages.filter(
+  (f) => f !== HOME && ogTitle(readFileSync(f, "utf8")) === home,
+);
+
+if (borrowed.length > 0) {
+  console.error(
+    `localise-html: FAILED — ${borrowed.length} page(s) share the homepage share card:`,
+  );
+  for (const f of borrowed.slice(0, 10)) console.error(`  ${f}`);
+  process.exit(1);
+}
+
 console.log(
-  `localise-html: ${changed} of ${files.length} Bengali pages stamped lang="bn"`,
+  `localise-html: ${changed} of ${files.length} Bengali pages stamped lang="bn"; ${pages.length} pages carry their own share card`,
 );

@@ -98,18 +98,24 @@ export const metadata: Metadata = {
   authors: [{ name: "Romana Idress Ekfa", url: "https://debtrunway.com/about" }],
   creator: "Romana Idress Ekfa",
   publisher: "Romana Idress Ekfa",
+  // No title or description here, deliberately.
+  //
+  // They used to be set, and because a child page that does not declare its
+  // own openGraph inherits the parent's whole object, every page on the site
+  // shared this one card. Fifty-nine pages — every calculator, every answer,
+  // every Bengali page — were posted to WhatsApp and Facebook showing the
+  // homepage's English headline instead of their own. The page a reader had
+  // actually found useful was invisible in the thing they shared.
+  //
+  // Left out, Next falls back to each page's own title and description, so
+  // the card describes the page it is on. The homepage still gets these words
+  // because they are its title and description to begin with.
   openGraph: {
     type: "website",
     siteName: "DebtRunway",
-    title: "Islamic Finance Calculators — Inheritance and Zakat",
-    description:
-      "Divide an estate by the Qur’anic shares of faraid, and work out the zakat you owe from today’s nisab.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Islamic Finance Calculators — Inheritance and Zakat",
-    description:
-      "Divide an estate by the Qur’anic shares of faraid, and work out the zakat you owe from today’s nisab.",
   },
   robots: { index: true, follow: true },
   // Search Console ownership. Google requires this to stay in place after
