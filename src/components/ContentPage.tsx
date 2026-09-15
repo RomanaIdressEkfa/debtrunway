@@ -2,8 +2,10 @@ import type { ReactNode } from "react";
 import { BandCurve, CornerMotif } from "./Ornament";
 
 interface Props {
-  heading: string;
-  intro: string;
+  /** ReactNode, not string: the 404 only learns its language in the browser,
+      so it passes a client component here rather than a fixed sentence. */
+  heading: ReactNode;
+  intro: ReactNode;
   children: ReactNode;
   /**
    * Let the content fill the shell instead of sitting in a reading measure.

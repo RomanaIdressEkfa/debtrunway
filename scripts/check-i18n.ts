@@ -249,6 +249,11 @@ console.log("\n--- Neither language leaks into the other's pages ---\n");
     // reader meets them on whichever page they happened to land on.
     "SupportPanel.tsx",
     "SupportPrompt.tsx",
+    // The 404 is the one page whose language cannot be known at build time:
+    // a static export renders it once and the host serves that file for every
+    // address that does not exist, /bn included. It carries both languages
+    // and picks in the browser.
+    "NotFoundBody.tsx",
   ]);
 
   const offenders: string[] = [];

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import ContentPage from "@/components/ContentPage";
-import { calculators } from "@/lib/calculators";
+import NotFoundBody, {
+  NotFoundHeading,
+  NotFoundIntro,
+} from "@/components/NotFoundBody";
 
 /**
  * There was no not-found page, so Next served its default — which inherited
@@ -15,6 +17,13 @@ import { calculators } from "@/lib/calculators";
  * The second is that a person who lands here from a stale link was being
  * shown nothing useful. A dead end on a site of fourteen tools should offer
  * the tools.
+ *
+ * The third, found later: it offered them only in English. A static export
+ * renders this page once and the host serves that one file for every address
+ * that does not exist, /bn included — so the language cannot be known here and
+ * the body reads the path in the browser instead. The shipped HTML is the
+ * English one, which is the right default for the crawler that sees it and
+ * the noindex it carries.
  */
 export const metadata: Metadata = {
   title: { absolute: "Page not found | DebtRunway" },
@@ -25,52 +34,8 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <ContentPage
-      heading="That page is not here"
-      intro="The address may have changed, or the link that brought you here may have been wrong. Nothing is lost — everything on the site is listed below."
-    >
-      <p className="leading-relaxed">
-        If you followed a link from somewhere else and expected a page,{" "}
-        <Link
-          href="/contact"
-          className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
-        >
-          tell us where it was
-        </Link>{" "}
-        and it will be looked at. A broken link on this site is a defect like
-        any other.
-      </p>
-
-      <h2 className="rule-gold display mt-10 text-2xl">Every calculator</h2>
-      <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-        {calculators.map((c) => (
-          <li key={c.slug}>
-            <Link
-              href={c.slug}
-              className="card-shadow block rounded-xl border border-line bg-surface p-4 transition hover:border-brand"
-            >
-              <span className="block font-semibold tracking-tight">
-                {c.nav}
-              </span>
-              <span className="mt-1 block text-sm leading-snug text-muted">
-                {c.description}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      <p className="mt-8 leading-relaxed">
-        The written answers — bank interest, credit cards, insurance, halal
-        shares, inheritance shares, missed prayers — are all listed on the{" "}
-        <Link
-          href="/answers"
-          className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
-        >
-          answers page
-        </Link>
-        .
-      </p>
+    <ContentPage heading={<NotFoundHeading />} intro={<NotFoundIntro />}>
+      <NotFoundBody />
     </ContentPage>
   );
 }
