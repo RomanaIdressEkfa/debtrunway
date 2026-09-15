@@ -311,7 +311,7 @@ export default function QurbaniCalculator({
           year: qurbani needs none, zakat does.
         </p>
         <Link
-          href="/zakat-calculator"
+          href={lang === "bn" ? "/bn/zakat-calculator" : "/zakat-calculator"}
           className="press mt-4 inline-block rounded-xl border border-line px-4 py-2.5 text-base font-medium transition hover:border-brand hover:text-brand"
         >
           Work out your zakat →

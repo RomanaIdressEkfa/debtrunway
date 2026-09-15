@@ -288,7 +288,7 @@ export default function WillCalculator({
               survives you.
             </p>
             <Link
-              href="/islamic-inheritance-calculator"
+              href={lang === "bn" ? "/bn/islamic-inheritance-calculator" : "/islamic-inheritance-calculator"}
               className="press mt-4 inline-block rounded-xl bg-brand px-4 py-2.5 text-base font-semibold text-white transition hover:opacity-90"
             >
               Work out the shares →

@@ -83,7 +83,7 @@ export default function Page() {
             এই পাতায় পুরো ওজন দিলেই চলবে। প্রতিটি গহনা আলাদা করে ক্যারেট ধরে খাদ
             বাদ দিতে চাইলে{" "}
             <Link
-              href="/zakat-on-gold-calculator"
+              href="/bn/zakat-on-gold-calculator"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               সোনা ও রুপার ক্যালকুলেটর
@@ -104,7 +104,7 @@ export default function Page() {
             ধরে চললে প্রায় প্রতি তিন দশকে একটা পুরো যাকাত-বছর বাদ পড়ে যায় — আর
             সেই বছরের যাকাত মাফ হয় না, বকেয়া থেকে যায়।{" "}
             <Link
-              href="/hijri-date-converter"
+              href="/bn/hijri-date-converter"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               হিজরি তারিখে রূপান্তর

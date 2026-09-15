@@ -415,7 +415,7 @@ export default function BusinessZakatCalculator({
               through properly rather than as a single figure.
             </p>
             <Link
-              href="/zakat-on-gold-calculator"
+              href={lang === "bn" ? "/bn/zakat-on-gold-calculator" : "/zakat-on-gold-calculator"}
               className="press mt-4 inline-block rounded-xl border border-line px-4 py-2.5 text-base font-medium transition hover:border-brand hover:text-brand"
             >
               Zakat on gold and silver →

@@ -380,7 +380,7 @@ export default function InvestmentZakatCalculator({
               be zakatable once your savings are added to it.
             </p>
             <Link
-              href="/zakat-calculator"
+              href={lang === "bn" ? "/bn/zakat-calculator" : "/zakat-calculator"}
               className="press mt-4 inline-block rounded-xl bg-brand px-4 py-2.5 text-base font-semibold text-white transition hover:opacity-90"
             >
               Add the rest of your wealth →

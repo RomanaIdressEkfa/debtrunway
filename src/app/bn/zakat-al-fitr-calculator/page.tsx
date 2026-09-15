@@ -107,7 +107,7 @@ export default function Page() {
             এমনিতেই আপনার দায়িত্ব। গরিব ভাই, বোন বা চাচাকে দেওয়া যায় — আর অনেক
             আলেম সেটাকেই উত্তম বলেন। রোজার কাজা বা ফিদিয়ার হিসাব করতে{" "}
             <Link
-              href="/fidya-and-kaffarah-calculator"
+              href="/bn/fidya-and-kaffarah-calculator"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               ফিদিয়া ও কাফফারা

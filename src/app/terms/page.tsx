@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import ContentPage from "@/components/ContentPage";
 import Link from "next/link";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Terms and Disclaimer",
   description:
     "What DebtRunway is and is not: a free planning calculator, not financial advice. The limits of the figures it produces, stated plainly.",
-  alternates: { canonical: "/terms" },
+  alternates: alternatesFor("/terms"),
 };
 
 export default function Terms() {
@@ -40,18 +41,16 @@ export default function Terms() {
         The figures are estimates
       </h2>
       <p className="mt-3 leading-relaxed">
-        The arithmetic here is deliberate and tested, but it is a model. Each
-        month a balance is charged one twelfth of its annual rate, then the
-        payment is applied. Your lender may not work that way.
+        The arithmetic here is deliberate and tested, but it is a model. The
+        real answer can differ, for reasons the calculator cannot see:
       </p>
-      <p className="mt-3 leading-relaxed">Real statements differ because of:</p>
       <ul className="mt-3 space-y-2.5 leading-relaxed">
         {[
-          "Average daily balance. Most card issuers charge interest on the average balance across the billing cycle, not the balance on one day.",
-          "Fees. Late fees, annual fees, over-limit fees, cash advance fees and foreign transaction charges are not modelled.",
-          "Rate changes. Variable rates move. A promotional 0% period ends. A missed payment can trigger a penalty rate, sometimes near 30%.",
-          "New spending. The calculator assumes you stop adding to the balance. Most people do not.",
-          "Payment timing. Paying on the due date and paying two weeks early produce different interest.",
+          "Metal prices. Nisab is a weight of gold or silver, so the threshold moves with the market. The prices here are international rates, not the counter price at your local jeweller.",
+          "Scholarly difference. On worn jewellery, on pensions, on long-term debts, scholars genuinely differ. Where they do, the page gives both positions — it does not choose for you.",
+          "The lunar year. Zakat falls due when wealth has stayed above nisab for a full lunar year. The calculator shows where you stand today; it does not know when your year turns.",
+          "Local rates and costs. Fitrah, qurbani and Hajj costs differ by place. Use a real quote from where you are, not an average.",
+          "Incomplete facts. Leave out an heir or a debt and the answer changes, and nothing here can tell that you did.",
         ].map((point) => (
           <li key={point} className="flex gap-3">
             <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
@@ -60,8 +59,7 @@ export default function Terms() {
         ))}
       </ul>
       <p className="mt-4 leading-relaxed">
-        Treat the results as a realistic plan, not a prediction. Your own
-        statement is always the authority.
+        Treat the results as a realistic plan rather than a ruling.
       </p>
 
       <h2 className="mt-12 text-2xl font-bold tracking-tight">
@@ -70,7 +68,7 @@ export default function Terms() {
       <p className="mt-3 leading-relaxed">
         This site is provided as is. Considerable care has gone into the
         calculations — they are covered by an automated test suite that checks
-        every schedule adds up — but no guarantee is made that the site is free
+        every share adds up to one — but no guarantee is made that the site is free
         of errors, always available, or suitable for your situation.
       </p>
       <p className="mt-3 leading-relaxed">
@@ -120,8 +118,7 @@ export default function Terms() {
       </h2>
       <p className="mt-3 leading-relaxed">
         Every calculation runs in your browser, and what you type is never sent
-        to a server. Your plan is saved on your own device so it is waiting next
-        time. The{" "}
+        to a server. The{" "}
         <Link href="/privacy" className="font-medium text-brand underline">
           privacy page
         </Link>{" "}

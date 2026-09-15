@@ -132,6 +132,7 @@ export const BN_UI = {
   notAFatwa: "এটি ফতোয়া নয়",
   workItOut: "হিসাব করুন",
   commonQuestions: "সাধারণ প্রশ্ন",
+  otherCalculators: "অন্যান্য ক্যালকুলেটর",
 } as const;
 
 /** The homepage, which is the one page that is all its own text. */
@@ -405,5 +406,49 @@ export const NISAB_COPY = {
       "এটা মোটামুটি একটা যাচাই, ফতোয়া নয়। পূর্ণ ক্যালকুলেটর কোন সম্পদ ধরা হবে আর কোনটা হবে না তা আলাদা করে, সোনা-রুপা গ্রাম বা ভরিতে ওজন ধরেই হিসাব করে, এখনকার দেনা বাদ দেয়, আর চান্দ্রবছরের প্রশ্নটাও করে — এর প্রতিটাই উত্তর বদলে দিতে পারে।",
     href: "/bn/zakat-calculator",
     hrefInheritance: "/bn/islamic-inheritance-calculator",
+  },
+} as const;
+
+/**
+ * The footer's own prose, in both languages.
+ *
+ * The footer translated its link labels and not its link targets, so a Bengali
+ * reader clicking পরিচিতি landed on the English About page — a translated word
+ * pointing at an untranslated page, which is worse than leaving the word in
+ * English, because it promises something it does not deliver. Both the words
+ * and the destinations now come from the page's locale.
+ */
+export const FOOTER_COPY = {
+  en: {
+    blurb:
+      "Free calculators for the parts of Islamic finance that have a fixed, checkable answer — each with the ruling behind it.",
+    calculators: "Calculators",
+    site: "Site",
+    ayahGloss:
+      "“Our Lord, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.”",
+    ayahRef: "Surah al-Baqarah 2:201",
+    privacyLead: "Nothing you type leaves your browser.",
+    privacyBody:
+      " Every figure is worked out on your own device, and nothing you enter is ever sent anywhere.",
+    estimateLead: "These results are estimates, not financial advice.",
+    estimateBody: " Where scholars differ, the pages say so — see the ",
+    termsLink: "terms and disclaimer",
+    builtBy: "Built by",
+  },
+  bn: {
+    blurb:
+      "ইসলামিক অর্থনীতির যে অংশগুলোর একটা নির্দিষ্ট, যাচাইযোগ্য উত্তর আছে — সেগুলোর জন্য বিনামূল্যে ক্যালকুলেটর। প্রতিটা সংখ্যার সাথে তার নিয়মটাও থাকে।",
+    calculators: "ক্যালকুলেটর",
+    site: "সাইট",
+    ayahGloss:
+      "“হে আমাদের রব, আমাদের দুনিয়াতে কল্যাণ দিন আর আখিরাতেও কল্যাণ দিন, আর আমাদের জাহান্নামের আজাব থেকে রক্ষা করুন।”",
+    ayahRef: "সূরা আল-বাকারা ২:২০১",
+    privacyLead: "আপনি যা লেখেন তার কিছুই ব্রাউজার ছেড়ে যায় না।",
+    privacyBody:
+      " প্রতিটা সংখ্যা আপনার নিজের ডিভাইসেই হিসাব হয়, আর আপনি যা দেন তার কিছুই কোথাও পাঠানো হয় না।",
+    estimateLead: "এই ফলাফল আনুমানিক, আর্থিক পরামর্শ নয়।",
+    estimateBody: " যেখানে আলেমদের মতভেদ আছে, পাতাগুলো তা বলে দেয় — দেখুন ",
+    termsLink: "শর্তাবলি ও দাবিত্যাগ",
+    builtBy: "বানিয়েছেন",
   },
 } as const;

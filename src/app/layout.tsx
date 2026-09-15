@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Amiri, Cinzel_Decorative, Inter, Roboto_Slab } from "next/font/google";
-import Link from "next/link";
 import Script from "next/script";
+import HomeLink from "@/components/HomeLink";
 import LanguageToggle from "@/components/LanguageToggle";
-import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
 import SiteNav from "@/components/SiteNav";
 import SupportPrompt from "@/components/SupportPrompt";
@@ -142,13 +141,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <header className="no-print sticky top-0 z-30 border-b border-line bg-surface/85 backdrop-blur-md">
           <div className="shell flex items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
-            <Link
-              href="/"
-              aria-label="DebtRunway home"
-              className="transition-opacity hover:opacity-70"
-            >
-              <Logo size={28} />
-            </Link>
+            <HomeLink size={28} />
             <div className="flex items-center gap-2">
               <SiteNav />
               <LanguageToggle />

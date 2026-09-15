@@ -3,6 +3,7 @@ import Link from "next/link";
 import AnswerBody from "@/components/AnswerBody";
 import ContentPage from "@/components/ContentPage";
 import { ANSWERS, bySlugAnswer, topicLabels } from "@/lib/answers";
+import { alternatesFor } from "@/lib/i18n";
 
 const SITE = "https://debtrunway.com";
 
@@ -28,7 +29,7 @@ export async function generateMetadata({
   return {
     title: answer.title,
     description: answer.summary,
-    alternates: { canonical: `/answers/${answer.slug}` },
+    alternates: alternatesFor(`/answers/${answer.slug}`),
   };
 }
 

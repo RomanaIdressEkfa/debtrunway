@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { BandCurve, CornerMotif } from "./Ornament";
 import RelatedCalculators from "./RelatedCalculators";
+import { BN_UI } from "@/lib/bn";
 
 export interface Faq {
   q: string;
@@ -37,6 +38,10 @@ export default function CalculatorPage({
   content,
   faqs,
 }: Props) {
+  // The slug already says which language this page is. Passing a second prop
+  // would let the two disagree, and a page whose heading and whose sidebar
+  // disagree about the language is the exact bug this shell is meant to end.
+  const bn = slug.startsWith("/bn");
   return (
     <>
       <script
@@ -85,7 +90,9 @@ export default function CalculatorPage({
           <article>{content}</article>
 
           <aside>
-            <h2 className="rule-gold display text-2xl">Common questions</h2>
+            <h2 className="rule-gold display text-2xl">
+              {bn ? BN_UI.commonQuestions : "Common questions"}
+            </h2>
             <dl className="mt-4 space-y-3">
               {faqs.map((f) => (
                 <div

@@ -12,6 +12,8 @@
  *
  * A page joins this list on the day it is built, not the day it is planned.
  */
+import { BN_ANSWERS } from "./bn-answers";
+
 export const BN_PAGES: readonly string[] = [
   "/zakat-calculator",
   "/islamic-inheritance-calculator",
@@ -27,6 +29,19 @@ export const BN_PAGES: readonly string[] = [
   "/hajj-savings-calculator",
   "/islamic-home-finance-calculator",
   "/halal-e-numbers-checker",
+  // The answers index and every answer that has a Bengali version. Built
+  // from BN_ANSWERS rather than typed out, so a translation added there
+  // reaches the sitemap, the language toggle and the Bengali index in one
+  // move — and one removed stops being offered in all three at once.
+  "/answers",
+  ...Object.keys(BN_ANSWERS).map((slug) => `/answers/${slug}`),
+  // The standing pages. They are prose rather than tools, and their Bengali
+  // versions live as their own files under src/app/bn — there is no shared
+  // engine behind them to keep in step.
+  "/about",
+  "/contact",
+  "/privacy",
+  "/terms",
 ];
 
 export const hasBnPage = (slug: string) => BN_PAGES.includes(slug);

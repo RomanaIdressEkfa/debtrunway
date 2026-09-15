@@ -98,7 +98,7 @@ export default function Page() {
             যাকাত দেওয়ার আগে সেটা দেখে নেওয়াই ভালো, কারণ হারাম আয়ের অংশটুকু
             আলাদা করে দান করে দিতে হয় —{" "}
             <Link
-              href="/answers/how-to-know-if-a-share-is-halal"
+              href="/bn/answers/how-to-know-if-a-share-is-halal"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               শেয়ার হালাল কি না বুঝবেন কীভাবে

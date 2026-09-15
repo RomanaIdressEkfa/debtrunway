@@ -112,7 +112,7 @@ export default function Page() {
           <p className="mt-3 leading-relaxed">
             ব্যাংকের সুদের টাকা নিয়ে কী করবেন, সেটা{" "}
             <Link
-              href="/answers/what-to-do-with-bank-interest"
+              href="/bn/answers/what-to-do-with-bank-interest"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               এই উত্তরে

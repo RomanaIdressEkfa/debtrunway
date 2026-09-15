@@ -91,7 +91,7 @@ export default function Page() {
             {BN_HOME.answersHeading}
           </h2>
           <Link
-            href="/answers"
+            href="/bn/answers"
             className="card-shadow mt-4 block rounded-2xl border border-line bg-surface p-5 transition hover:border-brand"
           >
             <span className="text-lg font-bold tracking-tight">

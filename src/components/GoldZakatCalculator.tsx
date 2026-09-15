@@ -447,7 +447,7 @@ export default function GoldZakatCalculator({
               of zakatable asset and the lunar year as well.
             </p>
             <Link
-              href="/zakat-calculator"
+              href={lang === "bn" ? "/bn/zakat-calculator" : "/zakat-calculator"}
               className="press mt-4 inline-block rounded-xl bg-brand px-4 py-2.5 text-base font-semibold text-white transition hover:opacity-90"
             >
               Full zakat calculator →

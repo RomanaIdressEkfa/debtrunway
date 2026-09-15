@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ContentPage from "@/components/ContentPage";
 import { ANSWERS, topicLabels } from "@/lib/answers";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Answers — Islamic Money, Family and Worship",
   description:
     "Long answers to the questions Muslims actually search — bank interest, credit cards, insurance, halal shares, inheritance shares and missed prayers.",
-  alternates: { canonical: "/answers" },
+  alternates: alternatesFor("/answers"),
 };
 
 const topics = ["money", "worship", "family"] as const;

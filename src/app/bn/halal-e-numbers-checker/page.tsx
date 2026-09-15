@@ -117,14 +117,14 @@ export default function Page() {
             টাকার বেলাতেও একই প্রবৃত্তি খাটে। লেবেল যাচাই করতে বসলে দেখে নেওয়া
             ভালো, আপনার{" "}
             <Link
-              href="/answers/how-to-know-if-a-share-is-halal"
+              href="/bn/answers/how-to-know-if-a-share-is-halal"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               বিনিয়োগ আসলে কোথায় আছে
             </Link>{" "}
             আর আপনার{" "}
             <Link
-              href="/answers/is-conventional-insurance-haram"
+              href="/bn/answers/is-conventional-insurance-haram"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               বীমার পলিসিগুলো

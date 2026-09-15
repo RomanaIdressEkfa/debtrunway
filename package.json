@@ -23,7 +23,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "verify": "tsx scripts/verify-faraid.ts && tsx scripts/check-engines.ts && tsx scripts/check-prayer.ts && tsx scripts/check-hijri.ts && tsx scripts/check-additives.ts && tsx scripts/check-weight.ts && tsx scripts/check-seo.ts && tsx scripts/check-i18n.ts && tsx scripts/check-bn-faraid.ts && tsx scripts/check-bn-enumbers.ts",
+    "verify": "tsx scripts/verify-faraid.ts && tsx scripts/check-engines.ts && tsx scripts/check-prayer.ts && tsx scripts/check-hijri.ts && tsx scripts/check-additives.ts && tsx scripts/check-weight.ts && tsx scripts/check-seo.ts && tsx scripts/check-i18n.ts && tsx scripts/check-bn-faraid.ts && tsx scripts/check-bn-enumbers.ts && tsx scripts/check-bn-answers.ts",
     "prebuild": "tsx scripts/fetch-metals.ts",
     "metals": "tsx scripts/fetch-metals.ts"
   },

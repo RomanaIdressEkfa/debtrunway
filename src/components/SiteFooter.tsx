@@ -4,7 +4,7 @@ import Link from "next/link";
 import { BandCurve, CornerMotif } from "./Ornament";
 import { calculators } from "@/lib/calculators";
 import Logo from "./Logo";
-import { BN_UI_MAP, bnFor } from "@/lib/bn";
+import { BN_UI_MAP, FOOTER_COPY, bnFor } from "@/lib/bn";
 import { BN_PAGES } from "@/lib/bn-pages";
 import { localeOf } from "@/lib/i18n";
 import { usePathname } from "next/navigation";
@@ -36,6 +36,20 @@ const siteLinks = [
 export default function SiteFooter() {
   const bn = localeOf(usePathname() ?? "/") === "bn";
   const label = (s: string) => (bn ? (BN_UI_MAP[s] ?? s) : s);
+  // Named copy rather than c: the calculators map below binds its own c.
+  const copy = FOOTER_COPY[bn ? "bn" : "en"];
+
+  /**
+   * The Bengali address of a page, where one exists.
+   *
+   * Every link in this footer went through the label translation and none went
+   * through this, so the words changed language and the destinations did not.
+   * /support is deliberately absent from BN_PAGES — it is one bilingual page
+   * rather than two — so it falls through to the English path, which is the
+   * right answer for it and the wrong one for everything else.
+   */
+  const to = (href: string) =>
+    bn && BN_PAGES.includes(href) ? `/bn${href}` : href;
   return (
     <footer className="band-emerald no-print relative isolate overflow-hidden">
       <div className="band-grid footer-grid islamic-grid" aria-hidden />
@@ -48,8 +62,7 @@ export default function SiteFooter() {
           <div>
             <Logo size={28} />
             <p className="mt-4 max-w-xs leading-relaxed text-muted">
-              Free calculators for the parts of Islamic finance that have a
-              fixed, checkable answer — each with the ruling behind it.
+              {copy.blurb}
             </p>
           </div>
 
@@ -70,7 +83,7 @@ export default function SiteFooter() {
           >
             <div>
               <h2 className="text-base font-bold text-[var(--gold)]">
-                Calculators
+                {copy.calculators}
               </h2>
               <ul className="mt-3 gap-x-8 text-base sm:columns-2 lg:columns-3">
                 {calculators.map((c) => (
@@ -87,12 +100,12 @@ export default function SiteFooter() {
             </div>
 
             <div>
-              <h2 className="text-base font-bold text-[var(--gold)]">Site</h2>
+              <h2 className="text-base font-bold text-[var(--gold)]">{copy.site}</h2>
               <ul className="mt-3 space-y-2.5 text-base">
                 {siteLinks.map((l) => (
                   <li key={l.href}>
                     <Link
-                      href={l.href}
+                      href={to(l.href)}
                       className="text-muted transition-colors hover:text-brand"
                     >
                       {label(l.label)}
@@ -114,29 +127,21 @@ export default function SiteFooter() {
             رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ
           </p>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted">
-            &ldquo;Our Lord, grant us good in this world and good in the
-            Hereafter, and protect us from the punishment of the Fire.&rdquo;
+            {copy.ayahGloss}
           </p>
-          <p className="mt-2 text-sm text-white/80">
-            Surah al-Baqarah 2:201
-          </p>
+          <p className="mt-2 text-sm text-white/80">{copy.ayahRef}</p>
         </div>
 
         <div className="mt-12 grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
           <p className="text-sm leading-relaxed text-muted">
-            <strong className="text-foreground">
-              Nothing you type leaves your browser.
-            </strong>{" "}
-            Every figure is worked out on your own device, and your plan is
-            saved there so it is waiting for you next month.
+            <strong className="text-foreground">{copy.privacyLead}</strong>
+            {copy.privacyBody}
           </p>
           <p className="text-sm leading-relaxed text-muted">
-            <strong className="text-foreground">
-              These results are estimates, not financial advice.
-            </strong>{" "}
-            Your lender&rsquo;s exact interest calculation may differ — see the{" "}
-            <Link href="/terms" className="underline hover:text-brand">
-              terms and disclaimer
+            <strong className="text-foreground">{copy.estimateLead}</strong>
+            {copy.estimateBody}
+            <Link href={to("/terms")} className="underline hover:text-brand">
+              {copy.termsLink}
             </Link>
             .
           </p>
@@ -144,8 +149,8 @@ export default function SiteFooter() {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6 text-sm text-muted">
           <p>
-            &copy; {new Date().getFullYear()} DebtRunway · Built by{" "}
-            <Link href="/about" className="font-medium hover:text-brand">
+            &copy; {new Date().getFullYear()} DebtRunway · {copy.builtBy}{" "}
+            <Link href={to("/about")} className="font-medium hover:text-brand">
               Romana Idress Ekfa
             </Link>
           </p>

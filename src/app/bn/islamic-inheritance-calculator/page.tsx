@@ -109,7 +109,7 @@ export default function Page() {
             ফল নিয়ে আলেমের কাছে যান। অঙ্কটা সহজ অংশ; ঘটনাগুলো নয়। ওসিয়ত দিয়ে কী
             করা যায় তা দেখতে{" "}
             <Link
-              href="/islamic-will-calculator"
+              href="/bn/islamic-will-calculator"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               ইসলামিক উইল ক্যালকুলেটর

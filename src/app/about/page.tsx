@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import ContentPage from "@/components/ContentPage";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "About — Who Builds These Calculators",
   description:
     "DebtRunway is built by Romana Idress Ekfa. How the inheritance and zakat calculations work, and why the tools are free.",
-  alternates: { canonical: "/about" },
+  alternates: alternatesFor("/about"),
 };
 
 export default function About() {

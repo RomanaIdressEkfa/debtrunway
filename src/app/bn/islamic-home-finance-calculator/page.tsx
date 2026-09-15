@@ -123,7 +123,7 @@ export default function Page() {
             এই প্রশ্ন নিয়ে যাঁরা আলেমের কাছে যান, তাঁদের অনেককেই অপেক্ষা করতে
             বলা হয় — আর সেটাও একটা উত্তর।{" "}
             <Link
-              href="/answers/is-a-conventional-mortgage-ever-permissible"
+              href="/bn/answers/is-a-conventional-mortgage-ever-permissible"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               প্রচলিত mortgage কি কখনো জায়েজ

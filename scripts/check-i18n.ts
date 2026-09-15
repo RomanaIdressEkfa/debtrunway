@@ -282,6 +282,72 @@ console.log("\n--- Neither language leaks into the other's pages ---\n");
   );
 }
 
+
+console.log("\n--- Bengali pages link to Bengali pages ---\n");
+
+/**
+ * No Bengali page sends a reader into English by accident.
+ *
+ * Eleven did. They were written while their targets existed only in English,
+ * the targets were translated later, and nothing went back to repoint them —
+ * so a Bengali page about zakat offered "সোনার যাকাত" and opened the English
+ * gold page. Every one of them rendered, and no test knew.
+ *
+ * /support is the one deliberate exception: it is a single bilingual page
+ * rather than two, which is why it is absent from BN_PAGES.
+ */
+{
+  const BILINGUAL = new Set(["/support"]);
+  const offenders: string[] = [];
+
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+        continue;
+      }
+      if (!entry.name.endsWith(".tsx")) continue;
+      const source = readFileSync(full, "utf8");
+      for (const m of source.matchAll(/href="(\/[^"]*)"/g)) {
+        const href = m[1].replace(/\/$/, "") || "/";
+        if (href.startsWith("/bn")) continue;
+        if (BILINGUAL.has(href)) continue;
+        // A link to a page with no Bengali version is honest; a link to one
+        // that has a Bengali version, from a Bengali page, is the bug.
+        if (hasBnVersion(href)) {
+          offenders.push(`${full.replace(/\\/g, "/")} → ${href}`);
+        }
+      }
+    }
+  };
+  walk("src/app/bn");
+
+  // The same trap one level down. A calculator component that takes a lang
+  // prop renders on both versions of its page, so an internal href written as
+  // a bare string is English on the Bengali page — which is how seven of them
+  // sent a Bengali reader to /zakat-calculator from inside a Bengali tool.
+  for (const entry of readdirSync("src/components", { withFileTypes: true })) {
+    if (!entry.name.endsWith(".tsx")) continue;
+    const source = readFileSync(join("src/components", entry.name), "utf8");
+    if (!/lang\s*=\s*"en"/.test(source)) continue;
+    for (const m of source.matchAll(/href="(\/[a-z0-9\-/]*)"/g)) {
+      const href = m[1].replace(/\/$/, "") || "/";
+      if (href.startsWith("/bn")) continue;
+      if (BILINGUAL.has(href)) continue;
+      if (hasBnVersion(href)) {
+        offenders.push(`src/components/${entry.name} → ${href}`);
+      }
+    }
+  }
+
+  ok(
+    "no Bengali page links to the English version of a translated page",
+    offenders.length === 0,
+    offenders.join(" | ") || "every in-content link stays in Bengali",
+  );
+}
+
 console.log(
   `\n${failures === 0 ? "All good" : `${failures} FAILED`} — ${checks - failures}/${checks} checks passed\n`,
 );

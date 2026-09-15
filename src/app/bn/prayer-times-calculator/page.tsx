@@ -111,7 +111,7 @@ export default function Page() {
             <strong>সত্যিকারের উত্তর</strong> থেকে মাপা। ব্যবহারের আগে কম্পাস
             অ্যাপে সত্যিকারের উত্তরের সেটিংটা চালু করে নিন। হিজরি তারিখ জানতে{" "}
             <Link
-              href="/hijri-date-converter"
+              href="/bn/hijri-date-converter"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               হিজরি ক্যালেন্ডার

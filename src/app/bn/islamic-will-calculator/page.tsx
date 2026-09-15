@@ -98,7 +98,7 @@ export default function Page() {
             এক-তৃতীয়াংশ খোলা — কারো সম্মতি লাগে না। দত্তক সন্তানের বিষয়টা
             বিস্তারিত{" "}
             <Link
-              href="/answers/do-adopted-children-inherit"
+              href="/bn/answers/do-adopted-children-inherit"
               className="font-medium text-brand underline decoration-brand/30 underline-offset-2 transition hover:decoration-brand"
             >
               এই উত্তরে

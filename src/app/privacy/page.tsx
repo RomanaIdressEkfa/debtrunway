@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import ContentPage from "@/components/ContentPage";
+import { alternatesFor } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Privacy",
   description:
     "What DebtRunway does and does not collect. Calculations run entirely in your browser.",
-  alternates: { canonical: "/privacy" },
+  alternates: alternatesFor("/privacy"),
 };
 
 export default function Privacy() {

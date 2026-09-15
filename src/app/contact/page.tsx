@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import ContentPage from "@/components/ContentPage";
+import { alternatesFor } from "@/lib/i18n";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Get in touch with DebtRunway — corrections to a calculation, questions about the site, or anything else.",
-  alternates: { canonical: "/contact" },
+  alternates: alternatesFor("/contact"),
 };
 
 const EMAIL = "hello@debtrunway.com";
