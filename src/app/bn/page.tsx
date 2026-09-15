@@ -49,7 +49,7 @@ export default function Page() {
 
       <div className="shell px-4 pt-7 pb-10 sm:px-6 sm:pt-9 sm:pb-14">
         <div className="mb-12">
-          <QuickNisab />
+          <QuickNisab lang="bn" />
         </div>
 
         {groups.map((group) => {

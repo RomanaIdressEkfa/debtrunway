@@ -11,6 +11,8 @@
  * never ranked.
  */
 
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import {
   DEFAULT_LOCALE,
   LOCALES,
@@ -214,6 +216,69 @@ console.log("\n--- What Google is told ---\n");
     "every page declares both of its versions",
     broken.length === 0,
     broken.join("; ") || `${PATHS.length} pages`,
+  );
+}
+
+
+console.log("\n--- Neither language leaks into the other's pages ---\n");
+
+/**
+ * No shared component hardcodes Bengali.
+ *
+ * QuickNisab did, and the result was the worst of both languages at once: the
+ * English homepage showed Bengali hints under English headings, and the
+ * Bengali homepage showed English headings over Bengali hints. It rendered
+ * without error, it passed every other check, and the only way to catch it was
+ * to look at the built page — which is the one thing nobody does on a page
+ * they wrote months ago.
+ *
+ * A component that serves both languages takes a `lang` prop and reads its
+ * words from a bn-* module. The allowlist below is the short list of places
+ * where Bengali on an English page is the intent rather than the bug.
+ */
+{
+  // Bengali LETTERS, not the whole block: ৳ is a currency sign and belongs in
+  // an English sentence about taka. A Bengali word always carries a letter.
+  const BENGALI = /[অ-হ]/;
+
+  /** Bengali belongs in these, and only these, outside src/app/bn and lib. */
+  const DELIBERATE = new Set([
+    // The toggle has to say "বাংলা" in Bengali or it is not a language toggle.
+    "LanguageToggle.tsx",
+    // The donation panel and its prompt are bilingual by design: a Bangladeshi
+    // reader meets them on whichever page they happened to land on.
+    "SupportPanel.tsx",
+    "SupportPrompt.tsx",
+  ]);
+
+  const offenders: string[] = [];
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        // Bengali pages are supposed to be in Bengali.
+        if (entry.name === "bn") continue;
+        walk(full);
+        continue;
+      }
+      if (!entry.name.endsWith(".tsx")) continue;
+      if (DELIBERATE.has(entry.name)) continue;
+      const source = readFileSync(full, "utf8");
+      // Strip comments first: a note explaining a bhori conversion is not a
+      // label, and failing on one would teach people to stop writing them.
+      const code = source
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/^\s*\/\/.*$/gm, "");
+      if (BENGALI.test(code)) offenders.push(full.replace(/\\/g, "/"));
+    }
+  };
+  walk("src/components");
+  walk("src/app");
+
+  ok(
+    "no shared component or English page hardcodes Bengali",
+    offenders.length === 0,
+    offenders.join("; ") || "checked src/components and src/app",
   );
 }
 

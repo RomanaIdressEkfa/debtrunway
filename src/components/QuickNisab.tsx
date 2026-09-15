@@ -7,6 +7,8 @@ import { plain } from "@/lib/format";
 import { pricesIn } from "@/lib/metals";
 import CurrencyPicker from "./CurrencyPicker";
 import { WEIGHT_UNITS, restate, toGrams, unitById } from "@/lib/weight";
+import { NISAB_COPY } from "@/lib/bn";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * The homepage tool: one question, three fields, an answer before you scroll.
@@ -26,7 +28,13 @@ const num = (v: string) => {
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
 
-export default function QuickNisab() {
+export default function QuickNisab({ lang = "en" }: { lang?: Locale }) {
+  /**
+   * Which language this box speaks is the page's decision, not the box's.
+   * It renders on both homepages, and hardcoding either language here is how
+   * the English page ended up with Bengali hints under English headings.
+   */
+  const c = NISAB_COPY[lang === "bn" ? "bn" : "en"];
   const seed = pricesIn("USD");
   const [wealth, setWealth] = useState("");
   const [currency, setCurrency] = useState("USD");
@@ -103,13 +111,8 @@ export default function QuickNisab() {
 
   return (
     <div className="card-shadow rounded-2xl border border-line bg-surface p-5 sm:p-6">
-      <h2 className="text-xl font-bold tracking-tight">
-        Do you owe zakat this year?
-      </h2>
-      <p className="mt-1.5 text-base leading-relaxed text-muted">
-        Two numbers will tell you. Nisab is a weight of metal, so it moves with
-        the market — look up today&rsquo;s price and the threshold follows.
-      </p>
+      <h2 className="text-xl font-bold tracking-tight">{c.heading}</h2>
+      <p className="mt-1.5 text-base leading-relaxed text-muted">{c.intro}</p>
 
       {/* field-row, which every calculator page already uses.
           Without it the two fields are independent columns, so the one with
@@ -119,9 +122,7 @@ export default function QuickNisab() {
           rows, so the boxes stay level however long either hint runs. */}
       <div className="field-row mt-5 grid gap-4 sm:grid-cols-2">
         <label className="block min-w-0">
-          <span className="block text-base font-medium">
-            What you hold, in total
-          </span>
+          <span className="block text-base font-medium">{c.wealthLabel}</span>
           {/* Gold is deliberately NOT named here any more.
               It used to say "and gold at its sale value", which was right
               when this was the only field. With weight fields below it, a
@@ -129,10 +130,7 @@ export default function QuickNisab() {
               jewellery twice and be told they owe double. Money here, metal
               there, and neither hint mentions the other's job. */}
           <span className="mt-1 block text-sm leading-snug text-muted">
-            নগদ, ব্যাংক, বিনিয়োগ — সোনা-রুপা নিচে
-            <span className="mt-0.5 block">
-              Cash, bank and investments only — less what you owe now
-            </span>
+            {c.wealthHint}
           </span>
           <span className="mt-2 flex items-center rounded-xl border border-line px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
             <input
@@ -140,7 +138,7 @@ export default function QuickNisab() {
               onChange={(e) => setWealth(e.target.value)}
               placeholder="0"
               inputMode="decimal"
-              aria-label="Total wealth"
+              aria-label={c.wealthAria}
               className="w-full min-w-0 bg-transparent py-3 text-xl font-bold tabular-nums outline-none"
             />
           </span>
@@ -148,10 +146,10 @@ export default function QuickNisab() {
 
         <label className="block min-w-0">
           <span className="block text-base font-medium">
-            {metal === "silver" ? "Silver" : "Gold"} price per gram
+            {c.priceLabel(metal)}
           </span>
           <span className="mt-1 block text-sm leading-snug text-muted">
-            In the same currency as above
+            {c.priceHint}
           </span>
           <span className="mt-2 flex items-center rounded-xl border border-line px-3 transition focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/15">
             <input
@@ -159,7 +157,7 @@ export default function QuickNisab() {
               onChange={(e) => setPrice(e.target.value)}
               placeholder="0"
               inputMode="decimal"
-              aria-label={`${metal} price per gram`}
+              aria-label={c.priceLabel(metal)}
               className="w-full min-w-0 bg-transparent py-3 text-xl font-bold tabular-nums outline-none"
             />
           </span>
@@ -172,15 +170,15 @@ export default function QuickNisab() {
           already knows the gram figure could have priced it themselves. */}
       <div className="field-row mt-4 grid gap-4 sm:grid-cols-2">
         <WeightField
-          label="সোনা · Gold you own"
-          hint={`কত ${weightUnit === "tola" ? "ভরি" : ""} সোনা আছে — খালি থাকলে ধরা হবে না`}
+          label={c.goldLabel}
+          hint={c.goldHint(unitById(weightUnit).short)}
           value={goldWeight}
           onChange={setGoldWeight}
           unit={unitById(weightUnit).short}
         />
         <WeightField
-          label="রুপা · Silver you own"
-          hint="রুপার ওজন — না থাকলে খালি রাখুন"
+          label={c.silverLabel}
+          hint={c.silverHint(unitById(weightUnit).short)}
           value={silverWeight}
           onChange={setSilverWeight}
           unit={unitById(weightUnit).short}
@@ -188,7 +186,7 @@ export default function QuickNisab() {
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="text-sm text-muted">ওজনের একক</span>
+        <span className="text-sm text-muted">{c.unitsLabel}</span>
         {WEIGHT_UNITS.filter((u) => u.id !== "anna").map((u) => (
           <button
             key={u.id}
@@ -206,7 +204,7 @@ export default function QuickNisab() {
         ))}
         {metalValue > 0 && (
           <span className="text-sm text-muted">
-            metal is worth{" "}
+            {c.worth}{" "}
             <strong className="text-foreground tabular-nums">
               {plain(metalValue)}
             </strong>
@@ -215,20 +213,20 @@ export default function QuickNisab() {
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="text-sm text-muted">Measure against</span>
+        <span className="text-sm text-muted">{c.measure}</span>
         {(["silver", "gold"] as const).map((m) => (
           <button
             key={m}
             type="button"
             onClick={() => refill(m, currency)}
             aria-pressed={metal === m}
-            className={`press rounded-lg border px-3 py-1.5 text-sm font-medium capitalize transition ${
+            className={`press rounded-lg border px-3 py-1.5 text-sm font-medium transition ${
               metal === m
                 ? "border-brand bg-brand-soft text-brand"
                 : "border-line text-muted hover:border-brand hover:text-brand"
             }`}
           >
-            {m}
+            {c.metalName(m)}
           </button>
         ))}
         <span className="text-sm text-muted">({grams}g)</span>
@@ -254,58 +252,48 @@ export default function QuickNisab() {
         }`}
       >
         {!ready ? (
-          <p className="text-base text-muted">
-            Fill both fields and the answer appears here.
-          </p>
+          <p className="text-base text-muted">{c.waiting}</p>
         ) : due ? (
           <>
             <p className="text-base font-semibold text-brand">
-              Yes — your {plain(net)} is above the nisab of {plain(nisab)}.
+              {c.yes(plain(net), plain(nisab))}
             </p>
             <p className="mt-1.5 text-base text-muted">
-              At 2.5% that is roughly{" "}
-              <strong className="text-foreground">{plain(zakat)}</strong>, if it
-              has been above the threshold for a full lunar year.
+              {c.yesSub(plain(zakat)).before}
+              <strong className="text-foreground">
+                {c.yesSub(plain(zakat)).amount}
+              </strong>
+              {c.yesSub(plain(zakat)).after}
             </p>
           </>
         ) : (
           <>
             <p className="text-base font-semibold">
-              No — your {plain(net)} is {plain(gap)} below the nisab of{" "}
-              {plain(nisab)}.
+              {c.no(plain(net), plain(gap), plain(nisab))}
             </p>
-            <p className="mt-1.5 text-base text-muted">
-              No zakat is due on this wealth. Sadaqah remains open to you at any
-              amount.
-            </p>
+            <p className="mt-1.5 text-base text-muted">{c.noSub}</p>
           </>
         )}
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2.5">
         <Link
-          href="/zakat-calculator"
+          href={c.href}
           className="press rounded-xl bg-brand px-4 py-2.5 text-base font-semibold text-white transition hover:opacity-90"
         >
-          Full zakat calculator →
+          {c.fullCalculator}
         </Link>
         <Link
-          href="/islamic-inheritance-calculator"
+          href={c.hrefInheritance}
           className="press rounded-xl border border-line px-4 py-2.5 text-base font-medium transition hover:border-brand hover:text-brand"
         >
-          Inheritance calculator
+          {c.inheritance}
         </Link>
       </div>
 
       <p className="mt-4 text-sm leading-relaxed text-muted">
-        {seed.available
-          ? `Prices are the market rate on ${seed.fetchedAt}, filled in for you — change them if your local rate differs. `
-          : ""}
-        A rough check, not a ruling. The full calculator separates the assets
-        that count from the ones that do not, takes gold and silver by weight
-        in grams or bhori rather than asking you to value them, deducts the debts
-        you owe now, and asks about the lunar year — all of which can change
-        the answer.
+        {seed.available ? c.priced(seed.fetchedAt) : ""}
+        {c.footnote}
       </p>
     </div>
   );

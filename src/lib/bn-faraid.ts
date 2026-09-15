@@ -568,3 +568,12 @@ export const BN_REST: Record<string, string> = {
 };
 
 export const bnRest = (s: string): string => BN_REST[s] ?? s;
+
+/**
+ * "excluded by X" — a sentence rather than a lookup, because the heir doing
+ * the excluding is interpolated and the two languages put it in different
+ * places. Kept here with the other translations rather than inline in the
+ * component, so the rule that no component hardcodes Bengali stays absolute
+ * and check-i18n.ts can enforce it without exceptions.
+ */
+export const bnExcludedBy = (heir: string): string => `${heir} থাকায় বাদ`;

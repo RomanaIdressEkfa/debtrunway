@@ -1,6 +1,6 @@
 "use client";
 
-import { bnFaraidUi } from "@/lib/bn-faraid";
+import { bnExcludedBy, bnFaraidUi } from "@/lib/bn-faraid";
 import type { Locale } from "@/lib/i18n";
 import { useMemo, useState } from "react";
 import {
@@ -405,7 +405,7 @@ export default function FaraidCalculator({
                   >
                     <span className="font-medium">{t(b.label)}</span>
                     <span className="text-muted">
-                      {lang === "bn" ? `${t(b.by)} থাকায় বাদ` : `excluded by ${b.by}`}
+                      {lang === "bn" ? bnExcludedBy(t(b.by)) : `excluded by ${b.by}`}
                     </span>
                   </li>
                 ))}

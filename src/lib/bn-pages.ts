@@ -26,6 +26,7 @@ export const BN_PAGES: readonly string[] = [
   "/zakat-on-investments-calculator",
   "/hajj-savings-calculator",
   "/islamic-home-finance-calculator",
+  "/halal-e-numbers-checker",
 ];
 
 export const hasBnPage = (slug: string) => BN_PAGES.includes(slug);

@@ -312,3 +312,98 @@ export const BN_UI_MAP: Record<string, string> = {
   "Terms & disclaimer": "শর্তাবলি ও দাবিত্যাগ",
   Footer: "ফুটার",
 };
+
+/**
+ * The homepage nisab box, in both languages.
+ *
+ * This one shipped bilingual by accident and it was the worst of both: the
+ * English homepage showed Bengali hints under English headings, and the
+ * Bengali homepage showed English headings over Bengali hints. Nobody saw a
+ * page in one language. The box renders on both homepages, so the copy has to
+ * be chosen by the page rather than baked into the component.
+ *
+ * The arithmetic — nisab, the 2.5%, the weight conversions — is untouched by
+ * any of this and lives in zakat.ts and weight.ts. These are labels.
+ */
+export const NISAB_COPY = {
+  en: {
+    heading: "Do you owe zakat this year?",
+    intro:
+      "Two numbers will tell you. Nisab is a weight of metal, so it moves with the market — look up today’s price and the threshold follows.",
+    wealthLabel: "What you hold, in total",
+    wealthHint: "Cash, bank and investments only — less what you owe now",
+    wealthAria: "Total wealth",
+    priceLabel: (metal: "silver" | "gold") =>
+      `${metal === "silver" ? "Silver" : "Gold"} price per gram`,
+    priceHint: "In the same currency as above",
+    goldLabel: "Gold you own",
+    goldHint: (unit: string) =>
+      `How much gold, in ${unit} — leave it blank if none`,
+    silverLabel: "Silver you own",
+    silverHint: (unit: string) =>
+      `How much silver, in ${unit} — leave it blank if none`,
+    unitsLabel: "Weight unit",
+    worth: "metal is worth",
+    measure: "Measure against",
+    metalName: (m: "silver" | "gold") => (m === "silver" ? "Silver" : "Gold"),
+    waiting: "Fill both fields and the answer appears here.",
+    yes: (net: string, nisab: string) =>
+      `Yes — your ${net} is above the nisab of ${nisab}.`,
+    yesSub: (zakat: string) => ({
+      before: "At 2.5% that is roughly ",
+      amount: zakat,
+      after: ", if it has been above the threshold for a full lunar year.",
+    }),
+    no: (net: string, gap: string, nisab: string) =>
+      `No — your ${net} is ${gap} below the nisab of ${nisab}.`,
+    noSub:
+      "No zakat is due on this wealth. Sadaqah remains open to you at any amount.",
+    fullCalculator: "Full zakat calculator →",
+    inheritance: "Inheritance calculator",
+    priced: (on: string) =>
+      `Prices are the market rate on ${on}, filled in for you — change them if your local rate differs. `,
+    footnote:
+      "A rough check, not a ruling. The full calculator separates the assets that count from the ones that do not, takes gold and silver by weight in grams or bhori rather than asking you to value them, deducts the debts you owe now, and asks about the lunar year — all of which can change the answer.",
+    href: "/zakat-calculator",
+    hrefInheritance: "/islamic-inheritance-calculator",
+  },
+  bn: {
+    heading: "এ বছর কি আপনার যাকাত আসে?",
+    intro:
+      "দুটো সংখ্যাতেই উত্তর মিলে যাবে। নিসাব হলো ধাতুর একটা ওজন, তাই বাজারের সাথে সাথে এটাও ওঠানামা করে — আজকের দামটা বসালেই সীমাটা বেরিয়ে আসবে।",
+    wealthLabel: "মোট যা আছে",
+    wealthHint: "নগদ, ব্যাংক ও বিনিয়োগ — এখন যা দেনা আছে তা বাদ দিয়ে",
+    wealthAria: "মোট সম্পদ",
+    priceLabel: (metal: "silver" | "gold") =>
+      `${metal === "silver" ? "রুপার" : "সোনার"} দাম প্রতি গ্রামে`,
+    priceHint: "উপরে যে মুদ্রা দিয়েছেন, সেই একই মুদ্রায়",
+    goldLabel: "আপনার সোনা",
+    goldHint: (unit: string) => `কত ${unit} সোনা আছে — না থাকলে খালি রাখুন`,
+    silverLabel: "আপনার রুপা",
+    silverHint: (unit: string) => `কত ${unit} রুপা আছে — না থাকলে খালি রাখুন`,
+    unitsLabel: "ওজনের একক",
+    worth: "ধাতুর মূল্য",
+    measure: "কিসের সাথে মাপবেন",
+    metalName: (m: "silver" | "gold") => (m === "silver" ? "রুপা" : "সোনা"),
+    waiting: "দুটো ঘর পূরণ করলেই উত্তর এখানে দেখাবে।",
+    yes: (net: string, nisab: string) =>
+      `হ্যাঁ — আপনার ${net} নিসাব ${nisab}-এর ওপরে।`,
+    yesSub: (zakat: string) => ({
+      before: "২.৫% হিসেবে এটা প্রায় ",
+      amount: zakat,
+      after: " — যদি পুরো এক চান্দ্রবছর ধরে সম্পদ নিসাবের ওপরে থেকে থাকে।",
+    }),
+    no: (net: string, gap: string, nisab: string) =>
+      `না — আপনার ${net} নিসাব ${nisab}-এর চেয়ে ${gap} কম।`,
+    noSub:
+      "এই সম্পদে যাকাত আসে না। তবে সদকা যেকোনো পরিমাণেই দেওয়া যায়।",
+    fullCalculator: "পূর্ণ যাকাত ক্যালকুলেটর →",
+    inheritance: "উত্তরাধিকার ক্যালকুলেটর",
+    priced: (on: string) =>
+      `দাম ${on} তারিখের বাজারদর ধরে বসানো — আপনার এলাকার দর আলাদা হলে বদলে নিন। `,
+    footnote:
+      "এটা মোটামুটি একটা যাচাই, ফতোয়া নয়। পূর্ণ ক্যালকুলেটর কোন সম্পদ ধরা হবে আর কোনটা হবে না তা আলাদা করে, সোনা-রুপা গ্রাম বা ভরিতে ওজন ধরেই হিসাব করে, এখনকার দেনা বাদ দেয়, আর চান্দ্রবছরের প্রশ্নটাও করে — এর প্রতিটাই উত্তর বদলে দিতে পারে।",
+    href: "/bn/zakat-calculator",
+    hrefInheritance: "/bn/islamic-inheritance-calculator",
+  },
+} as const;
