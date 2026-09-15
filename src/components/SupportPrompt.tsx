@@ -20,11 +20,18 @@ import { usePathname } from "next/navigation";
  * and a reader who ignores it entirely loses nothing.
  */
 
-// Two and a half minutes. It sat at 30 seconds while the card was being
-// built, which is fast enough to feel like the page interrupting you — the
-// exact thing the delay exists to avoid. Testing does not need it short any
-// more: ?prompt on any URL shows the card at once.
-const DELAY_MS = 150_000;
+// Thirty seconds, at the owner's decision, after a spell at two and a half
+// minutes where almost nobody stayed long enough to be asked.
+//
+// The worry about going this early was Google's intrusive-interstitial rule,
+// and on a closer reading it does not reach this card. That rule is aimed at
+// something that covers the content a visitor arrived to read: a full-screen
+// overlay, a standalone page they must dismiss, a banner taking the whole
+// fold. Google's own guidance carves out banners that use a reasonable amount
+// of the screen and leave the page readable — which is what a card pinned to
+// one corner is. Thirty seconds is also long enough that the question still
+// makes sense: a reader has put numbers in and seen an answer by then.
+const DELAY_MS = 30_000;
 const KEY = "support-prompt-dismissed";
 
 /** Not on the page that already is the ask, and not on the legal pages. */
